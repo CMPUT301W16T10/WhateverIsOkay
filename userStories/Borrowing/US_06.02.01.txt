@@ -1,0 +1,2 @@
+US 06.02.01
+As an owner, I want to view a list of my things being borrowed, each thing with its description and borrower username.

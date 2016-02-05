@@ -1,0 +1,2 @@
+US 03.03.01
+As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.

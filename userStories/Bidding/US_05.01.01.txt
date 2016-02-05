@@ -1,0 +1,2 @@
+US 05.01.01
+As a borrower, I want to bid for an available thing, with a monetary rate (in dollars per hour).

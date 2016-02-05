@@ -1,0 +1,2 @@
+US 01.05.01
+As an owner, I want to delete a thing in my things.

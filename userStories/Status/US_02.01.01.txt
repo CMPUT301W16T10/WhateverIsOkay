@@ -1,0 +1,2 @@
+US 02.01.01
+As an owner or borrower, I want a thing to have a status of one of: available, bidded, or borrowed.
