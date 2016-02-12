@@ -7,7 +7,38 @@ public class Item {
     private String name;
     private boolean bidded = false;
     private boolean borrowed = false;
-    public String status;
+
+    private User borrower;
+
+    private int rate;
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public int getRate() {
+
+        return rate;
+    }
+
+    public void setBorrower(User borrower) {
+        this.borrower = borrower;
+    }
+
+    public User getBorrower() {
+
+        return borrower;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
 
     public boolean isBorrowed() {
         return borrowed;

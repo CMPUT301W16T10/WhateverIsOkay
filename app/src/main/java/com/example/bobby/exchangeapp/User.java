@@ -37,8 +37,9 @@ public class User {
         // check if user exists
     }
 
-    public void bidOn(Item item){
+    public Bid bidOn(Item item, int price){
         //
+        return new Bid(this, price, item);
     }
 
     public ArrayList<User> getUsers() {
@@ -51,13 +52,33 @@ public class User {
         return borrowed;
     }
 
+    public ArrayList<Item> getCurrentBids() {
+        ArrayList<Item> bids = new ArrayList<>();
+
+        return bids;
+    }
+
     public ArrayList<Item> getItemsBeingBorrowed() {
         ArrayList<Item> beingBorrowed = new ArrayList<>();
 
         return beingBorrowed;
     }
 
-    public void acceptBid(User winningUser) {
+    public ArrayList<Item> getAvailableItems() {
+        ArrayList<Item> available = new ArrayList<>();
+
+        return available;
+    }
+
+    public void declineBid(Bid bid){
+
+    }
+
+    public void acceptBid(Bid bid) {
+
+    }
+
+    public void markItemReturned(Item item){
 
     }
 }
