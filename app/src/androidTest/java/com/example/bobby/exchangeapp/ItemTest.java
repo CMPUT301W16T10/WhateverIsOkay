@@ -60,7 +60,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 	}
 
    
-    public void testSearchKeyword(){	
+    public void testSearchKeyword(){
+    	// test case for use case 04.01.01
         User user = new User("user","pass");
         Item item = new Item("item");
         String keyword = “item”;
