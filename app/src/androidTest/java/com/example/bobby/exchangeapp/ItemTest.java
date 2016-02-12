@@ -42,6 +42,51 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue((item.getStatus() == "available") || (item.getStatus() == "bidded") ||
                 (item.getStatus() == "borrowed"));
     }
+    
+	public void testUpdateProfile(){
+	    // test for use case 03.02.01
+		User user1 = new User("user1","pass");
+	    User user2 = new User("user2","pass");
+		user1.setUsername(profile2);
+		assertEquals(user1, user2);
+	}
+
+    
+    public void testGetOwnerInfo(){
+        // test for use case 03.03.01
+		User user = new User("user","pass");
+		Item item = new Item("item")
+		assertEquals(item.getName(), user.getUsername);
+	}
+
+   
+    public void testSearchKeyword(){	
+		User user = new User("user","pass");
+		Item item = new Item("item");
+		String keyword = “item”;
+		assertTrue(item.getName().contains(keyword));
+    }
+
+    public void testSearchAllThings(){
+        // test for use case 04.02.01
+		ArrayList<Item> searchResults = new ArrayList<Item>;
+		ArrayList<Item> items = new ArrayList<Item>;
+        User user = new User("user","pass");
+		Item item1 = new Item("item1");
+		Item item2 = new Item("item2");
+		Item item3 = new Item("item3");
+		item1.setStatus("available");
+		item2.setStatus("bidded");
+		item3.setStatus("borrowed");
+		items.add(item1);
+		items.add(item2);
+		items.add(item3);
+		for (int i=0; i<items.size(); i++){
+			if (items.get(i).getStatus() != “borrowed”)
+				searchResults.add(items.get[i]); 
+		}
+        assertTrue(searchResults.size(), 2);
+    }
 
     public void testBid(){
         // test for use case 05.01.01
@@ -49,6 +94,18 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         User user = new User("user","pass");
         user.bidOn(item,10);
         assertTrue(item.isBidded());
+    }    
+    
+    public void testSeePendingItems(){
+        // test for use case 05.02.01
+		ArrayList<Item> pendingItems = new ArrayList<Item>;	
+		User user = new User("user","pass");
+		Item item1 = new Item("item1");
+		item1.setStatus("bidded");
+		user.addItem(item1);
+	    if (item1.getStatus() == “bidded”)
+			pendingItems.addThing(thing);
+		assertEquals(pendingItems.size(),1);
     }
 
     public void testNotification(){
