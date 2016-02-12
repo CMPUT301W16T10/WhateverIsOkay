@@ -11,6 +11,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     public ItemTest() {super(Item.class);}
 
     public void testViewItems(){
+        // test for use case 01.02.01
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -26,6 +27,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testBidsOnItems(){
+        // test for use case 05.05.01
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -49,6 +51,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testViewBorrowedItems(){
+        // test for use case 06.01.01
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -73,6 +76,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testViewItemsBeingBorrowed(){
+        // test for use case 06.02.01
         String userName = "user1";
         String pass = "pass1";
         User user = null;
