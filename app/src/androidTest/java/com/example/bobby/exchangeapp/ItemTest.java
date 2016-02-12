@@ -99,4 +99,47 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertEquals(user.getItemsBeingBorrowed(), beingBorrowed);
 
     }
+
+    public void testStatus(Item item) {
+        // test for use case 02.01.01, must be true in all application states for all items
+        assertTrue((item.status == "available") || (item.status == "bidded") ||
+                (item.status == "borrowed"));
+    }
+
+    public void testBid(){
+        // test for use case 05.01.01
+        Item item = new Item("item");
+        User user = new User("user","pass");
+        user.bidOn(item);
+        assertTrue(item.isBidded());
+    }
+
+    public void testNotification(){
+        // test for use case 05.03.01
+        Item item = new Item("item");
+        User user = new User("user","pass");
+        User user2 = new User("user2","pass2");
+        user.addItem(item);
+        user2.bidOn(item);
+        assertTrue(user.getNotifications().contains("Bid on item by " + user2.getUsername()));
+    }
+
+    public void testViewBids(){
+        // test for use case 05.04.01
+        Item item1 = new Item("item1");
+        Item item2 = new Item("item2");
+        User user = new User("user","pass");
+        User user2 = new User("user2","pass2");
+        user.addItem(item1);
+        user.addItem(item2);
+        user2.bidOn(item1);
+        ArrayList<Item> bidded = user.getItems();
+        for (int i = 0; i < bidded.size(); i++) {
+            if (!bidded.get(i).isBidded()){
+                bidded.remove(i);
+            }
+        }
+        assertTrue(bidded.contains(item1));
+        assertFalse(bidded.contains(item2));
+    }
 }

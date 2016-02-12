@@ -7,10 +7,22 @@ import java.util.ArrayList;
  */
 public class User {
 
+    private String username;
+
+    public String getUsername(){
+        return username;
+    }
+
     private ArrayList<Item> items = null;
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    private ArrayList<Item> notifications = null;
+
+    public ArrayList<Item> getNotifications() {
+        return notifications;
     }
 
     public void addItem(Item item){

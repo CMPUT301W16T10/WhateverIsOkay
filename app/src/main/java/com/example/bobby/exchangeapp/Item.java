@@ -7,6 +7,7 @@ public class Item {
     private String name;
     private boolean bidded = false;
     private boolean borrowed = false;
+    public String status;
 
     public boolean isBorrowed() {
         return borrowed;
