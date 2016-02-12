@@ -43,13 +43,13 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
                 (item.getStatus() == "borrowed"));
     }
     
-	public void testUpdateProfile(){
-	    // test for use case 03.02.01
-		User user1 = new User("user1","pass");
-	    User user2 = new User("user2","pass");
-		user1.setUsername(profile2);
-		assertEquals(user1, user2);
-	}
+    public void testUpdateProfile(){
+    // test for use case 03.02.01
+        User user1 = new User("user1","pass");
+        User user2 = new User("user2","pass");
+        user1.setUsername(profile2);
+        assertEquals(user1, user2);
+    }
 
     
     public void testGetOwnerInfo(){
