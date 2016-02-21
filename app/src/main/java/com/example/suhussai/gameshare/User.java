@@ -8,7 +8,41 @@ import java.util.ArrayList;
 public class User {
     private String username;
     private String email;
+    private String password;
     private ArrayList<Item> notifications = null;
+
+    private ArrayList<Item> items = null;
+
+    private ArrayList<Item> borrowedItems;
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setNotifications(ArrayList<Item> notifications) {
+        this.notifications = notifications;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
+
+    public void setBorrowedItems(ArrayList<Item> borrowedItems) {
+        this.borrowedItems = borrowedItems;
+    }
+
+    public ArrayList<Item> getBorrowedItems() {
+        return borrowedItems;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User(String userName, String password){
+        this.username = userName;
+        this.password = password;
+    }
 
     public ArrayList<Item> getNotifications() {
         return notifications;
@@ -17,7 +51,7 @@ public class User {
     public String getUsername() {
         return username;
     }
-    
+
     public void setUsername(String username){
         this.username = username;
     }
@@ -29,8 +63,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private ArrayList<Item> items = null;
 
     public ArrayList<Item> getItems() {
         return items;
@@ -47,9 +79,11 @@ public class User {
     public ArrayList<Item> getOwnedBorrowedItems() {
         return new ArrayList<>();
     }
+
     public ArrayList<Item> getOwnedAvailableItems() {
         return new ArrayList<>();
     }
+
     public void markItemReturned(Item item){
 
     }
@@ -57,45 +91,43 @@ public class User {
     public void addItem(Item item){
         items.add(item);
     }
+
     public void deleteItem(Item item){ items.remove(item);}
-    public void addOwnedItem(Item item){
-        items.add(item);
-    }
+
+//    public void addOwnedItem(Item item){
+//        items.add(item);
+//    }
 
     public static User signIn(String username, String password) {
         return new User(username, password);
     }
 
-    public User(String userName, String password){
-        // check if user exists
-    }
-
-    public User(String userName){
-        // check if user exists
-    }
 
 
     public void bidOn(Item item){
         //
     }
 
-    public ArrayList<User> getUsers() {
-        return new ArrayList<>();
-    }
-
-    public ArrayList<Item> getItemsBorrowed() {
-        ArrayList<Item> borrowed = new ArrayList<>();
-
-        return borrowed;
-    }
-
-    public ArrayList<Item> getItemsBeingBorrowed() {
+    public ArrayList<Item> getLentItems() {
         ArrayList<Item> beingBorrowed = new ArrayList<>();
 
         return beingBorrowed;
     }
 
-    public void acceptBid(User winningUser) {
+    public void addBorrowedItem (Item item){
+        this.borrowedItems.add(item);
+    }
+
+    public void declineBid(){
 
     }
+
+    public void acceptBid(User winningUser) {
+        /*
+        Item item = bid.getItem();
+        item.setStatus("borrowed");
+        item.setRate(bid.amount);
+        bid.getUser().addBorrowedItem(item);
+         */
+    }//TODO: change argument to take a Bid after test case has been changed accordingly
 }

@@ -2,11 +2,12 @@ package com.example.suhussai.gameshare;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by sangsoo on 12/02/16.
  */
-public class ViewUserProfile extends Activity {
+public class ViewUserProfile extends AppCompatActivity {
 
     private String userid;
     private String useremail;

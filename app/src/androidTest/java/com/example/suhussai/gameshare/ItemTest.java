@@ -3,9 +3,7 @@ package com.example.suhussai.gameshare;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
-import android.view.View;
 
-import java.security.KeyStore;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +14,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewItems(){
         setActivityIntent(new Intent());
-        MyItems myItems = (MyItems) getActivity();
+        ViewMyItems viewMyItems = (ViewMyItems) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -24,13 +22,13 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
 
         assertEquals(user.getItems(), new ArrayList());
-        assertTrue(myItems.findViewById(R.id.myItemsListView).isShown());
+        assertTrue(viewMyItems.findViewById(R.id.myItemsListView).isShown());
 
     }
 
     public void testBidsOnItems(){
         setActivityIntent(new Intent());
-        viewBidsOnItem  viewBidsOnItemObj = (viewBidsOnItem) getActivity();
+        ViewBidsOnItem viewBidsOnItemObj = (ViewBidsOnItem) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -42,7 +40,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
         user2 = User.signIn(userName2, pass2);
 
-        Item item = new Item("s");
+        Item item = new Item("s",user);
         user.addItem(item);
 
         user2.bidOn(item);
@@ -56,7 +54,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewBorrowedItems(){
         setActivityIntent(new Intent());
-        BorrowedItems borrowedItems = (BorrowedItems) getActivity();
+        ViewBorrowedItems viewBorrowedItems = (ViewBorrowedItems) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -68,7 +66,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
         user2 = User.signIn(userName2, pass2);
 
-        Item item = new Item("s");
+        Item item = new Item("s",user);
         user.addItem(item);
 
         user2.bidOn(item);
@@ -76,13 +74,13 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         ArrayList<Item> borrowed = new ArrayList<>();
         borrowed.add(item);
-        assertEquals(user2.getItemsBorrowed(), borrowed);
-        assertTrue(borrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
+        assertEquals(user2.getBorrowedItems(), borrowed);
+        assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
     }
 
     public void testViewItemsBeingBorrowed(){
         setActivityIntent(new Intent());
-        MyItems myItems = (MyItems) getActivity();
+        ViewMyItems viewMyItems = (ViewMyItems) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -94,7 +92,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
         user2 = User.signIn(userName2, pass2);
 
-        Item item = new Item("s");
+        Item item = new Item("s",user);
         user.addItem(item);
 
         user2.bidOn(item);
@@ -102,9 +100,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         ArrayList<Item> beingBorrowed = new ArrayList<>();
         beingBorrowed.add(item);
-        assertEquals(user.getItemsBeingBorrowed(), beingBorrowed);
-        ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), myItems.findViewById(R.id.myItemsListView));
-                //(myItems.findViewById(R.id.myItemsListView).isShown());
+        assertEquals(user.getLentItems(), beingBorrowed);
+        ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), viewMyItems.findViewById(R.id.myItemsListView));
+                //(viewMyItems.findViewById(R.id.myItemsListView).isShown());
 
     }
 
@@ -113,8 +111,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         String username = "user1";
         String password = "pass1";
 
-        Item item = new Item(name);
         User user = new User(username,password);
+        Item item = new Item(name,user);
 
         assertFalse(user.getItems().contains(item));
         user.addItem(item);
@@ -129,8 +127,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         User user = new User(username, password);
 
-        Item item1 = new Item(name1);
-        Item item2 = new Item(name2);
+        Item item1 = new Item(name1,user);
+        Item item2 = new Item(name2,user);
 
         user.addItem(item1);
         user.addItem(item2);
@@ -144,8 +142,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         String username = "user1";
         String password = "pass1";
 
-        Item item = new Item(name);
         User user = new User(username,password);
+        Item item = new Item(name,user);
 
         user.addItem(item);
         assertTrue(user.getItems().contains(item));
@@ -160,8 +158,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         String username = "user1";
         String password = "pass1";
 
-        Item item = new Item(name);
         User user = new User(username,password);
+        Item item = new Item(name,user);
 
         assertEquals(user.getItem(item).getName(), name);
         user.getItem(item).setName(new_name);
@@ -201,16 +199,16 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         double amount2 = 1.12;
 
-        Item item = new Item( name );
-        User user = new User( username );
-        User borrower = new User( username2 );
-        User borrower2 = new User( username3 );
+        User user = new User( username , "");
+        Item item = new Item( name ,user);
+        User borrower = new User( username2 , "");
+        User borrower2 = new User( username3 , "");
 
         Bid bid = new Bid( borrower, amount );
         Bid bid2 = new Bid( borrower2, amount2 );
         item.addBid( bid );
         item.addBid( bid2 );
-        user.addOwnedItem( item );
+        user.addItem(item );
         assertEquals( user.getItem( item ).getStatus(), "Bidded" );
         user.getItem( item ).acceptBid( bid );
         assertEquals( user.getItem( item ).getStatus(), "Borrowed" );
@@ -232,11 +230,11 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         double amount = 1.46;
 
-        Item item = new Item( name );
 
-        User user = new User( username );
+        User user = new User( username , "");
+        Item item = new Item( name ,user);
 
-        User borrower = new User( username2 );
+        User borrower = new User( username2 , "");
 
 
 
@@ -244,7 +242,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         item.addBid( bid );
 
-        user.addOwnedItem( item );
+        user.addItem(item );
 
         assertTrue( user.getCurrentBids( item ).contains( bid ) );
 
@@ -263,13 +261,14 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         String username = "Steve.Smith"; //some meaningful username
 
-        Item item = new Item( name );
 
-        item.setStatus( "Borrowed" ); //item is now borrowed
 
-        User user = new User( username );
 
-        user.addOwnedItem( item ); //user owns borrowed item
+        User user = new User( username , "");
+        Item item = new Item( name,user );
+        item.setBorrowed(); //item is now borrowed
+
+        user.addItem(item ); //user owns borrowed item
 
         assertTrue( user.getOwnedBorrowedItems().contains( item ) );
 
@@ -290,8 +289,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testStatus(Item item) {
         // test for use case 02.01.01, must be true in all application states for all items
-        assertTrue((item.status == "available") || (item.status == "bidded") ||
-                (item.status == "borrowed"));
+        assertTrue((item.getStatus() == "available") || (item.getStatus() == "bidded") ||
+                (item.getStatus() == "borrowed"));
     }
     
     public void testUpdateProfile(){
@@ -312,7 +311,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     public void testGetOwnerInfo(){
         // test for use case 03.03.01
         User user = new User("user","pass");
-        Item item = new Item("item");
+        Item item = new Item("item",user);
         assertEquals(item.getName(), user.getUsername());
 	}
 
@@ -320,7 +319,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     public void testSearchKeyword(){
     	// test case for use case 04.01.01
         User user = new User("user","pass");
-        Item item = new Item("item");
+        Item item = new Item("item",user);
         String keyword = "item";
         assertTrue(item.getName().contains(keyword));
     }
@@ -330,12 +329,12 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         ArrayList<Item> searchResults = new ArrayList<Item>();
         ArrayList<Item> items = new ArrayList<Item>();
         User user = new User("user","pass");
-        Item item1 = new Item("item1");
-        Item item2 = new Item("item2");
-        Item item3 = new Item("item3");
-        item1.setStatus("available");
-        item2.setStatus("bidded");
-        item3.setStatus("borrowed");
+        Item item1 = new Item("item1",user);
+        Item item2 = new Item("item2",user);
+        Item item3 = new Item("item3",user);
+        item1.setAvailable();
+        item2.setBidded();
+        item3.setBorrowed();
         items.add(item1);
         items.add(item2);
         items.add(item3);
@@ -348,8 +347,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testBid(){
         // test for use case 05.01.01
-        Item item = new Item("item");
         User user = new User("user","pass");
+        Item item = new Item("item",user);
         user.bidOn(item);
         assertTrue(item.isBidded());
     }
@@ -358,8 +357,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         // test for use case 05.02.01
         ArrayList<Item> pendingItems = new ArrayList<Item>();
         User user = new User("user","pass");
-        Item item1 = new Item("item1");
-        item1.setStatus("bidded");
+        Item item1 = new Item("item1",user);
+        item1.setBidded();
         user.addItem(item1);
         if (item1.getStatus() == "bidded")
             pendingItems.add(item1);
@@ -368,8 +367,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testNotification(){
         // test for use case 05.03.01
-        Item item = new Item("item");
         User user = new User("user","pass");
+        Item item = new Item("item",user);
         User user2 = new User("user2","pass2");
         user.addItem(item);
         user2.bidOn(item);
@@ -378,9 +377,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewBids(){
         // test for use case 05.04.01
-        Item item1 = new Item("item1");
-        Item item2 = new Item("item2");
         User user = new User("user","pass");
+        Item item1 = new Item("item1",user);
+        Item item2 = new Item("item2",user);
         User user2 = new User("user2","pass2");
         user.addItem(item1);
         user.addItem(item2);
@@ -396,8 +395,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testConnectivityPush(){
-        Item item = new Item("Risk");
-        User user = new User("user1");
+
+        User user = new User("user1", "");
+        Item item = new Item("Risk",user);
         // disableConnection();//some method that simulates user being offline
         user.addItem(item);
         // enableConnection();//undoes the disableConnection method

@@ -8,15 +8,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyItems">
+        <activity android:name=".ViewMyItems">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".viewBidsOnItem" />
-        <activity android:name=".BorrowedItems"></activity>
+        <activity android:name=".ViewBidsOnItem" />
+        <activity android:name=".ViewBorrowedItems"></activity>
     </application>
 
 </manifest>
