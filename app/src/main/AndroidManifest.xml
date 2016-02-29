@@ -16,7 +16,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewBidsOnItem" />
-        <activity android:name=".ViewBorrowedItems"></activity>
+        <activity android:name=".ViewBorrowedItems" />
+        <activity
+            android:name=".ViewItem"></activity>
     </application>
 
 </manifest>

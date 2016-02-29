@@ -9,14 +9,31 @@ import java.util.ArrayList;
  */
 public class Item {
     private String name;
+    private String players = ""; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
+    private String age = "";
+    private String timeReq = "";
+    private String platform ="";
     private boolean bidded = false;
     private boolean borrowed = false;
     private User owner;
-    private String status;
     private double rate;
     private User borrower;
     private ArrayList<Bid> bids;
 
+    // Overridden instantiation depending on the data provided in the construction.
+    public Item(String name, User owner, String players, String age, String timeReq, String platform) {
+        this.name = name;
+        this.owner = owner;
+        this.players = players;
+        this.age = age;
+        this.timeReq = timeReq;
+        this.platform = platform;
+    }
+
+    public Item(String name, User owner) {
+        this.name = name;
+        this.owner = owner;
+    }
 
     public void setRate(double rate) {
         this.rate = rate;
@@ -42,11 +59,6 @@ public class Item {
         this.borrowed = borrowed;
     }//TODO: delete later after test case has been changed accordingly
 
-    public Item(String name, User owner) {
-        this.name = name;
-        this.bidded = false;
-        this.owner = owner;
-    }
 
     public User getOwner() {
         return owner;

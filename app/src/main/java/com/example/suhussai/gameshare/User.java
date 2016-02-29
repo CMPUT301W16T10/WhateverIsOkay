@@ -9,11 +9,15 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private ArrayList<Item> notifications = null;
+    private ArrayList<Item> notifications = new ArrayList<Item>();
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<Item> borrowedItems = new ArrayList<Item>();
 
-    private ArrayList<Item> items = null;
 
-    private ArrayList<Item> borrowedItems;
+    public User(String userName, String password){
+        this.username = userName;
+        this.password = password;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -37,11 +41,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public User(String userName, String password){
-        this.username = userName;
-        this.password = password;
     }
 
     public ArrayList<Item> getNotifications() {
