@@ -100,7 +100,7 @@
         android:text="Save"
         android:id="@+id/AddItem_Save"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/AddItem_PlatformEdit"
+        android:layout_alignStart="@+id/AddItem_PlatformText"
         android:layout_marginBottom="26dp" />
 
     <Button
@@ -109,7 +109,15 @@
         android:text="Cancel"
         android:id="@+id/AddItem_Cancel"
         android:layout_alignBottom="@+id/AddItem_Save"
-        android:layout_alignEnd="@+id/AddItem_PlatformEdit"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="40dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/AddItem_Delete"
+        android:layout_alignBottom="@+id/AddItem_Cancel"
+        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
 
 </RelativeLayout>
