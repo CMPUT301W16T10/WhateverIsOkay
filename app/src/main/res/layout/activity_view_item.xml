@@ -132,6 +132,15 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="View Owner"
+        android:id="@+id/AddItem_ViewOwner"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/AddItem_PlatformText"
+        android:layout_marginBottom="26dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/AddItem_Cancel"
         android:layout_alignBottom="@+id/AddItem_Save"
@@ -143,6 +152,14 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:id="@+id/AddItem_Delete"
+        android:layout_alignBottom="@+id/AddItem_Cancel"
+        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Bid"
+        android:id="@+id/AddItem_Bid"
         android:layout_alignBottom="@+id/AddItem_Cancel"
         android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
 
