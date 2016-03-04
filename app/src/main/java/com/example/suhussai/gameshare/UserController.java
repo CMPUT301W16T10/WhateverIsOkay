@@ -92,8 +92,6 @@ public class UserController {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     user = execute.getSourceAsObject(User.class);
-                } else {
-                    user = null;
                 }
             }
             catch (IOException e) {

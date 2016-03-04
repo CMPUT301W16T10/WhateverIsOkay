@@ -15,7 +15,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class ViewLogIn extends AppCompatActivity {
 
-    private EditText userid;
+    private User user;
+    private EditText username;
     private EditText pass;
 
     @Override
@@ -24,7 +25,7 @@ public class ViewLogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
 
-        userid = (EditText) findViewById(R.id.UsernameText);
+        username = (EditText) findViewById(R.id.UsernameText);
         pass = (EditText) findViewById(R.id.PasswordText);
 
         // Login button logs into the App if the username exists and the password matches OR
@@ -35,8 +36,7 @@ public class ViewLogIn extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                User user = new User();
-                String username = userid.getText().toString();
+                String username = ViewLogIn.this.username.getText().toString();
                 String password = pass.getText().toString();
 
                 UserController.GetUser getUser = new UserController.GetUser();
@@ -47,28 +47,25 @@ public class ViewLogIn extends AppCompatActivity {
 
                 try {
                     user = getUser.get();
+
+                    // user does not exist, create new user.
+                    if (user == null){
+                        user = new User();
+                        user.setUsername(username);
+                        user.setPassword(password);
+                        UserController.AddUser addUser = new UserController.AddUser();
+                        addUser.execute(user);
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
 
-                // user does not exist, create new user.
-                if (user == null){
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    UserController.AddUser addUser = new UserController.AddUser();
-                    addUser.execute(user);
 
-                    setResult(RESULT_OK);
-                    Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
-                    intent.putExtra("username", String.valueOf(username));
-                    startActivity(intent);
-                    finish();
-                }
-
-                // user exists and the password matches -> login.
-                else if (user.getUsername().equals(username) &&
+                // new user OR user and the password matches -> login.
+                if (user.getUsername().equals(username) &&
                         user.getPassword().equals(password) ){
 
                     setResult(RESULT_OK);
@@ -76,7 +73,7 @@ public class ViewLogIn extends AppCompatActivity {
                     intent.putExtra("username", String.valueOf(username));
                     startActivity(intent);
                     finish();
-                    }
+                }
 
                 // reject login.
                 else {

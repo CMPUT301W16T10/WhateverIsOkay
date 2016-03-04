@@ -46,11 +46,18 @@ public class ViewUserProfile extends AppCompatActivity {
         // Fills in the places needed to be filled for the User Profile
         try {
             user = getUser.get();
-            System.out.println(user.getUsername());
-            username.setText(user.getUsername());
-            name.setText(user.getName());
-            email.setText(user.getEmail());
-            phone.setText(user.getPhone());
+
+            // If already an existing user
+            if (user != null) {
+                username.setText(user.getUsername());
+                name.setText(user.getName());
+                email.setText(user.getEmail());
+                phone.setText(user.getPhone());
+            }
+            // Newly Created user when logging in
+            else if (user == null) {
+                username.setText(usernameString);
+            }
 
         } catch (InterruptedException e) {
             e.printStackTrace();
