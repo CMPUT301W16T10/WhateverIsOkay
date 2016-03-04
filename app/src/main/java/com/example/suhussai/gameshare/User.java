@@ -7,17 +7,43 @@ import java.util.ArrayList;
  */
 public class User {
     private String username;
+    private String name;
+    private String phone;
     private String email;
     private String password;
     private ArrayList<Item> notifications = new ArrayList<Item>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Item> borrowedItems = new ArrayList<Item>();
+    private String id;
+
+    public User(){}
 
 
     public User(String userName, String password){
         this.username = userName;
         this.password = password;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id){this.id = id;}
 
     public void setPassword(String password) {
         this.password = password;

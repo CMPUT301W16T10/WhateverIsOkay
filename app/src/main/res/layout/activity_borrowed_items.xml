@@ -24,4 +24,6 @@
         android:id="@+id/currentlyBorrowedListView"
         android:layout_below="@+id/textView10"
         android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>
