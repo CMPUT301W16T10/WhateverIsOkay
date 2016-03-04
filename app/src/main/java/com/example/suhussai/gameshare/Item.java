@@ -18,7 +18,7 @@ public class Item {
     private User owner;
     private double rate;
     private User borrower;
-    private ArrayList<Bid> bids;
+    private ArrayList<Bid> bids = new ArrayList<Bid>();
 
     // Overridden instantiation depending on the data provided in the construction.
     public Item(String name, User owner, String players, String age, String timeReq, String platform) {
@@ -65,7 +65,7 @@ public class Item {
     }
 
     public void addBid(Bid bid) {
-
+        bids.add(bid);
     }
 
     public void setAvailable(){
@@ -124,5 +124,10 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    // added so the list view looks decent. TODO fix this
+    public String toString() {
+        return this.getName() + " owned by " + this.getOwner().getUsername();
     }
 }

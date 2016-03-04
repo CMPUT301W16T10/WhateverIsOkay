@@ -94,6 +94,32 @@
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/AddItem_TimeReqText" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Existing Bids"
+        android:id="@+id/ViewItem_ExistingBids_Text"
+        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bidsListView"
+        android:layout_below="@+id/ViewItem_ExistingBids_Text"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/AddItem_Save" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Amount"
+        android:id="@+id/ViewItem_Bids_Amount_Text"
+        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_alignParentEnd="true" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -3,30 +3,115 @@ package com.example.suhussai.gameshare;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Created by dan on 2016-02-21.
  */
 public class ViewItem extends AppCompatActivity{
 
+    // modes are public so others can use them
+    public static final int MODE_NEW = 0;
+    public static final int MODE_EDIT = 1;
+
+    // added the adapter and items_list for setting up the list view and passing via intent
+    private ArrayAdapter<Bid> adapter;
+    private ArrayList<Bid> bid_list;
+
     private EditText GameName;
     private EditText Players;
     private EditText Age;
     private EditText TimeReq;
     private EditText Platform;
-
     private Item item;
+
+    // stuff for the GSON
+    private ArrayList<Item> items_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
+
+        // turn that mode string back into an integer. there's maybe a way to use an extra that is an integer but i didn't look too closely.
+        String mode = getIntent().getStringExtra("mode");
+        final int activity_mode = Integer.parseInt(mode);
+
+        // TODO the magic of "modes"
+        if( activity_mode == MODE_NEW ) {
+            // special handling for new entries
+
+            // Hide this button entirely if the mode is MODE_NEW
+            View v = findViewById(R.id.AddItem_Delete);
+            v.setVisibility(View.GONE);
+            View b = findViewById(R.id.ViewItem_Bids_Amount_Text);
+            b.setVisibility(View.GONE);
+            View c = findViewById(R.id.ViewItem_ExistingBids_Text);
+            c.setVisibility(View.GONE);
+            View d = findViewById(R.id.bidsListView);
+            d.setVisibility(View.GONE);
+
+        }
+        else if( activity_mode == MODE_EDIT ) {
+            // special handling for editting entries
+            // Receive GSON
+            String items_list_string = getIntent().getStringExtra("list_as_string");
+            Gson gson = new Gson();
+
+            Type listType = new TypeToken<ArrayList<Item>>() {}.getType();
+
+            items_list = gson.fromJson(items_list_string, listType);
+            String purchase_pos = getIntent().getStringExtra("position_as_string");
+            final int pos = Integer.parseInt(purchase_pos);
+
+            item = items_list.get(pos);
+
+            // more test data to populate the bid list
+            User user1 = new User("gameguy","strongpassword14x");
+            User user2 = new User("poserguy","wkpswd");
+            Bid bid1 = new Bid(user1,12);
+            Bid bid2 = new Bid(user2,13);
+
+            item.addBid(bid1);
+            item.addBid(bid2);
+            bid_list = item.getBids();
+            adapter = new ArrayAdapter<Bid>(this, R.layout.my_bids_list_view, bid_list);
+            adapter.notifyDataSetChanged();
+
+
+            // setting up the list view to have an item click listener
+            ListView LV = (ListView) findViewById(R.id.bidsListView);
+            LV.setAdapter(adapter);
+            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //TODO what happens if you click a bid?
+                    Toast toast = Toast.makeText(getApplicationContext(), "Clicking a bid!", Toast.LENGTH_LONG );
+                    toast.show();
+                }
+            });
+
+        }
+        else {
+            // third mode maybe?
+        }
 
         //TODO: set item to be the Item object being displayed when view is loaded (could be done on controller side)
 

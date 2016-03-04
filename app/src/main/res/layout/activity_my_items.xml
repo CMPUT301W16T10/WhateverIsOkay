@@ -24,4 +24,12 @@
         android:id="@+id/myItemsTextView"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Item"
+        android:id="@+id/myItemsAddItem"
+        android:layout_below="@+id/myItemsListView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

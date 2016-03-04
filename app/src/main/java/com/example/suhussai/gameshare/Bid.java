@@ -32,4 +32,9 @@ public class Bid {
         this.amount = amount;
         this.borrower = borrower;
     }
+
+    // added so the list view looks better temporarily. TODO fix this
+    public String toString(){
+        return borrower.getUsername() + " bid " + Double.toString(this.getAmount());
+    }
 }
