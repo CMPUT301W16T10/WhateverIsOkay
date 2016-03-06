@@ -2,53 +2,53 @@
 <items version="2" >
 
     <item
-        jar="/home/bobby/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_0f229a3917d19597713cf3c08f0a9e4bf8cda082.jar" />
-    </item>
-    <item
-        jar="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_270d5efb2b757397471f471bc8876f86c5907873.jar" />
-    </item>
-    <item
-        jar="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jar="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_8c9fd2b431b04ce54b70530d379ae50775e378a0.jar" />
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.1.1_bef7aa85d9e21a0b0d57851c37714d248d6aefe9.jar" />
     </item>
     <item
-        jar="/home/bobby/.gradle/caches/modules-2/files-2.1/io.searchbox/jest-droid/2.0.0/3ae3b1d37582f9469dfd1ee20b15b3e0ec3a01c5/jest-droid-2.0.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="3ae3b1d37582f9469dfd1ee20b15b3e0ec3a01c5">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/jest-droid-2.0.0_3f3c68d8e7fe72d9c7f65093df706390acde111d.jar" />
-    </item>
-    <item
-        jar="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_bd7d28867ea03e38672320462dbee7e1eb0efd6e.jar" />
-    </item>
-    <item
-        jar="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jar="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.1.1_2b1f3d8e329d1116bae5b466529bd7b46ada09e9.jar" />
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.1.1_6e46be92b5aa18598a2dc90070d32b37991931ff.jar" />
     </item>
     <item
-        jar="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jar="C:\Users\Dave\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1_3b8fd3c2c0899498453703dd759e7d8fc1195e03.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dave\.gradle\caches\modules-2\files-2.1\io.searchbox\jest-droid\2.0.0\3ae3b1d37582f9469dfd1ee20b15b3e0ec3a01c5\jest-droid-2.0.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="3ae3b1d37582f9469dfd1ee20b15b3e0ec3a01c5">
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\jest-droid-2.0.0_6a594052fcdb31addc6b2fe2c64ebad9bd033dd3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1_bd83d894428987a783f67b3d3333e5b69ee8a622.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.1.1_742e2b4abab2154a4b398f6475dcc2fefa265cfc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\jars\classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="379471b2bd17d9737c050345c08e8c7d16589784">
-        <dex dex="/home/bobby/StudioProjects/WhateverIsOkay/app/build/intermediates/pre-dexed/debug/com.android.support-design-23.1.1_3d251d857c2af2fea613507fa9bfa6d1c3ac871e.jar" />
+        <dex dex="C:\Users\Dave\Documents\GitHub\WhateverIsOkay\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.1.1_45cae46ddbfe0447d9c49463d9022bc8d8b14153.jar" />
     </item>
 
 </items>

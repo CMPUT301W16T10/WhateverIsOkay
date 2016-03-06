@@ -127,7 +127,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bidsListView"
+        android:id="@+id/ViewItem_bidsListView"
         android:layout_below="@+id/textView8"
         android:layout_alignParentStart="true" />
 

@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Name"
-        android:id="@+id/AddItem_NameText"
-        android:layout_alignBottom="@+id/AddItem_NameEdit"
+        android:id="@+id/ViewItem_NameText"
+        android:layout_alignBottom="@+id/ViewItem_NameEdit"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -23,8 +23,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Players"
-        android:id="@+id/AddItem_PlayersText"
-        android:layout_below="@+id/AddItem_NameText"
+        android:id="@+id/ViewItem_PlayersText"
+        android:layout_below="@+id/ViewItem_NameText"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Age"
-        android:id="@+id/AddItem_AgeText"
-        android:layout_below="@+id/AddItem_PlayersText"
+        android:id="@+id/ViewItem_AgeText"
+        android:layout_below="@+id/ViewItem_PlayersText"
         android:layout_alignParentStart="true"/>
 
     <TextView
@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Time Required"
-        android:id="@+id/AddItem_TimeReqText"
-        android:layout_below="@+id/AddItem_AgeText"
+        android:id="@+id/ViewItem_TimeReqText"
+        android:layout_below="@+id/ViewItem_AgeText"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -50,49 +50,49 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Platform"
-        android:id="@+id/AddItem_PlatformText"
-        android:layout_below="@+id/AddItem_TimeReqText"
+        android:id="@+id/ViewItem_PlatformText"
+        android:layout_below="@+id/ViewItem_TimeReqText"
         android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AddItem_NameEdit"
+        android:id="@+id/ViewItem_NameEdit"
         android:layout_alignParentEnd="true"
 
-        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/AddItem_PlayersEdit"
-        android:layout_alignBottom="@+id/AddItem_PlayersText"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AddItem_AgeEdit"
-        android:layout_above="@+id/AddItem_TimeReqText"
+        android:id="@+id/ViewItem_PlayersEdit"
+        android:layout_alignBottom="@+id/ViewItem_PlayersText"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AddItem_TimeReqEdit"
-        android:layout_above="@+id/AddItem_PlatformText"
+        android:id="@+id/ViewItem_AgeEdit"
+        android:layout_above="@+id/ViewItem_TimeReqText"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/AddItem_AgeEdit" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AddItem_PlatformEdit"
-        android:layout_alignBottom="@+id/AddItem_PlatformText"
+        android:id="@+id/ViewItem_TimeReqEdit"
+        android:layout_above="@+id/ViewItem_PlatformText"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+        android:layout_alignStart="@+id/ViewItem_AgeEdit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_PlatformEdit"
+        android:layout_alignBottom="@+id/ViewItem_PlatformText"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -100,16 +100,16 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Existing Bids"
         android:id="@+id/ViewItem_ExistingBids_Text"
-        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_below="@+id/ViewItem_PlatformEdit"
         android:layout_alignParentStart="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bidsListView"
+        android:id="@+id/ViewItem_bidsListView"
         android:layout_below="@+id/ViewItem_ExistingBids_Text"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/AddItem_Save" />
+        android:layout_above="@+id/ViewItem_Save" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -117,33 +117,33 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Amount"
         android:id="@+id/ViewItem_Bids_Amount_Text"
-        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_below="@+id/ViewItem_PlatformEdit"
         android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:id="@+id/AddItem_Save"
+        android:id="@+id/ViewItem_Save"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/AddItem_PlatformText"
+        android:layout_alignStart="@+id/ViewItem_PlatformText"
         android:layout_marginBottom="26dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Owner"
-        android:id="@+id/AddItem_ViewOwner"
+        android:id="@+id/ViewItem_ViewOwner"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/AddItem_PlatformText"
+        android:layout_alignStart="@+id/ViewItem_PlatformText"
         android:layout_marginBottom="26dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:id="@+id/AddItem_Cancel"
-        android:layout_alignBottom="@+id/AddItem_Save"
+        android:id="@+id/ViewItem_Cancel"
+        android:layout_alignBottom="@+id/ViewItem_Save"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="40dp" />
 
@@ -151,16 +151,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete"
-        android:id="@+id/AddItem_Delete"
-        android:layout_alignBottom="@+id/AddItem_Cancel"
-        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
+        android:id="@+id/ViewItem_Delete"
+        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Make Bid"
-        android:id="@+id/AddItem_Bid"
-        android:layout_alignBottom="@+id/AddItem_Cancel"
-        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
+        android:id="@+id/ViewItem_Bid"
+        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
 
 </RelativeLayout>

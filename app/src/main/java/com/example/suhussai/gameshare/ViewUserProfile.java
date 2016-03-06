@@ -103,6 +103,7 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
+                intent.putExtra("username", usernameString);
                 startActivity(intent);
                 finish();
             }

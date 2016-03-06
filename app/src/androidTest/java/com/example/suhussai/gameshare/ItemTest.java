@@ -48,7 +48,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(user.getItems().size() == 1);
         assertTrue(user.getItems().get(0) == item);
         assertTrue(user.getItems().get(0).isBidded() == true);
-        assertTrue(viewBidsOnItemObj.findViewById(R.id.bidsListView).isShown());
+        assertTrue(viewBidsOnItemObj.findViewById(R.id.ViewItem_bidsListView).isShown());
 
     }
 

@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by dan on 2016-02-21.
@@ -42,6 +43,9 @@ public class ViewItem extends AppCompatActivity{
     private EditText Platform;
     private Item item;
 
+    private String usernameString;
+    private User user;
+
     // stuff for the GSON
     private ArrayList<Item> items_list;
 
@@ -55,11 +59,26 @@ public class ViewItem extends AppCompatActivity{
         final int activity_mode = Integer.parseInt(mode);
 
         //TODO: set item to be the Item object being displayed when view is loaded (could be done on controller side)
-        GameName = (EditText) findViewById(R.id.AddItem_NameEdit);
-        Players = (EditText) findViewById(R.id.AddItem_PlayersEdit);
-        Age = (EditText) findViewById(R.id.AddItem_AgeEdit);
-        TimeReq = (EditText) findViewById(R.id.AddItem_TimeReqEdit);
-        Platform = (EditText) findViewById(R.id.AddItem_PlatformEdit);
+        GameName = (EditText) findViewById(R.id.ViewItem_NameEdit);
+        Players = (EditText) findViewById(R.id.ViewItem_PlayersEdit);
+        Age = (EditText) findViewById(R.id.ViewItem_AgeEdit);
+        TimeReq = (EditText) findViewById(R.id.ViewItem_TimeReqEdit);
+        Platform = (EditText) findViewById(R.id.ViewItem_PlatformEdit);
+
+        usernameString = getIntent().getStringExtra("username");
+
+        // Grab the user from the controller.
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(usernameString);
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            user = getUser.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         // TODO the magic of "modes"
         if( activity_mode == MODE_NEW ) {
@@ -81,20 +100,20 @@ public class ViewItem extends AppCompatActivity{
         // special handling for new entries
 
         // Hide this button entirely if the mode is MODE_NEW
-        View v = findViewById(R.id.AddItem_Delete);
+        View v = findViewById(R.id.ViewItem_Delete);
         v.setVisibility(View.GONE);
         View b = findViewById(R.id.ViewItem_Bids_Amount_Text);
         b.setVisibility(View.GONE);
         View c = findViewById(R.id.ViewItem_ExistingBids_Text);
         c.setVisibility(View.GONE);
-        View d = findViewById(R.id.bidsListView);
+        View d = findViewById(R.id.ViewItem_bidsListView);
         d.setVisibility(View.GONE);
-        View e = findViewById(R.id.AddItem_Bid);
+        View e = findViewById(R.id.ViewItem_Bid);
         e.setVisibility(View.GONE);
-        View f = findViewById(R.id.AddItem_ViewOwner);
+        View f = findViewById(R.id.ViewItem_ViewOwner);
         f.setVisibility(View.GONE);
 
-        Button SaveButton = (Button) findViewById(R.id.AddItem_Save);
+        Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -108,50 +127,37 @@ public class ViewItem extends AppCompatActivity{
                     String platform = Platform.getText().toString();
 
                     //TODO modify this so the user is known at this stage. Using a test user in interim.
-                    User user = new User("testuser", "testpass");
+                    //User user = new User("testuser", "testpass"); // removed as a result of user controller
 
                     // TODO the controller may need to be involved here.
                     Item item = new Item(name, user, players, age, timeReq, platform);
                     user.addItem(item);
 
                     // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast toast = Toast.makeText(getApplicationContext(), "Item has been successfully added", Toast.LENGTH_LONG);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(), "Item has been successfully added.", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
 
                 }
+                finish();
             }
         });
 
-        Button CancelButton = (Button) findViewById(R.id.AddItem_Cancel);
+        Button CancelButton = (Button) findViewById(R.id.ViewItem_Cancel);
 
         CancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                try{
-                    // TODO we may wish to instead go back to the user profile here.
-                    GameName.setText("");
-                    Players.setText("");
-                    Age.setText("");
-                    TimeReq.setText("");
-                    Platform.setText("");
-
-                    // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast toast = Toast.makeText(getApplicationContext(), "Item addition has been cancelled", Toast.LENGTH_LONG );
-                    toast.show();
-
-                } catch (Exception e) {
-
-                }
+                Toast.makeText(getApplicationContext(), "Item addition cancelled.", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
     }
 
     private void setupEditMode(){
         //hide unused buttons
-        View e = findViewById(R.id.AddItem_Bid);
+        View e = findViewById(R.id.ViewItem_Bid);
         e.setVisibility(View.GONE);
-        View f = findViewById(R.id.AddItem_ViewOwner);
+        View f = findViewById(R.id.ViewItem_ViewOwner);
         f.setVisibility(View.GONE);
 
         // special handling for editting entries
@@ -181,7 +187,7 @@ public class ViewItem extends AppCompatActivity{
 
 
         // setting up the list view to have an item click listener
-        ListView LV = (ListView) findViewById(R.id.bidsListView);
+        ListView LV = (ListView) findViewById(R.id.ViewItem_bidsListView);
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -193,7 +199,7 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
-        Button SaveButton = (Button) findViewById(R.id.AddItem_Save);
+        Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -222,7 +228,7 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
-        Button CancelButton = (Button) findViewById(R.id.AddItem_Cancel);
+        Button CancelButton = (Button) findViewById(R.id.ViewItem_Cancel);
 
         CancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -245,7 +251,7 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
-        Button DeleteButton = (Button) findViewById(R.id.AddItem_Delete);
+        Button DeleteButton = (Button) findViewById(R.id.ViewItem_Delete);
 
         //TODO probably a better way to do this
         //'this' needs to be accessed by AlertDialog.Builder, but it is inside an OnClickListener
@@ -277,13 +283,13 @@ public class ViewItem extends AppCompatActivity{
 
     private void setupViewMode(){
         //Hide buttons inactive in this mode
-        View v = findViewById(R.id.AddItem_Delete);
+        View v = findViewById(R.id.ViewItem_Delete);
         v.setVisibility(View.GONE);
         View b = findViewById(R.id.ViewItem_Bids_Amount_Text);
         b.setVisibility(View.GONE);
         View c = findViewById(R.id.ViewItem_ExistingBids_Text);
         c.setVisibility(View.GONE);
-        View d = findViewById(R.id.bidsListView);
+        View d = findViewById(R.id.ViewItem_bidsListView);
         d.setVisibility(View.GONE);
 
         //Make fields uneditable
@@ -293,7 +299,7 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setEnabled(false);
         Platform.setEnabled(false);
 
-        Button BidButton = (Button) findViewById(R.id.AddItem_Bid);
+        Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);
 
         BidButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -301,7 +307,7 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
-        Button ViewOwnerButton = (Button) findViewById(R.id.AddItem_ViewOwner);
+        Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
 
         //TODO probably a better way to do this
         //'this' needs to be accessed to call the next intent, but it is inside an OnClickListener
