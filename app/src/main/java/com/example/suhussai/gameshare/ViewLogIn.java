@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class ViewLogIn extends AppCompatActivity {
 
     private User user;
-    private EditText username;
+    private EditText userid;
     private EditText pass;
 
     @Override
@@ -25,7 +25,7 @@ public class ViewLogIn extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
 
-        username = (EditText) findViewById(R.id.UsernameText);
+        userid = (EditText) findViewById(R.id.UsernameText);
         pass = (EditText) findViewById(R.id.PasswordText);
 
         // Login button logs into the App if the username exists and the password matches OR
@@ -36,7 +36,7 @@ public class ViewLogIn extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-                String username = ViewLogIn.this.username.getText().toString();
+                String username = userid.getText().toString();
                 String password = pass.getText().toString();
 
                 UserController.GetUser getUser = new UserController.GetUser();
@@ -47,6 +47,10 @@ public class ViewLogIn extends AppCompatActivity {
 
                 try {
                     user = getUser.get();
+
+
+                    //System.out.println(user.getUsername());
+                    //System.out.println(user.getPassword());
 
                     // user does not exist, create new user.
                     if (user == null){

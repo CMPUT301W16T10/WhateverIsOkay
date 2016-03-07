@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -57,7 +58,7 @@ public class UserController {
                     if (execute.isSucceeded()) {
                         user.setId(execute.getId());
                     } else {
-                        Log.e("TODO", "Our insert of tweet failed, oh no!");
+                        Log.e("TODO", "Our insert of user failed, oh no!");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -76,7 +77,7 @@ public class UserController {
             User user = new User();
 
             String search_username =
-                            "{\n" +
+                    "{\n" +
                             "\"query\" : {\n" +
                             "            \"match_all\" : {}\n" +
                             "        },\n" +
@@ -92,6 +93,9 @@ public class UserController {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     user = execute.getSourceAsObject(User.class);
+
+                    //System.out.println(user.getUsername());
+                    //System.out.println(user.getPassword());
                 }
             }
             catch (IOException e) {
@@ -102,4 +106,24 @@ public class UserController {
     }
 
     //TODO: Create an UpdateUser class to use for ViewUserProfile
+    public static class UpdateUser extends AsyncTask<User, Void, Void>{
+
+        @Override
+        protected Void doInBackground(User... params){
+            verifyConfig();
+
+            for (User user : params){
+                System.out.println(user.getId());
+                Index index = new Builder(user).index("cmput301wi16t10").type("users").id(user.getId()).build();
+
+                try {
+                    JestResult execute = client.execute(index);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+
 }
