@@ -52,7 +52,6 @@ public class ViewUserProfile extends AppCompatActivity {
         else if (mode==MODE_VIEW){
             setupViewMode();
         }
-
     }
 
     @Override

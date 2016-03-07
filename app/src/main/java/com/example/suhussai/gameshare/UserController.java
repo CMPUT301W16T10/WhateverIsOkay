@@ -45,7 +45,7 @@ public class UserController {
     }
 
 
-    // Adding User to cmput301wi16t10/users. (reference: lonelyTwitter)
+    // Add user to cmput301wi16t10/users. (reference: lonelyTwitter)
     public static class AddUser extends AsyncTask<User, Void, Void>{
 
         @Override
@@ -71,6 +71,7 @@ public class UserController {
         }
     }
 
+    // Get a single user from cmput301wi16t10/users. (reference: lonelyTwitter)
     public static class GetUser extends AsyncTask<String, Void, User> {
 
         @Override
@@ -101,7 +102,7 @@ public class UserController {
                     // reference: http://stackoverflow.com/questions/33352798/elasticsearch-jest-client-how-to-return-document-id-from-hit
                     List<SearchResult.Hit<Map, Void>> hits = client.execute(search).getHits(Map.class);
                     // necessary in case new user who just logged in does not have an id assigned (should be fine after fixing login problem)
-                    if (hits.size() > 0){
+                    if (hits.size() > 0 && user != null){
                         SearchResult.Hit hit = hits.get(0);
                         Map source = (Map) hit.source;
                         user.setId((String) source.get(JestResult.ES_METADATA_ID));
@@ -114,6 +115,7 @@ public class UserController {
         }
     }
 
+    // Update changes made to a user to cmput301wi16t10/users.
     public static class UpdateUserProfile extends AsyncTask<User, Void, Void>{
 
         @Override
