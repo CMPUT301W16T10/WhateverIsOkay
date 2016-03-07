@@ -44,6 +44,12 @@ public class ViewMyItems extends AppCompatActivity {
             final User user = getUser.get();
             user.setItems(getItems.get());
 
+            /*** test to see if item and id corresponds to each other
+            for (int i = 0; i < user.getItems().size() ; i++){
+                System.out.println(user.getItems().get(i).getName());
+                System.out.println(user.getItems().get(i).getId());
+            }***/
+
             // TODO this is just an example but needs to be replaced with real items.
             //items_list = new ArrayList<Item>();
             // user = new User("gameguy","goodpassword"); // removed this as we now access user via the controller
