@@ -21,6 +21,10 @@ import java.util.concurrent.ExecutionException;
 
 public class ViewUserProfile extends AppCompatActivity {
 
+    // modes are public so others can use them
+    public static final int MODE_EDIT = 0;//for viewing own profile
+    public static final int MODE_VIEW = 1;//for viewing others' profiles
+
     private User user;
     private String usernameString;
     private TextView username;
@@ -32,6 +36,8 @@ public class ViewUserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        final int mode = getIntent().getExtras().getInt("mode");
+
 
         usernameString = getIntent().getStringExtra("username");
 
@@ -40,7 +46,52 @@ public class ViewUserProfile extends AppCompatActivity {
         email = (EditText) findViewById(R.id.EmailText);
         phone = (EditText) findViewById(R.id.PhoneText);
 
+        if (mode==MODE_EDIT){
+            setupEditMode();
+        }
+        else if (mode==MODE_VIEW){
+            setupViewMode();
+        }
 
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        // Grab the user from the controller.
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(usernameString);
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            user = getUser.get();
+
+            // If already an existing user
+            if (user != null) {
+                username.setText(user.getUsername());
+                name.setText(user.getName());
+                email.setText(user.getEmail());
+                phone.setText(user.getPhone());
+            }
+            //TODO: fix the problem stated below.
+            // Newly Created user when logging in... Need this fix this problem since
+            // User was already added when login button was pressed
+            else if (user == null) {
+                // sets up the new user if the user does not exist.
+                System.out.println("boooooooooooo");
+                user = new User();
+                //user.setUsername(usernameString);
+                username.setText(usernameString);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupEditMode(){
         //TODO: Make passwords editable as well.
         Button updateButton = (Button) findViewById(R.id.Update_Profile);
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -101,43 +152,41 @@ public class ViewUserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
+    private void setupViewMode(){
+        //This block may be handled by the onStart method
+        /*UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(usernameString);
-
-        // Fills in the places needed to be filled for the User Profile
         try {
             user = getUser.get();
-
-            // If already an existing user
-            if (user != null) {
-                username.setText(user.getUsername());
-                name.setText(user.getName());
-                email.setText(user.getEmail());
-                phone.setText(user.getPhone());
-            }
-            //TODO: fix the problem stated below.
-            // Newly Created user when logging in... Need this fix this problem since
-            // User was already added when login button was pressed
-            else if (user == null) {
-                // sets up the new user if the user does not exist.
-                System.out.println("boooooooooooo");
-                user = new User();
-                //user.setUsername(usernameString);
-                username.setText(usernameString);
+            if (user==null){
+                finish();//cannot display profile of null user, return
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            finish();//problem getting user, return without displaying profile
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
+            finish();//problem getting user, return without displaying profile
+        }*/
+
+        View v = findViewById(R.id.Search_for_Items);
+        v.setVisibility(View.GONE);
+
+        v = findViewById(R.id.View_My_Items);
+        v.setVisibility(View.GONE);
+
+        v = findViewById(R.id.View_My_Bids_Placed);
+        v.setVisibility(View.GONE);
+
+        v = findViewById(R.id.Currently_Borrowed_Items);
+        v.setVisibility(View.GONE);
+
+        username.setEnabled(false);
+        name.setEnabled(false);
+        email.setEnabled(false);
+        phone.setEnabled(false);
     }
 
 }

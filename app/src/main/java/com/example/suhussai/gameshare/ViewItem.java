@@ -314,10 +314,10 @@ public class ViewItem extends AppCompatActivity{
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // TODO original code below, now user object not found and might need to be adapted to work.
-                // User user = item.getOwner();
-                String user = item.getOwner();
+                String username = item.getOwner();
                 Intent intent = new Intent(holder, ViewUserProfile.class);
+                intent.putExtra("mode",ViewUserProfile.MODE_VIEW);
+                intent.putExtra("username",username);
                 //TODO send user to ViewUserProfile (and perhaps mode)
                 startActivity(intent);
             }

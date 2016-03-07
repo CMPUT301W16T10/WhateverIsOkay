@@ -71,6 +71,7 @@ public class ViewLogIn extends AppCompatActivity {
                     setResult(RESULT_OK);
                     Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
                     intent.putExtra("username", String.valueOf(username));
+                    intent.putExtra("mode",ViewUserProfile.MODE_EDIT);
                     startActivity(intent);
                     finish();
                     Toast.makeText(ViewLogIn.this, "Login Successful", Toast.LENGTH_SHORT).show();
