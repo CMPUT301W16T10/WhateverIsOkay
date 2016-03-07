@@ -33,6 +33,7 @@ public class ViewMyItems extends AppCompatActivity {
         Item item2 = new Item("Cribbage",user,"2-4","15-99","120min","card");
         items_list.add(item1);
         items_list.add(item2);
+        items_list.addAll(user.getItems());
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, items_list);
 
         // setting up the list view to have an item click listener
@@ -67,4 +68,20 @@ public class ViewMyItems extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // TODO this is just an example but needs to be replaced with real items.
+        items_list = new ArrayList<Item>();
+        User user = new User("gameguy","goodpassword");
+        Item item1 = new Item("Monopoly",user,"1-2","10-90","90min","board");
+        Item item2 = new Item("Cribbage",user,"2-4","15-99","120min","card");
+        items_list.add(item1);
+        items_list.add(item2);
+        items_list.addAll(user.getItems());
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, items_list);
+
+    }
+
 }

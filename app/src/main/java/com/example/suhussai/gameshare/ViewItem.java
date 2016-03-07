@@ -207,7 +207,8 @@ public class ViewItem extends AppCompatActivity{
                     String platform = Platform.getText().toString();
 
                     //TODO modify this so the user is known at this stage. Using a test user in interim.
-                    User user = new User("testuser", "testpass");
+//                    User user = new User("testuser", "testpass");
+                    User user = new User("gameguy","goodpassword");
 
                     // TODO the controller may need to be involved here.
                     Item item = new Item(name, user, players, age, timeReq, platform);

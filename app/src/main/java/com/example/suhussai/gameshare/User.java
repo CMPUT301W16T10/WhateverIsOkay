@@ -1,6 +1,7 @@
 package com.example.suhussai.gameshare;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by bobby on 11/02/16.
@@ -22,6 +23,16 @@ public class User {
     public User(String userName, String password){
         this.username = userName;
         this.password = password;
+        ElasticsearchController.SearchForItemsByUser searchForItemsByUser =
+                new ElasticsearchController.SearchForItemsByUser();
+        searchForItemsByUser.execute(userName);
+        try {
+            this.items = searchForItemsByUser.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getName() {
@@ -114,10 +125,17 @@ public class User {
     }
 
     public void addItem(Item item){
+        ElasticsearchController.AddItem addItem = new ElasticsearchController.AddItem();
+        addItem.execute(item);
         items.add(item);
     }
 
-    public void deleteItem(Item item){ items.remove(item);}
+    public void deleteItem(Item item){
+        ElasticsearchController.DeleteItemById deleteItemById =
+                new ElasticsearchController.DeleteItemById();
+        deleteItemById.execute(item.getId());
+        items.remove(item);
+    }
 
 //    public void addOwnedItem(Item item){
 //        items.add(item);

@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 
 import java.util.ArrayList;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Created by bobby on 11/02/16.
  */
 public class Item {
-    private String name;
+
+
+    private String name = "";
     private String players = ""; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
     private String age = "";
     private String timeReq = "";
@@ -19,6 +23,16 @@ public class Item {
     private double rate;
     private User borrower;
     private ArrayList<Bid> bids = new ArrayList<Bid>();
+    @JestId
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     // Overridden instantiation depending on the data provided in the construction.
     public Item(String name, User owner, String players, String age, String timeReq, String platform) {
@@ -127,7 +141,9 @@ public class Item {
     }
 
     // added so the list view looks decent. TODO fix this
+    @Override
     public String toString() {
-        return this.getName() + " owned by " + this.getOwner().getUsername();
+        return this.getName() + " owned by ";
     }
+
 }
