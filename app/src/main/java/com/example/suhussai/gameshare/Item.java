@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Created by bobby on 11/02/16.
  */
 public class Item {
+    private String Id = "";
     private String name;
     private String players = ""; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
     private String age = "";
@@ -15,13 +16,13 @@ public class Item {
     private String platform ="";
     private boolean bidded = false;
     private boolean borrowed = false;
-    private User owner;
+    private String owner;
     private double rate;
-    private User borrower;
+    private String borrower;
     private ArrayList<Bid> bids = new ArrayList<Bid>();
 
     // Overridden instantiation depending on the data provided in the construction.
-    public Item(String name, User owner, String players, String age, String timeReq, String platform) {
+    public Item(String name, String owner, String players, String age, String timeReq, String platform) {
         this.name = name;
         this.owner = owner;
         this.players = players;
@@ -30,16 +31,18 @@ public class Item {
         this.platform = platform;
     }
 
-    public Item(String name, User owner) {
+    public Item(String name, String owner) {
         this.name = name;
         this.owner = owner;
     }
+
+    public Item(){}
 
     public void setRate(double rate) {
         this.rate = rate;
     }
 
-    public void setBorrower(User borrower) {
+    public void setBorrower(String borrower) {
         this.borrower = borrower;
     }
 
@@ -60,7 +63,7 @@ public class Item {
     }//TODO: delete later after test case has been changed accordingly
 
 
-    public User getOwner() {
+    public String getOwner() {
         return owner;
     }
 
@@ -86,7 +89,7 @@ public class Item {
 
     }//TODO: delete later after test case has been changed accordingly
 
-    public User getBorrower(){
+    public String getBorrower(){
         return borrower;
     }
 
@@ -126,8 +129,16 @@ public class Item {
         this.name = name;
     }
 
+    public void setId(String ID){
+        Id = ID;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
     // added so the list view looks decent. TODO fix this
     public String toString() {
-        return this.getName() + " owned by " + this.getOwner().getUsername();
+        return this.getName() + " owned by " + this.getOwner();
     }
 }

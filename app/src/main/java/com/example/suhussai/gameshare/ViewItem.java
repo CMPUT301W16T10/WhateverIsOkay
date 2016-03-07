@@ -130,7 +130,7 @@ public class ViewItem extends AppCompatActivity{
                     //User user = new User("testuser", "testpass"); // removed as a result of user controller
 
                     // TODO the controller may need to be involved here.
-                    Item item = new Item(name, user, players, age, timeReq, platform);
+                    Item item = new Item(name, usernameString, players, age, timeReq, platform);
                     user.addItem(item);
 
                     // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
@@ -174,10 +174,8 @@ public class ViewItem extends AppCompatActivity{
         item = items_list.get(pos);
 
         // more test data to populate the bid list
-        User user1 = new User("gameguy","strongpassword14x");
-        User user2 = new User("poserguy","wkpswd");
-        Bid bid1 = new Bid(user1,12);
-        Bid bid2 = new Bid(user2,13);
+        Bid bid1 = new Bid("gameguy",12);
+        Bid bid2 = new Bid("poserguy",13);
 
         item.addBid(bid1);
         item.addBid(bid2);
@@ -216,7 +214,7 @@ public class ViewItem extends AppCompatActivity{
                     User user = new User("testuser", "testpass");
 
                     // TODO the controller may need to be involved here.
-                    Item item = new Item(name, user, players, age, timeReq, platform);
+                    Item item = new Item(name, usernameString, players, age, timeReq, platform);
                     user.addItem(item);
 
                     // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
@@ -316,7 +314,9 @@ public class ViewItem extends AppCompatActivity{
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                User user = item.getOwner();
+                // TODO original code below, now user object not found and might need to be adapted to work.
+                // User user = item.getOwner();
+                String user = item.getOwner();
                 Intent intent = new Intent(holder, ViewUserProfile.class);
                 //TODO send user to ViewUserProfile (and perhaps mode)
                 startActivity(intent);

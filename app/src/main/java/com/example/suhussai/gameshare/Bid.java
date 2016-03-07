@@ -5,13 +5,13 @@ package com.example.suhussai.gameshare;
  */
 public class Bid {
 
-    private User borrower;
+    private String borrower;
 
     private double amount;
 
     private Item item;
 
-    public User getBorrower() {
+    public String getBorrower() {
         return borrower;
     }
 
@@ -19,7 +19,7 @@ public class Bid {
         return amount;
     }
 
-    public void setBorrower(User borrower) {
+    public void setBorrower(String borrower) {
         this.borrower = borrower;
     }
 
@@ -27,7 +27,7 @@ public class Bid {
         this.amount = amount;
     }
 
-    public Bid(User borrower, double amount /*, Item item*/) {
+    public Bid(String borrower, double amount /*, Item item*/) {
         //this.item = item; //TODO: uncomment after test cases changed accordingly
         this.amount = amount;
         this.borrower = borrower;
@@ -35,6 +35,6 @@ public class Bid {
 
     // added so the list view looks better temporarily. TODO fix this
     public String toString(){
-        return borrower.getUsername() + " bid " + Double.toString(this.getAmount());
+        return borrower + " bid " + Double.toString(this.getAmount());
     }
 }

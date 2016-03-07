@@ -1,6 +1,7 @@
 package com.example.suhussai.gameshare;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by bobby on 11/02/16.
@@ -114,7 +115,23 @@ public class User {
     }
 
     public void addItem(Item item){
-        items.add(item);
+        // Set the item via the controller.
+        ItemController.AddItem addItem = new ItemController.AddItem();
+        addItem.execute(item);
+
+        // Repopulate the item list owned by this user
+
+        // Grab the items from the controller.
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(username);
+
+        try {
+            items = getItems.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteItem(Item item){ items.remove(item);}

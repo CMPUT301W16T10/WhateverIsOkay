@@ -35,17 +35,22 @@ public class ViewMyItems extends AppCompatActivity {
         UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(usernameString);
 
+        // Grab the user's items from the controller.
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(usernameString);
+
         // Fills in the places needed to be filled for the User Profile
         try {
             final User user = getUser.get();
+            user.setItems(getItems.get());
 
             // TODO this is just an example but needs to be replaced with real items.
             //items_list = new ArrayList<Item>();
             // user = new User("gameguy","goodpassword"); // removed this as we now access user via the controller
             //Item item1 = new Item("Monopoly",user,"1-2","10-90","90min","board"); //removed as a result of user controller
             //Item item2 = new Item("Cribbage",user,"2-4","15-99","120min","card"); //removed as a result of user controller
-            user.addItem(new Item("Monopoly",user,"1-2","10-90","90min","board"));
-            user.addItem(new Item("Cribbage", user, "2-4", "15-99", "120min", "card"));
+            //user.addItem(new Item("Monopoly",user.getUsername(),"1-2","10-90","90min","board"));
+            //user.addItem(new Item("Cribbage", user.getUsername(), "2-4", "15-99", "120min", "card"));
             //items_list.add(item1); //removed as a result of user controller
             //items_list.add(item2); //removed as a result of user controller
             //adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, items_list); //removed as a result of user controller
