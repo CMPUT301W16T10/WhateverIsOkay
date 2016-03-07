@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- Original Colors -->
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">#1e90ff</color>
+    <color name="colorPrimaryDark">#1e90ff</color>
+    <color name="colorAccent">#FF8C00</color>
 
     <color name="colorDarkOrange">#FF8C00</color>
     <color name="colorDodgerBlue">#1E90FF</color>
