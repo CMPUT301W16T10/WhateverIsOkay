@@ -2,6 +2,7 @@ package com.example.suhussai.gameshare;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -17,10 +18,12 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
+import io.searchbox.core.Update;
 
 import static io.searchbox.core.Index.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by dan on 2016-02-21.
@@ -32,7 +35,7 @@ public class UserController {
     // If no client, add a client (from lonelyTwitter)
     public static void verifyConfig(){
         if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080"); // shove your url  in there
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
             DroidClientConfig config = builder.build();
 
             JestClientFactory factory = new JestClientFactory();
@@ -56,7 +59,7 @@ public class UserController {
                 try {
                     DocumentResult execute = client.execute(index);
                     if (execute.isSucceeded()) {
-                        user.setId(execute.getId());
+                        //user.setId(SearchResult.ES_METADATA_ID); // not really necessary here I suppose...
                     } else {
                         Log.e("TODO", "Our insert of user failed, oh no!");
                     }
@@ -68,10 +71,10 @@ public class UserController {
         }
     }
 
-    public static class GetUser extends AsyncTask<String, Void, User>{
+    public static class GetUser extends AsyncTask<String, Void, User> {
 
         @Override
-        protected User doInBackground(String... params){
+        protected User doInBackground(String... params) {
             verifyConfig();
 
             User user = new User();
@@ -82,7 +85,7 @@ public class UserController {
                             "            \"match_all\" : {}\n" +
                             "        },\n" +
                             "        \"filter\" : {\n" +
-                            "             \"term\":{\"username\" : \""+params[0]+"\" }\n" +
+                            "             \"term\":{\"username\" : \"" + params[0] + "\" }\n" +
                             "        }\n" +
                             "    }\n" +
                             "}\n";
@@ -94,30 +97,38 @@ public class UserController {
                 if (execute.isSucceeded()) {
                     user = execute.getSourceAsObject(User.class);
 
-                    //System.out.println(user.getUsername());
-                    //System.out.println(user.getPassword());
+                    // Add id to user id
+                    // reference: http://stackoverflow.com/questions/33352798/elasticsearch-jest-client-how-to-return-document-id-from-hit
+                    List<SearchResult.Hit<Map, Void>> hits = client.execute(search).getHits(Map.class);
+                    // necessary in case new user who just logged in does not have an id assigned (should be fine after fixing login problem)
+                    if (hits.size() > 0){
+                        SearchResult.Hit hit = hits.get(0);
+                        Map source = (Map) hit.source;
+                        user.setId((String) source.get(JestResult.ES_METADATA_ID));
+                    }
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return user;
         }
     }
 
-    //TODO: Create an UpdateUser class to use for ViewUserProfile
-    public static class UpdateUser extends AsyncTask<User, Void, Void>{
+    public static class UpdateUserProfile extends AsyncTask<User, Void, Void>{
 
         @Override
         protected Void doInBackground(User... params){
             verifyConfig();
 
             for (User user : params){
-                System.out.println(user.getId());
-                Index index = new Builder(user).index("cmput301wi16t10").type("users").id(user.getId()).build();
+                Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getId()).build();
 
                 try {
-                    JestResult execute = client.execute(index);
+                    JestResult execute = client.execute(update);
+
+                    if (execute.isSucceeded()) {
+                        //yay... we don't need this if statement for now
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -125,5 +136,4 @@ public class UserController {
             return null;
         }
     }
-
 }

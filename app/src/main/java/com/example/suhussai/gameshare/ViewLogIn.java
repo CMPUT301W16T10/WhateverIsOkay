@@ -48,10 +48,6 @@ public class ViewLogIn extends AppCompatActivity {
                 try {
                     user = getUser.get();
 
-
-                    //System.out.println(user.getUsername());
-                    //System.out.println(user.getPassword());
-
                     // user does not exist, create new user.
                     if (user == null){
                         user = new User();
@@ -77,11 +73,12 @@ public class ViewLogIn extends AppCompatActivity {
                     intent.putExtra("username", String.valueOf(username));
                     startActivity(intent);
                     finish();
+                    Toast.makeText(ViewLogIn.this, "Login Successful", Toast.LENGTH_SHORT).show();
                 }
 
                 // reject login.
                 else {
-                    Toast.makeText(ViewLogIn.this, "Wrong Password.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewLogIn.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

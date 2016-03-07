@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -38,49 +40,22 @@ public class ViewUserProfile extends AppCompatActivity {
         email = (EditText) findViewById(R.id.EmailText);
         phone = (EditText) findViewById(R.id.PhoneText);
 
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
 
-
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            user = getUser.get();
-
-            // If already an existing user
-            if (user != null) {
-                username.setText(user.getUsername());
-                name.setText(user.getName());
-                email.setText(user.getEmail());
-                phone.setText(user.getPhone());
-            }
-            // Newly Created user when logging in
-            else if (user == null) {
-                username.setText(usernameString);
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        //TODO: Make edited fields automatically update to server without the update button?
         //TODO: Make passwords editable as well.
-        // TODO: Update Button updates changes made to UserProfile (adds a duplicate right now)
         Button updateButton = (Button) findViewById(R.id.Update_Profile);
         updateButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                user.setName(name.toString());
-                user.setEmail(email.toString());
-                user.setPhone(phone.toString());
+                user.setName(name.getText().toString());
+                user.setEmail(email.getText().toString());
+                user.setPhone(phone.getText().toString());
 
-                UserController.AddUser addUser = new UserController.AddUser();
-                addUser.execute(user);
+                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                updateUserProfile.execute(user);
 
+                Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,7 +68,6 @@ public class ViewUserProfile extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -105,7 +79,6 @@ public class ViewUserProfile extends AppCompatActivity {
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
                 intent.putExtra("username", usernameString);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -116,7 +89,6 @@ public class ViewUserProfile extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -127,10 +99,46 @@ public class ViewUserProfile extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
                 startActivity(intent);
-                finish();
             }
         });
 
     }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        // Grab the user from the controller.
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(usernameString);
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            user = getUser.get();
+
+            // If already an existing user
+            if (user != null) {
+                username.setText(user.getUsername());
+                name.setText(user.getName());
+                email.setText(user.getEmail());
+                phone.setText(user.getPhone());
+            }
+            //TODO: fix the problem stated below.
+            // Newly Created user when logging in... Need this fix this problem since
+            // User was already added when login button was pressed
+            else if (user == null) {
+                // sets up the new user if the user does not exist.
+                System.out.println("boooooooooooo");
+                user = new User();
+                //user.setUsername(usernameString);
+                username.setText(usernameString);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 

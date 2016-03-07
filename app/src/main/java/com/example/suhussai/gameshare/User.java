@@ -8,10 +8,10 @@ import java.util.concurrent.ExecutionException;
  */
 public class User {
     private String username;
-    private String name;
-    private String phone;
-    private String email;
     private String password;
+    private String name;
+    private String email;
+    private String phone;
     private ArrayList<Item> notifications = new ArrayList<Item>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Item> borrowedItems = new ArrayList<Item>();

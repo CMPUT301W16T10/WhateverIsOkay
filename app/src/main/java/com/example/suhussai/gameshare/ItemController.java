@@ -52,7 +52,7 @@ public class ItemController {
                 try {
                     DocumentResult execute = client.execute(index);
                     if (execute.isSucceeded()) {
-                        item.setId(execute.getId());
+                        item.setId(index.getId());
                     } else {
                         Log.e("TODO", "Our insert of item failed, oh no!");
                     }
