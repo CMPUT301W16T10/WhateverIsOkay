@@ -50,13 +50,13 @@ public class ElasticsearchController {
             verifyConfig();
 
             for(Item item : params) {
-//                Index index = new Index.Builder(item).index("games").type("game").id(item.getId()).build();
-                Index index = new Index.Builder(item).index("games").type("game").build();
+                Index index = new Index.Builder(item).index("games").type("game").id(item.getId()).build();
+//                Index index = new Index.Builder(item).index("games").type("game").build();
 
                 try {
                     DocumentResult execute = client.execute(index);
                     if(execute.isSucceeded()) {
-                        // item.setId(execute.getId());
+                        item.setId(execute.getId());
                     } else {
                         Log.e("TODO", "Our insert of tweet failed, oh no!: "+execute.getErrorMessage());
                     }
