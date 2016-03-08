@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Item {
     private String Id = "";
     private String name;
+
     private String players = ""; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
     private String age = "";
     private String timeReq = "";
@@ -135,6 +136,22 @@ public class Item {
 
     public String getId() {
         return Id;
+    }
+
+    public void setPlayers(String players) {
+        this.players = players;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public void setTimeReq(String timeReq) {
+        this.timeReq = timeReq;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
     // added so the list view looks decent. TODO fix this

@@ -203,22 +203,17 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 try {
+                    item.setName(GameName.getText().toString());
+                    item.setPlayers(Players.getText().toString());
+                    item.setAge(Age.getText().toString());
+                    item.setTimeReq(TimeReq.getText().toString());
+                    item.setPlatform(Platform.getText().toString());
 
-                    String name = GameName.getText().toString();
-                    String players = Players.getText().toString();
-                    String age = Age.getText().toString();
-                    String timeReq = TimeReq.getText().toString();
-                    String platform = Platform.getText().toString();
-
-                    //TODO modify this so the user is known at this stage. Using a test user in interim.
-                    User user = new User("testuser", "testpass");
-
-                    // TODO the controller may need to be involved here.
-                    Item item = new Item(name, usernameString, players, age, timeReq, platform);
-                    user.addItem(item);
+                    ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                    updateItem.execute(item);
 
                     // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast toast = Toast.makeText(getApplicationContext(), "Item has been successfully added", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_LONG);
                     toast.show();
                 } catch (Exception e) {
 

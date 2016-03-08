@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_NameEdit"
         android:layout_alignParentEnd="true"
-
+        android:singleLine="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <EditText
@@ -68,7 +68,8 @@
         android:id="@+id/ViewItem_PlayersEdit"
         android:layout_alignBottom="@+id/ViewItem_PlayersText"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:singleLine="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -76,7 +77,8 @@
         android:id="@+id/ViewItem_AgeEdit"
         android:layout_above="@+id/ViewItem_TimeReqText"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:singleLine="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -84,7 +86,8 @@
         android:id="@+id/ViewItem_TimeReqEdit"
         android:layout_above="@+id/ViewItem_PlatformText"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/ViewItem_AgeEdit" />
+        android:layout_alignStart="@+id/ViewItem_AgeEdit"
+        android:singleLine="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -92,7 +95,8 @@
         android:id="@+id/ViewItem_PlatformEdit"
         android:layout_alignBottom="@+id/ViewItem_PlatformText"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:singleLine="true"/>
 
     <TextView
         android:layout_width="wrap_content"

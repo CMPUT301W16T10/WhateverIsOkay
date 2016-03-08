@@ -108,4 +108,26 @@ public class ItemController {
     }
 
     //TODO: Create an UpdateItem class to use for Editing an Item
+    public static class UpdateItem extends AsyncTask<Item, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Item... params) {
+            verifyConfig();
+
+            for (Item item : params) {
+                Index update = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
+
+                try {
+                    JestResult execute = client.execute(update);
+
+                    if (execute.isSucceeded()) {
+                        //yay... we don't need this if statement for now
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
 }

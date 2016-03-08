@@ -80,7 +80,7 @@
         android:layout_alignTop="@+id/Name"
         android:layout_toEndOf="@+id/Name"
         android:background="@color/colorWhite"
-        android:editable="true" />
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/EmailText"
@@ -90,7 +90,7 @@
         android:layout_alignTop="@+id/Email"
         android:layout_toEndOf="@+id/Email"
         android:background="@color/colorWhite"
-        android:editable="true" />
+        android:singleLine="true"/>
 
     <EditText
         android:id="@+id/PhoneText"
@@ -101,7 +101,7 @@
         android:layout_toEndOf="@+id/Phone"
         android:background="@color/colorWhite"
         android:phoneNumber="true"
-        android:editable="true" />
+        android:singleLine="true"/>
 
     <Button
         android:id="@+id/Update_Profile"
