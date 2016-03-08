@@ -1,0 +1,2 @@
+US 04.01.01
+As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.

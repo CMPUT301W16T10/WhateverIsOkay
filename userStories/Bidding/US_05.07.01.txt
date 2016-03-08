@@ -1,0 +1,2 @@
+US 05.07.01
+As an owner, I want to decline a bid on one of my things.

@@ -1,0 +1,2 @@
+US 01.02.01
+As an owner, I want to view a list of all my things, and their descriptions and statuses.

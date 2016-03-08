@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ViewBidsOnItem">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Name"
+        android:id="@+id/AddItem_NameText"
+        android:layout_alignBottom="@+id/AddItem_NameEdit"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Players"
+        android:id="@+id/AddItem_PlayersText"
+        android:layout_below="@+id/AddItem_NameText"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Age"
+        android:id="@+id/AddItem_AgeText"
+        android:layout_below="@+id/AddItem_PlayersText"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Time Required"
+        android:id="@+id/AddItem_TimeReqText"
+        android:layout_below="@+id/AddItem_AgeText"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Platform"
+        android:id="@+id/AddItem_PlatformText"
+        android:layout_below="@+id/AddItem_TimeReqText"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddItem_NameEdit"
+        android:layout_alignParentEnd="true"
+
+        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddItem_PlayersEdit"
+        android:layout_alignBottom="@+id/AddItem_PlayersText"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddItem_AgeEdit"
+        android:layout_above="@+id/AddItem_TimeReqText"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddItem_TimeReqEdit"
+        android:layout_above="@+id/AddItem_PlatformText"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/AddItem_AgeEdit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AddItem_PlatformEdit"
+        android:layout_alignBottom="@+id/AddItem_PlatformText"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/AddItem_TimeReqText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Existing Bids"
+        android:id="@+id/ViewItem_ExistingBids_Text"
+        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bidsListView"
+        android:layout_below="@+id/ViewItem_ExistingBids_Text"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/AddItem_Save" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Amount"
+        android:id="@+id/ViewItem_Bids_Amount_Text"
+        android:layout_below="@+id/AddItem_PlatformEdit"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/AddItem_Save"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/AddItem_PlatformText"
+        android:layout_marginBottom="26dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Owner"
+        android:id="@+id/AddItem_ViewOwner"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/AddItem_PlatformText"
+        android:layout_marginBottom="26dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/AddItem_Cancel"
+        android:layout_alignBottom="@+id/AddItem_Save"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="40dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:id="@+id/AddItem_Delete"
+        android:layout_alignBottom="@+id/AddItem_Cancel"
+        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Bid"
+        android:id="@+id/AddItem_Bid"
+        android:layout_alignBottom="@+id/AddItem_Cancel"
+        android:layout_alignEnd="@+id/AddItem_PlatformEdit" />
+
+</RelativeLayout>

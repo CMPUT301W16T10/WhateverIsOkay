@@ -1,0 +1,2 @@
+US 05.06.01
+As an owner, I want to accept a bid on one of my things, setting its status to borrowed. (Any other bids are declined.)

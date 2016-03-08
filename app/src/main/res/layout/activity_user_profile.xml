@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorSlateGrey3"
+    tools:context=".ViewUserProfile">
+
+    <TextView
+        android:id="@+id/UserProfile"
+        android:layout_width="match_parent"
+        android:textSize="30sp"
+        android:text="@string/userProfile"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorGrey"/>
+
+    <TextView
+        android:id="@+id/Username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username:  "
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_below="@+id/AppName"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/colorGrey"/>
+
+    <TextView
+        android:id="@+id/Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_TextTopMargin"
+        android:text="Name:          "
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_below="@+id/Username"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorGrey"/>
+
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_TextTopMargin"
+        android:text="Email:           "
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_below="@+id/Name"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorGrey"/>
+
+    <TextView
+        android:id="@+id/Phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_TextTopMargin"
+        android:text="Phone:         "
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_below="@+id/Email"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorGrey"/>
+
+    <TextView
+        android:id="@+id/UsernameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_alignTop="@+id/Username"
+        android:layout_toEndOf="@+id/Username" />
+
+    <EditText
+        android:id="@+id/NameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_alignTop="@+id/Name"
+        android:layout_toEndOf="@+id/Name"
+        android:background="@color/colorWhite"
+        android:editable="true" />
+
+    <EditText
+        android:id="@+id/EmailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_alignTop="@+id/Email"
+        android:layout_toEndOf="@+id/Email"
+        android:background="@color/colorWhite"
+        android:editable="true" />
+
+    <EditText
+        android:id="@+id/PhoneText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/userProfile_Text"
+        android:layout_alignTop="@+id/Phone"
+        android:layout_toEndOf="@+id/Phone"
+        android:background="@color/colorWhite"
+        android:phoneNumber="true"
+        android:editable="true" />
+
+    <Button
+        android:id="@+id/Update_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:layout_alignRight="@id/UserProfile"
+        />
+
+    <Button
+        android:id="@+id/Search_for_Items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search for Items"
+        android:textSize="@dimen/userProfile_Text"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorGrey"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/PhoneText"
+        android:layout_alignEnd="@+id/PhoneText" />
+
+    <Button
+        android:id="@+id/View_My_Items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_ButtonTopMargin"
+        android:text="View My Items"
+        android:textSize="@dimen/userProfile_Text"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorGrey"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/Search_for_Items"
+        android:layout_alignEnd="@+id/PhoneText" />
+
+    <Button
+        android:id="@+id/View_My_Bids_Placed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_ButtonTopMargin"
+        android:text="View My Bids Placed"
+        android:textSize="@dimen/userProfile_Text"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorGrey"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/View_My_Items"
+        android:layout_alignEnd="@+id/PhoneText" />
+
+    <Button
+        android:id="@+id/Currently_Borrowed_Items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_ButtonTopMargin"
+        android:text="Currently Borrowed Items"
+        android:textSize="@dimen/userProfile_Text"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorGrey"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/View_My_Bids_Placed"
+        android:layout_alignEnd="@+id/PhoneText" />
+
+</RelativeLayout>

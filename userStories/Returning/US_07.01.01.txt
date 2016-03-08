@@ -1,0 +1,2 @@
+US 07.01.01
+As an owner, I want to set a borrowed thing to be available when it is returned.
