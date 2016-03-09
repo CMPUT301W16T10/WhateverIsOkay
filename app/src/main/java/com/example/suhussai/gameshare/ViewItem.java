@@ -175,6 +175,8 @@ public class ViewItem extends AppCompatActivity{
         g.setVisibility(View.GONE);
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Cancel);
+        i.setVisibility(View.GONE);
 
         // special handling for editting entries
         // Receive GSON

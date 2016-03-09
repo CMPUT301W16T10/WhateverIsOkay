@@ -177,13 +177,14 @@
         android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_bidValue"
         android:layout_below="@+id/ViewItem_PlaceBid_Text"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/ViewItem_bidsListView"
         android:numeric="decimal"
+        android:layout_alignParentEnd="true"
         android:singleLine="true" />
 
 </RelativeLayout>
