@@ -119,30 +119,22 @@ public class ViewItem extends AppCompatActivity{
         SaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                try {
+                String name = GameName.getText().toString();
+                String players = Players.getText().toString();
+                String age = Age.getText().toString();
+                String timeReq = TimeReq.getText().toString();
+                String platform = Platform.getText().toString();
 
-                    String name = GameName.getText().toString();
-                    String players = Players.getText().toString();
-                    String age = Age.getText().toString();
-                    String timeReq = TimeReq.getText().toString();
-                    String platform = Platform.getText().toString();
+                // TODO the controller may need to be involved here.
+                Item item = new Item(name, usernameString, players, age, timeReq, platform);
+                user.addItem(item);
+                // Adds the Item to the user
+                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                updateUserProfile.execute(user);
 
-                    //TODO modify this so the user is known at this stage. Using a test user in interim.
-                    //User user = new User("testuser", "testpass"); // removed as a result of user controller
-
-                    // TODO the controller may need to be involved here.
-                    Item item = new Item(name, usernameString, players, age, timeReq, platform);
-                    user.addItem(item);
-                    // Adds the Item to the user
-                    UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-                    updateUserProfile.execute(user);
-
-                    // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast.makeText(getApplicationContext(), "Item has been successfully added.", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-
-                }
-                finish();
+                // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
+                Toast.makeText(getApplicationContext(), "Item has been successfully added.", Toast.LENGTH_SHORT).show();
+                returnToViewItems();
             }
         });
 
@@ -151,8 +143,8 @@ public class ViewItem extends AppCompatActivity{
         CancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                Toast.makeText(getApplicationContext(), "Item addition cancelled.", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(getApplicationContext(), "Item addition cancelled.", Toast.LENGTH_SHORT).show();
+                returnToViewItems();
             }
         });
     }
@@ -176,6 +168,11 @@ public class ViewItem extends AppCompatActivity{
         final int pos = Integer.parseInt(purchase_pos);
 
         item = items_list.get(pos);
+
+        //TODO probably a better way to do this
+        //'this' needs to be accessed by AlertDialog.Builder, but it is inside an OnClickListener
+        //so the this keyword is overwritten
+        final Context holder = this;
 
         // gets the item info to display on the EditText fields
         GameName.setText(item.getName());
@@ -202,9 +199,28 @@ public class ViewItem extends AppCompatActivity{
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO what happens if you click a bid?
-                Toast toast = Toast.makeText(getApplicationContext(), "Clicking a bid!", Toast.LENGTH_LONG);
-                toast.show();
+                Bid bid = bid_list.get(position);
+                AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
+                adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBorrower() + " for " + bid.getAmount() + "?");
+                adBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Accept this bid, decline the rest", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                adBuilder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Decline this bid", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                adBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog ad = adBuilder.create();
+                ad.show();
             }
         });
 
@@ -213,22 +229,19 @@ public class ViewItem extends AppCompatActivity{
         SaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                try {
-                    item.setName(GameName.getText().toString());
-                    item.setPlayers(Players.getText().toString());
-                    item.setAge(Age.getText().toString());
-                    item.setTimeReq(TimeReq.getText().toString());
-                    item.setPlatform(Platform.getText().toString());
+                item.setName(GameName.getText().toString());
+                item.setPlayers(Players.getText().toString());
+                item.setAge(Age.getText().toString());
+                item.setTimeReq(TimeReq.getText().toString());
+                item.setPlatform(Platform.getText().toString());
 
-                    ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
-                    updateItem.execute(item);
+                ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                updateItem.execute(item);
+                // TODO investigate why pressing this button results in null pointer exception for user.setitems() in the viewMyItems
 
-                    // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast toast = Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_LONG);
-                    toast.show();
-                } catch (Exception e) {
-
-                }
+                // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
+                Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_SHORT).show();
+                returnToViewItems();
             }
         });
 
@@ -237,30 +250,15 @@ public class ViewItem extends AppCompatActivity{
         CancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setResult(RESULT_OK);
-                try{
-                    // TODO change this to go back to the initial data instead of blanking it
-                    GameName.setText("");
-                    Players.setText("");
-                    Age.setText("");
-                    TimeReq.setText("");
-                    Platform.setText("");
 
-                    // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
-                    Toast toast = Toast.makeText(getApplicationContext(), "Item addition has been cancelled", Toast.LENGTH_LONG );
-                    toast.show();
-
-                } catch (Exception e) {
-
-                }
+                // TODO investigate why pressing this button results in null pointer exception for user.setitems() in the viewMyItems
+                // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
+                Toast.makeText(getApplicationContext(), "Item addition has been cancelled", Toast.LENGTH_SHORT ).show();
+                returnToViewItems();
             }
         });
 
         Button DeleteButton = (Button) findViewById(R.id.ViewItem_Delete);
-
-        //TODO probably a better way to do this
-        //'this' needs to be accessed by AlertDialog.Builder, but it is inside an OnClickListener
-        //so the this keyword is overwritten
-        final Context holder = this;
 
         DeleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -272,6 +270,8 @@ public class ViewItem extends AppCompatActivity{
                         //TODO modify this so the user is known at this stage. Using a test user in interim.
                         User user = new User("testuser", "testpass");
                         user.deleteItem(item);
+                        // TODO ensure user's item is not currently borrowed
+                        returnToViewItems();
                     }
                 });
 
@@ -330,4 +330,14 @@ public class ViewItem extends AppCompatActivity{
             }
         });
     }
+
+    public void returnToViewItems() {
+        // TODO modify signature to include int mode for when viewItems has multiple modes, thus this function can be called to return it a specific mode.
+        Intent intent = new Intent(ViewItem.this, ViewMyItems.class);
+        intent.putExtra("username", usernameString);
+        startActivity(intent);
+        finish();
+    }
+
+    // TODO add other return to various views where necessary
 }

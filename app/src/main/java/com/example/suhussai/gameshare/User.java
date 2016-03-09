@@ -15,6 +15,7 @@ public class User {
     private ArrayList<Item> notifications = new ArrayList<Item>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Item> borrowedItems = new ArrayList<Item>();
+    private int gameCount = 0;
 
     public User(){}
 
@@ -40,6 +41,17 @@ public class User {
         this.phone = phone;
     }
 
+    public int getGameCount() {
+        // allows a game to have a unique ID
+        return gameCount;
+    }
+
+    protected void incrementGameCount() {
+        // no need for a set gameCount because it always begins at zero and goes up by one
+        // allows a game to have a unique ID
+        // can only be called internal to the class or any subclass that may exist in future.
+        gameCount++;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -110,6 +122,13 @@ public class User {
     }
 
     public void addItem(Item item){
+
+        // first increment the gameCount so the new item has the newly incremented game value.
+        incrementGameCount();
+
+        // set to item's ID before sending to controller
+        item.setId(getUsername() + (char)31 + getGameCount());
+
         // Set the item via the controller.
         ItemController.AddItem addItem = new ItemController.AddItem();
         addItem.execute(item);
