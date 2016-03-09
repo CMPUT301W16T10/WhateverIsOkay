@@ -27,7 +27,6 @@ proguard/
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 app/app.iml.DS_Store
