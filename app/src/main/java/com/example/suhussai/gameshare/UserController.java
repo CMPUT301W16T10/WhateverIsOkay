@@ -31,6 +31,15 @@ import java.util.Map;
 public class UserController {
     private static JestDroidClient client;
 
+    private static User currentUser;
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        UserController.currentUser = currentUser;
+    }
 
     // If no client, add a client (from lonelyTwitter)
     public static void verifyConfig(){

@@ -107,6 +107,15 @@
         android:layout_below="@+id/ViewItem_PlatformEdit"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Bid Amount ($/hour)"
+        android:id="@+id/ViewItem_PlaceBid_Text"
+        android:layout_below="@+id/ViewItem_PlatformEdit"
+        android:layout_alignParentStart="true" />
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -166,5 +175,15 @@
         android:id="@+id/ViewItem_Bid"
         android:layout_alignBottom="@+id/ViewItem_Cancel"
         android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_bidValue"
+        android:layout_below="@+id/ViewItem_PlaceBid_Text"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/ViewItem_bidsListView"
+        android:numeric="decimal"
+        android:singleLine="true" />
 
 </RelativeLayout>

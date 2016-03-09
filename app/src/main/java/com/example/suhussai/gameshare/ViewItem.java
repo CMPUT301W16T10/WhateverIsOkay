@@ -123,6 +123,10 @@ public class ViewItem extends AppCompatActivity{
         e.setVisibility(View.GONE);
         View f = findViewById(R.id.ViewItem_ViewOwner);
         f.setVisibility(View.GONE);
+        View g = findViewById(R.id.ViewItem_PlaceBid_Text);
+        g.setVisibility(View.GONE);
+        View h = findViewById(R.id.ViewItem_bidValue);
+        h.setVisibility(View.GONE);
 
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
@@ -167,6 +171,10 @@ public class ViewItem extends AppCompatActivity{
         e.setVisibility(View.GONE);
         View f = findViewById(R.id.ViewItem_ViewOwner);
         f.setVisibility(View.GONE);
+        View g = findViewById(R.id.ViewItem_PlaceBid_Text);
+        g.setVisibility(View.GONE);
+        View h = findViewById(R.id.ViewItem_bidValue);
+        h.setVisibility(View.GONE);
 
         // special handling for editting entries
         // Receive GSON
@@ -302,6 +310,8 @@ public class ViewItem extends AppCompatActivity{
         //Hide buttons inactive in this mode
         View v = findViewById(R.id.ViewItem_Delete);
         v.setVisibility(View.GONE);
+        View a = findViewById(R.id.ViewItem_Cancel);
+        a.setVisibility(View.GONE);
         View b = findViewById(R.id.ViewItem_Bids_Amount_Text);
         b.setVisibility(View.GONE);
         View c = findViewById(R.id.ViewItem_ExistingBids_Text);
@@ -316,20 +326,44 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setEnabled(false);
         Platform.setEnabled(false);
 
+        final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
+
         Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);
-
-        BidButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO write bid method
-            }
-        });
-
-        Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
 
         //TODO probably a better way to do this
         //'this' needs to be accessed to call the next intent, but it is inside an OnClickListener
         //so the this keyword is overwritten
         final Context holder = this;
+
+        BidButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
+                adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
+                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        double bidAmount = Double.parseDouble(EnterBid.getText().toString());
+                        User bidder = UserController.getCurrentUser();
+                        Bid bid = new Bid(bidder.getUsername(), bidAmount);
+                        item.addBid(bid);
+
+                        //TODO Causes the same error as the update item call from the edit mode
+                        ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                        updateItem.execute(item);
+                    }
+                });
+
+                adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog ad = adBuilder.create();
+                ad.show();
+            }
+        });
+
+        Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
