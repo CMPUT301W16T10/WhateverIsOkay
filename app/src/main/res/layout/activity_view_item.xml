@@ -86,8 +86,8 @@
         android:id="@+id/ViewItem_TimeReqEdit"
         android:layout_above="@+id/ViewItem_PlatformText"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/ViewItem_AgeEdit"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText" />
 
     <EditText
         android:layout_width="wrap_content"

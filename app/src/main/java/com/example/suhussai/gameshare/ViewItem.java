@@ -133,6 +133,9 @@ public class ViewItem extends AppCompatActivity{
                     // TODO the controller may need to be involved here.
                     Item item = new Item(name, usernameString, players, age, timeReq, platform);
                     user.addItem(item);
+                    // Adds the Item to the user
+                    UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                    updateUserProfile.execute(user);
 
                     // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
                     Toast.makeText(getApplicationContext(), "Item has been successfully added.", Toast.LENGTH_LONG).show();
@@ -271,6 +274,7 @@ public class ViewItem extends AppCompatActivity{
                         user.deleteItem(item);
                     }
                 });
+
                 adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

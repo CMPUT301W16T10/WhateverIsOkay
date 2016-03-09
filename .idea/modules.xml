@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WhateverIsOkay - Copy.iml" filepath="$PROJECT_DIR$/WhateverIsOkay - Copy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WhateverIsOkay.iml" filepath="$PROJECT_DIR$/WhateverIsOkay.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
