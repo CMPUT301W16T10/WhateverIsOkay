@@ -15,7 +15,6 @@ public class User {
     private ArrayList<Item> notifications = new ArrayList<Item>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Item> borrowedItems = new ArrayList<Item>();
-    private String id;
 
     public User(){}
 
@@ -41,10 +40,6 @@ public class User {
         this.phone = phone;
     }
 
-    public String getId() {
-        return id;
-    }
-    public void setId(String id){this.id = id;}
 
     public void setPassword(String password) {
         this.password = password;

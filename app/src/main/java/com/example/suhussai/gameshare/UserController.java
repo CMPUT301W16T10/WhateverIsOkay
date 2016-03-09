@@ -54,12 +54,11 @@ public class UserController {
 
             for (User user : params){
 
-                Index index = new Builder(user).index("cmput301wi16t10").type("users").build();
+                Index index = new Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
 
                 try {
                     DocumentResult execute = client.execute(index);
                     if (execute.isSucceeded()) {
-                        //user.setId(SearchResult.ES_METADATA_ID); // not really necessary here I suppose...
                     } else {
                         Log.e("TODO", "Our insert of user failed, oh no!");
                     }
@@ -97,16 +96,6 @@ public class UserController {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     user = execute.getSourceAsObject(User.class);
-
-                    // Add id to user id
-                    // reference: http://stackoverflow.com/questions/33352798/elasticsearch-jest-client-how-to-return-document-id-from-hit
-                    List<SearchResult.Hit<Map, Void>> hits = client.execute(search).getHits(Map.class);
-                    // necessary in case new user who just logged in does not have an id assigned (should be fine after fixing login problem)
-                    if (hits.size() > 0 && user != null){
-                        SearchResult.Hit hit = hits.get(0);
-                        Map source = (Map) hit.source;
-                        user.setId((String) source.get(JestResult.ES_METADATA_ID));
-                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -124,7 +113,7 @@ public class UserController {
 
             
             for (User user : params){
-                Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getId()).build();
+                Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
 
                 try {
                     JestResult execute = client.execute(update);
