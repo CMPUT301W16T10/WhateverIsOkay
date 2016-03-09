@@ -122,6 +122,7 @@ public class UserController {
         protected Void doInBackground(User... params){
             verifyConfig();
 
+
             for (User user : params){
                 Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getId()).build();
 
