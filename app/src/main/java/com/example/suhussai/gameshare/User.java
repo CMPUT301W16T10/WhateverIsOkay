@@ -15,6 +15,7 @@ public class User {
     private ArrayList<Item> notifications = new ArrayList<Item>();
     private ArrayList<Item> items = new ArrayList<Item>();
     private ArrayList<Item> borrowedItems = new ArrayList<Item>();
+
     private int gameCount = 0;
 
     public User(){}
@@ -137,7 +138,7 @@ public class User {
 
         // Grab the items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(username);
+        getItems.execute(getItems.MODE_GET_MY_ITEMS, username);
 
         try {
             items = getItems.get();

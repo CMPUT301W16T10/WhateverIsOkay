@@ -10,15 +10,12 @@ import com.searchly.jestdroid.JestDroidClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
-import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-
-import static io.searchbox.core.Index.Builder;
 
 /**
  * Created by dan on 2016-02-21.
@@ -41,20 +38,58 @@ public class ItemController {
 
 
     // Adding Item to cmput301wi16t10/items. (reference: lonelyTwitter)
-    public static class AddItem extends AsyncTask<Item, Void, Void>{
+    public static class AddItem extends AsyncTask<Item, Item, Void>{
+
+        // should be fine to have these 3 variables here since AddItem adds 1 item & these values will be overwritten everytime.
+        private Integer gameCount;
+        private String newId;
+        private User user;
+
+        @Override
+        // Grabs the user, gameCount, updates gameCount on user, and generates a newId.
+        // reference: https://androidresearch.wordpress.com/2012/03/17/understanding-asynctask-once-and-forever/
+        protected void onProgressUpdate(Item... values){
+            super.onProgressUpdate();
+
+            String username = values[0].getOwner();
+
+            UserController.GetUser getUser = new UserController.GetUser();
+            getUser.execute(username);
+
+            try {
+                user = getUser.get();
+                //Increment gameCount and update User first.
+                user.incrementGameCount();
+                UserController.UpdateUserProfile updateUser = new UserController.UpdateUserProfile();
+                updateUser.execute(user);
+                // set the gameCount string to the value
+                gameCount = user.getGameCount();
+                // (char)31 is the ascii null value thing we talked about in our meeting
+                // set the newId to item (value[0])
+                newId = username + (char)31 + gameCount.toString();
+                values[0].setId(newId);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
 
         @Override
         protected Void doInBackground(Item... params){
             verifyConfig();
 
             for (Item item : params){
+                // pass item to onProgressUpdate to get user, update gameCount and get gameCount
+                // Apparently implemented in user.addItem() so commented out for now
+                //publishProgress(item);
 
-                Index index = new Builder(item).index("cmput301wi16t10").type("items").build();
+                Index index = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
 
                 try {
-                    DocumentResult execute = client.execute(index);
+                    JestResult execute = client.execute(index);
+                    // DocumentResult execute = client.execute(index);
                     if (execute.isSucceeded()) {
-                        item.setId(index.getId());
                     } else {
                         Log.e("TODO", "Our insert of item failed, oh no!");
                     }
@@ -67,7 +102,25 @@ public class ItemController {
     }
 
     // obtain a list of items that match the criteria (owned by owner). reference: lonelyTwitter
+    // params[0] = mode
+    // params[1] = 0. owner, 1. borrower, 2. user, 3. keyword, 4. user, 5. owner (depending on mode)
     public static class GetItems extends AsyncTask<String, Void, ArrayList<Item>> {
+
+        // used to populate the list of user's items
+        public static final String MODE_GET_MY_ITEMS = "0";
+        // used to populate the list of others' items the user has borrowed
+        public static final String MODE_GET_BORROWED_ITEMS = "1";
+        // used to populate the search with all items except the user's
+        public static final String MODE_POPULATE_SEARCH = "2";
+        // used to repopulate the searched list to narrow it down using the partial matching keyword
+        public static final String MODE_SEARCH_KEYWORD = "3";
+        // used to populate the list of others' items the user has placed bids on
+        public static final String MODE_GET_BIDDED_ITEMS = "4";
+        // used to populate the list of user's items with bids on them
+        public static final String MODE_GET_MY_ITEMS_WITH_BIDS = "5";
+
+        private String search_items;
+
 
         @Override
         protected ArrayList<Item> doInBackground(String... params) {
@@ -79,25 +132,78 @@ public class ItemController {
             // To hold the items belonging to the user
             ArrayList<Item> item_list = new ArrayList<Item>();
 
-            String search_items = "{\"from\":0,\"size\":10000,\"query\":{\"match\":{\"owner\":\"" + params[0] + "\"}}}";
+            String mode = params[0];
+
+            if (mode.equals(MODE_GET_MY_ITEMS)) {
+                search_items = "{\"from\":0,\"size\":10000,\"query\":{\"match\":{\"owner\":\"" + params[1] + "\"}}}";
+            }
+
+            else if (mode.equals(MODE_GET_BORROWED_ITEMS)) {
+                search_items = "{\"from\":0,\"size\":10000,\"query\":{\"match\":{\"borrower\":\"" + params[1] + "\"}}}";
+            }
+
+            else if (mode.equals(MODE_POPULATE_SEARCH) || mode.equals(MODE_GET_BIDDED_ITEMS)) {
+                // not owner and borrowed == false
+                search_items =  " {\n" +
+                                " \"from\": 0,\n" +
+                                " \"size\": 10000,\n" +
+                                " \"query\":{\n" +
+                                "  \t\"match\": {\"borrowed\" : false }\n" +
+                                "  }, \n" +
+                                "  \"filter\":{ \n" +
+                                "  \t\"not\": { \"term\": {\"owner\" :  \""+params[1]+"\"} }\n" +
+                                "\t}\n" +
+                                "}";
+            }
+
+            else if (mode.equals(MODE_SEARCH_KEYWORD)) {
+                //TODO: insert search_string that does partial matching to item name here.
+                search_items = "";
+            }
+
+            else if (mode.equals(MODE_GET_MY_ITEMS_WITH_BIDS)) {
+                search_items =  "{\n" +
+                                " \"from\": 0,\n" +
+                                " \"size\": 10000,\n" +
+                                " \"query\":{\n" +
+                                "  \t\"match\": {\"bidded\" : true }\n" +
+                                "  }, \n" +
+                                "  \"filter\":{ \n" +
+                                "  \t\"not\": { \"term\": {\"owner\" :  \""+params[1]+"\"} }\n" +
+                                "\t}\n" +
+                                "}";
+            }
 
             Search search = new Search.Builder(search_items).addIndex("cmput301wi16t10").addType("items").build();
 
             try {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
-                    List<Item> foundTweets = execute.getSourceAsObjectList(Item.class);
-                    item_list.addAll(foundTweets);
+                    List<Item> foundItems = execute.getSourceAsObjectList(Item.class);
+                    item_list.addAll(foundItems);
 
-                    // Add id to item id
-                    // reference: http://stackoverflow.com/questions/33352798/elasticsearch-jest-client-how-to-return-document-id-from-hit
-                    List<SearchResult.Hit<Map, Void>> hits = client.execute(search).getHits(Map.class);
-                    if (hits.size() > 0 && item_list != null) {
-                        for (int i = 0; i < hits.size(); i++) {
-                            SearchResult.Hit hit = hits.get(i);
-                            Map source = (Map) hit.source;
-                            item_list.get(i).setId((String) source.get(JestResult.ES_METADATA_ID));
+                    if (mode.equals(MODE_GET_BIDDED_ITEMS)) {
+                        //performed populate search, check bids on all items, if bidder == user, add to new list then return new list.
+                        // item_list2 = new array to be returned.
+                        ArrayList<Item> item_list2 = new ArrayList<Item>();
+                        // for each item in item_list
+                        for (int i = 0 ; i < item_list.size() ; i++) {
+                            Item temp_item = item_list.get(i);
+                            ArrayList<Bid> temp_bids_list = temp_item.getBids();
+                            // for each bid in bids_list of the current item
+                            for (int j = 0 ; j < temp_bids_list.size(); j++) {
+                                Bid temp_bid = temp_bids_list.get(j);
+                                // if bidder == username, add item to item_list2 and break
+                                if (temp_bid.getBidder() != null) {
+                                    if (temp_bid.getBidder().equals(params[1])) {
+                                        item_list2.add(temp_item);
+                                        break;
+                                    }
+                                }
+                            }
                         }
+                        // terminates here if we are getting bidded items.
+                        return item_list2;
                     }
                 }
             } catch (IOException e) {

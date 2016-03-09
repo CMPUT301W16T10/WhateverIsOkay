@@ -1,2 +1,2 @@
 US 05.02.01
-As a borrower, I want to view a list of things I have bidded on that are pending, each thing with its description, owner username, and my bid.
+As a bidder, I want to view a list of things I have bidded on that are pending, each thing with its description, owner username, and my bid.

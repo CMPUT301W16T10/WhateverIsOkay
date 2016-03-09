@@ -21,7 +21,7 @@
         <activity android:name=".ViewBidsOnItem" />
         <activity android:name=".ViewBorrowedItems" />
         <activity android:name=".ViewItem" />
-        <activity android:name=".ViewMyItems" />
+        <activity android:name=".ViewItemsList" />
     </application>
 
 </manifest>

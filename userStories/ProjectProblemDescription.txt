@@ -5,7 +5,7 @@ You are to design and implement a simple, attractive, and easy-to-use Android ap
 
 We want a mobile application that allows owners to record the things they have and share them with borrowers. For example, a thing could be a good (like a piece of camera equipment), a service (like giving a ride in a car), or a resource (like a parking spot). Generally, a thing should be something reusable and typical underused. It is up to each team to choose some specific thing of focus, with approval from the TA.
 
-In general, a user can be both an owner of their own things and a borrower of someone else's things. A borrower can borrow a thing by making a monetary bid for it. The owner can accept a bid, so the thing becomes borrowed. The owner can denote when a borrowed thing is returned and available again.
+In general, a user can be both an owner of their own things and a bidder of someone else's things. A bidder can borrow a thing by making a monetary bid for it. The owner can accept a bid, so the thing becomes borrowed. The owner can denote when a borrowed thing is returned and available again.
 
 Needs in (Partial) User Story Form
 
@@ -35,7 +35,7 @@ As an owner, I want to delete a thing in my things.
 Status
 
 US 02.01.01
-As an owner or borrower, I want a thing to have a status of one of: available, bidded, or borrowed.
+As an owner or bidder, I want a thing to have a status of one of: available, bidded, or borrowed.
 
 User profile
 
@@ -51,18 +51,18 @@ As a user, I want to, when a username is presented for a thing, retrieve and sho
 Searching
 
 US 04.01.01
-As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
+As a bidder, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
 
 US 04.02.01
-As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
+As a bidder, I want search results to show each thing not currently borrowed with its description, owner username, and status.
 
 Bidding
 
 US 05.01.01
-As a borrower, I want to bid for an available thing, with a monetary rate (in dollars per hour).
+As a bidder, I want to bid for an available thing, with a monetary rate (in dollars per hour).
 
 US 05.02.01
-As a borrower, I want to view a list of things I have bidded on that are pending, each thing with its description, owner username, and my bid.
+As a bidder, I want to view a list of things I have bidded on that are pending, each thing with its description, owner username, and my bid.
 
 US 05.03.01
 As an owner, I want to be notified of a bid.
@@ -82,10 +82,10 @@ As an owner, I want to decline a bid on one of my things.
 Borrowing
 
 US 06.01.01
-As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
+As a bidder, I want to view a list of things I am borrowing, each thing with its description and owner username.
 
 US 06.02.01
-As an owner, I want to view a list of my things being borrowed, each thing with its description and borrower username.
+As an owner, I want to view a list of my things being borrowed, each thing with its description and bidder username.
 
 Returning
 

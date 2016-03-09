@@ -19,7 +19,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -44,11 +43,22 @@ public class ViewItem extends AppCompatActivity{
     private EditText Platform;
     private Item item;
 
-    private String usernameString;
-    private User user;
 
     // stuff for the GSON
     private ArrayList<Item> items_list;
+    private String usernameString;
+    private User user;
+
+    public String getUsernameString() {
+        return usernameString;
+    }
+
+    public void setUsernameString() {
+        this.usernameString = getIntent().getStringExtra("username");
+    }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,7 @@ public class ViewItem extends AppCompatActivity{
         setContentView(R.layout.activity_view_item);
 
         // turn that mode string back into an integer. there's maybe a way to use an extra that is an integer but i didn't look too closely.
+        // TODO: change to passing integer like below
         String mode = getIntent().getStringExtra("mode");
         final int activity_mode = Integer.parseInt(mode);
 
@@ -66,11 +77,11 @@ public class ViewItem extends AppCompatActivity{
         TimeReq = (EditText) findViewById(R.id.ViewItem_TimeReqEdit);
         Platform = (EditText) findViewById(R.id.ViewItem_PlatformEdit);
 
-        usernameString = getIntent().getStringExtra("username");
+        setUsernameString();
 
         // Grab the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
+        getUser.execute(getUsernameString());
 
         // Fills in the places needed to be filled for the User Profile
         try {
@@ -87,7 +98,6 @@ public class ViewItem extends AppCompatActivity{
         }
         else if( activity_mode == MODE_EDIT ) {
             setupEditMode();
-
         }
         else if(activity_mode == MODE_VIEW){
             setupViewMode();
@@ -126,8 +136,10 @@ public class ViewItem extends AppCompatActivity{
                 String platform = Platform.getText().toString();
 
                 // TODO the controller may need to be involved here.
-                Item item = new Item(name, usernameString, players, age, timeReq, platform);
+                System.out.println(getUsernameString());
+                Item item = new Item(name, getUsernameString(), players, age, timeReq, platform);
                 user.addItem(item);
+
                 // Adds the Item to the user
                 UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
                 updateUserProfile.execute(user);
@@ -201,7 +213,7 @@ public class ViewItem extends AppCompatActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bid bid = bid_list.get(position);
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
-                adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBorrower() + " for " + bid.getAmount() + "?");
+                adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBidder() + " for " + bid.getAmount() + "?");
                 adBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -238,7 +250,7 @@ public class ViewItem extends AppCompatActivity{
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
                 // TODO investigate why pressing this button results in null pointer exception for user.setitems() in the viewMyItems
-
+                    //FIXED: pass usernameString into intent.
                 // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
                 Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_SHORT).show();
                 returnToViewItems();
@@ -333,8 +345,9 @@ public class ViewItem extends AppCompatActivity{
 
     public void returnToViewItems() {
         // TODO modify signature to include int mode for when viewItems has multiple modes, thus this function can be called to return it a specific mode.
-        Intent intent = new Intent(ViewItem.this, ViewMyItems.class);
-        intent.putExtra("username", usernameString);
+        Intent intent = new Intent(ViewItem.this, ViewItemsList.class);
+        intent.putExtra("username", getUsernameString());
+        intent.putExtra("mode", ViewItemsList.mode_viewItemsList);
         startActivity(intent);
         finish();
     }

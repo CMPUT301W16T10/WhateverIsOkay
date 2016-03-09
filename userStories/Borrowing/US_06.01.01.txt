@@ -1,2 +1,2 @@
 US 06.01.01
-As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
+As a bidder, I want to view a list of things I am borrowing, each thing with its description and owner username.

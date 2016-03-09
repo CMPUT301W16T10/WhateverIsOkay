@@ -1,2 +1,2 @@
 US 04.02.01
-As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
+As a bidder, I want search results to show each thing not currently borrowed with its description, owner username, and status.

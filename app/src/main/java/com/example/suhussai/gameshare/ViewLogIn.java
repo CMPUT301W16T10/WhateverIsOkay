@@ -24,7 +24,6 @@ public class ViewLogIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-
         userid = (EditText) findViewById(R.id.UsernameText);
         pass = (EditText) findViewById(R.id.PasswordText);
 

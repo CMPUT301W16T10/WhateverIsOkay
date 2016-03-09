@@ -1,6 +1,5 @@
 package com.example.suhussai.gameshare;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -61,6 +55,7 @@ public class ViewUserProfile extends AppCompatActivity {
         super.onStart();
 
         /***
+         * http://www.tutorialspoint.com/java/util/timer_schedule_period.htm
          final Timer timer = new Timer();
          TimerTask timertask = new TimerTask() {
         @Override
@@ -142,7 +137,9 @@ public class ViewUserProfile extends AppCompatActivity {
         searchForItemsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
+                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
+                intent.putExtra("username", usernameString);
+                intent.putExtra("mode", ViewItemsList.MODE_SEARCH_FOR_ITEMS);
                 startActivity(intent);
             }
         });
@@ -152,8 +149,9 @@ public class ViewUserProfile extends AppCompatActivity {
         viewMyItemsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
+                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
                 intent.putExtra("username", usernameString);
+                intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_ITEMS);
                 startActivity(intent);
             }
         });
@@ -163,7 +161,9 @@ public class ViewUserProfile extends AppCompatActivity {
         viewMyBidsPlacedButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
+                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
+                intent.putExtra("username", usernameString);
+                intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_BIDS_PLACED);
                 startActivity(intent);
             }
         });
@@ -173,7 +173,9 @@ public class ViewUserProfile extends AppCompatActivity {
         currentlyBorrowedItemsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
+                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
+                intent.putExtra("username", usernameString);
+                intent.putExtra("mode", ViewItemsList.MODE_CURRENTLY_BORROWED_ITEMS);
                 startActivity(intent);
             }
         });

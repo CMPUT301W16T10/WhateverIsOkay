@@ -14,7 +14,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewItems(){
         setActivityIntent(new Intent());
-        ViewMyItems viewMyItems = (ViewMyItems) getActivity();
+        ViewItemsList viewItemsList = (ViewItemsList) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -22,7 +22,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
 
         assertEquals(user.getItems(), new ArrayList());
-        assertTrue(viewMyItems.findViewById(R.id.myItemsListView).isShown());
+        assertTrue(viewItemsList.findViewById(R.id.myItemsListView).isShown());
 
     }
 
@@ -80,7 +80,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testViewItemsBeingBorrowed(){
         setActivityIntent(new Intent());
-        ViewMyItems viewMyItems = (ViewMyItems) getActivity();
+        ViewItemsList viewItemsList = (ViewItemsList) getActivity();
         String userName = "user1";
         String pass = "pass1";
         User user = null;
@@ -101,8 +101,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         ArrayList<Item> beingBorrowed = new ArrayList<>();
         beingBorrowed.add(item);
         assertEquals(user.getLentItems(), beingBorrowed);
-        ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), viewMyItems.findViewById(R.id.myItemsListView));
-                //(viewMyItems.findViewById(R.id.myItemsListView).isShown());
+        ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), viewItemsList.findViewById(R.id.myItemsListView));
+                //(viewItemsList.findViewById(R.id.myItemsListView).isShown());
 
     }
 

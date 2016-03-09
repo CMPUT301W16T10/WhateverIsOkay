@@ -625,7 +625,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-borrower: User",
+											"text": "-bidder: User",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -5118,7 +5118,7 @@
 							"width": 129,
 							"height": 103,
 							"autoResize": false,
-							"text": "The borrower in the Bid class refers to the user who has placed the bid on the item that the bid is associated to.",
+							"text": "The bidder in the Bid class refers to the user who has placed the bid on the item that the bid is associated to.",
 							"wordWrap": true
 						},
 						{
@@ -8631,7 +8631,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-borrower: User",
+											"text": "-bidder: User",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										},
@@ -8741,7 +8741,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+Bid(borrower: User, amount: double)",
+											"text": "+Bid(bidder: User, amount: double)",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5
 										}
@@ -9075,7 +9075,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFTBQ7Ih/8f+IA="
 							},
-							"name": "borrower",
+							"name": "bidder",
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
@@ -9146,7 +9146,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFTBR2YBwGLUMg="
 									},
-									"name": "borrower",
+									"name": "bidder",
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
@@ -9461,7 +9461,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFTBRBYC/94Smk="
 							},
-							"name": "borrower",
+							"name": "bidder",
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
