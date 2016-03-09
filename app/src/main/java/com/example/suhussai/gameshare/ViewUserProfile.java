@@ -13,6 +13,8 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -55,38 +57,62 @@ public class ViewUserProfile extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
+
+        /***
+         final Timer timer = new Timer();
+         TimerTask timertask = new TimerTask() {
+        @Override
+        public void run() {
+        System.out.println("TICKING");
+        timer.purge();
+        }
+        };
+         timer.schedule(timertask, 1000, 1000);
+         ***/
+
+        /*** Fills in the places needed to be filled for the User Profile ***/
+        // starts after 1 seconds
+        // source: http://stackoverflow.com/questions/3342651/how-can-i-delay-a-java-program-for-a-few-seconds
+        try {
+            Thread.sleep(1000);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
 
         // Grab the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(usernameString);
 
-        // Fills in the places needed to be filled for the User Profile
         try {
             user = getUser.get();
-
-            // If already an existing user
-            if (user != null) {
-                username.setText(user.getUsername());
-                name.setText(user.getName());
-                email.setText(user.getEmail());
-                phone.setText(user.getPhone());
-            }
-            //TODO: fix the problem stated below.
-            // Newly Created user when logging in... Need this fix this problem since
-            // User was already added when login button was pressed
-            else if (user == null) {
-                // sets up the new user if the user does not exist.
-                System.out.println("boooooooooooo");
-                user = new User();
-                //user.setUsername(usernameString);
-                username.setText(usernameString);
-            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        }
+
+        // If already an existing user
+        if (user != null) {
+            username.setText(user.getUsername());
+            name.setText(user.getName());
+            email.setText(user.getEmail());
+            phone.setText(user.getPhone());
+        }
+        //TODO: fix the problem stated below.
+        // Newly Created user when logging in... Need this fix this problem since
+        // User was already added when login button was pressed
+        else if (user == null) {
+            // sets up the new user if the user does not exist.
+            // disabling update if user == null
+            System.out.println("UPDATE DISABLED");
+            View v = findViewById(R.id.Update_Profile);
+            v.setVisibility(View.INVISIBLE);
+
+            user = new User();
+            //user.setUsername(usernameString);
+            username.setText(usernameString);
         }
     }
 
@@ -113,9 +139,9 @@ public class ViewUserProfile extends AppCompatActivity {
 
         // Search for Item
         Button searchForItemsButton = (Button) findViewById(R.id.Search_for_Items);
-        searchForItemsButton.setOnClickListener(new View.OnClickListener(){
+        searchForItemsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(ViewUserProfile.this, ViewMyItems.class);
                 startActivity(intent);
             }
@@ -189,4 +215,3 @@ public class ViewUserProfile extends AppCompatActivity {
     }
 
 }
-
