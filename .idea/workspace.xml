@@ -9,23 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d657b4bd-b2e8-47ba-a6e2-a3596a6b8ed7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\cache.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\cache.properties.lock" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\fileHashes.bin" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\fileSnapshots.bin" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\outputFileStates.bin" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\.gradle\2.8\taskArtifacts\taskArtifacts.bin" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\app\src\include\jest-droid-2.0.1-SNAPSHOT.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\build\intermediates\dex-cache\cache.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\gradle\wrapper\gradle-wrapper.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\etc\LAPSAP\CMPUT 301\Projects\WhateverIsOkay\local.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/UserController.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew" afterPath="$PROJECT_DIR$/gradlew" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="d657b4bd-b2e8-47ba-a6e2-a3596a6b8ed7" name="Default" comment="" />
     <ignored path="WhateverIsOkay.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1938,7 +1922,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="124" y="33" width="1623" height="996" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32896304" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1956,7 +1940,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25079975" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25079975" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
