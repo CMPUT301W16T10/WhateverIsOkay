@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -172,6 +173,13 @@ public class ViewItem extends AppCompatActivity{
         final int pos = Integer.parseInt(purchase_pos);
 
         item = items_list.get(pos);
+
+        // gets the item info to display on the EditText fields
+        GameName.setText(item.getName());
+        Players.setText(item.getPlayers());
+        Age.setText(item.getAge());
+        TimeReq.setText(item.getTimeReq());
+        Platform.setText(item.getPlatform());
 
         // more test data to populate the bid list
         Bid bid1 = new Bid("gameguy",12);

@@ -154,6 +154,22 @@ public class Item {
         this.platform = platform;
     }
 
+    public String getPlayers() {
+        return players;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getTimeReq() {
+        return timeReq;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
     // added so the list view looks decent. TODO fix this
     public String toString() {
         return this.getName() + " owned by " + this.getOwner();
