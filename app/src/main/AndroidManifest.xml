@@ -18,8 +18,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ViewUserProfile" />
-        <activity android:name=".ViewBidsOnItem" />
-        <activity android:name=".ViewBorrowedItems" />
         <activity android:name=".ViewItem" />
         <activity android:name=".ViewItemsList" />
     </application>

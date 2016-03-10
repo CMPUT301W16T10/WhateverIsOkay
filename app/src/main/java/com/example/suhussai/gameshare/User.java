@@ -19,8 +19,7 @@ public class User {
     private int gameCount = 0;
 
     public User(){}
-
-
+    
     public User(String userName, String password){
         this.username = userName;
         this.password = password;
@@ -102,8 +101,8 @@ public class User {
         return items;
     }
 
-    public Item getItem(Item item){
-        return null;
+    public Item getItem(int pos){
+        return items.get(pos);
     }
 
     public ArrayList<Bid> getCurrentBids(Item item){
@@ -127,15 +126,7 @@ public class User {
         // first increment the gameCount so the new item has the newly incremented game value.
         incrementGameCount();
 
-        // set to item's ID before sending to controller
-        item.setId(getUsername() + (char)31 + getGameCount());
-
-        // Set the item via the controller.
-        ItemController.AddItem addItem = new ItemController.AddItem();
-        addItem.execute(item);
-
-        // Repopulate the item list owned by this user
-
+        // Refresh the item list owned by this user in case of any recent changes
         // Grab the items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
         getItems.execute(getItems.MODE_GET_MY_ITEMS, username);
@@ -147,6 +138,19 @@ public class User {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+        // set to item's ID before sending to controller
+        item.setId(getUsername() + (char) 31 + getGameCount());
+        items.add(item);
+
+        // Post the new item information
+        // Set the item via the controller.
+        ItemController.AddItem addItem = new ItemController.AddItem();
+        addItem.execute(item);
+
+        // Adds the Item to the user
+        UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+        updateUserProfile.execute(this);
     }
 
     public void deleteItem(Item item){ items.remove(item);}

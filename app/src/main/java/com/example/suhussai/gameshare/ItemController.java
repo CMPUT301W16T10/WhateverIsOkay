@@ -23,6 +23,15 @@ import io.searchbox.core.SearchResult;
 public class ItemController {
     private static JestDroidClient client;
 
+    private static Item currentItem;
+
+    public static Item getCurrentItem() {
+        return currentItem;
+    }
+
+    public static void setCurrentItem(Item currentItem) {
+        ItemController.currentItem = currentItem;
+    }
 
     // If no client, add a client (from lonelyTwitter)
     public static void verifyConfig(){
@@ -40,39 +49,12 @@ public class ItemController {
     // Adding Item to cmput301wi16t10/items. (reference: lonelyTwitter)
     public static class AddItem extends AsyncTask<Item, Item, Void>{
 
-        // should be fine to have these 3 variables here since AddItem adds 1 item & these values will be overwritten everytime.
-        private Integer gameCount;
-        private String newId;
-        private User user;
-
         @Override
         // Grabs the user, gameCount, updates gameCount on user, and generates a newId.
         // reference: https://androidresearch.wordpress.com/2012/03/17/understanding-asynctask-once-and-forever/
         protected void onProgressUpdate(Item... values){
             super.onProgressUpdate();
 
-            String username = values[0].getOwner();
-
-            UserController.GetUser getUser = new UserController.GetUser();
-            getUser.execute(username);
-
-            try {
-                user = getUser.get();
-                //Increment gameCount and update User first.
-                user.incrementGameCount();
-                UserController.UpdateUserProfile updateUser = new UserController.UpdateUserProfile();
-                updateUser.execute(user);
-                // set the gameCount string to the value
-                gameCount = user.getGameCount();
-                // (char)31 is the ascii null value thing we talked about in our meeting
-                // set the newId to item (value[0])
-                newId = username + (char)31 + gameCount.toString();
-                values[0].setId(newId);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
         }
 
         @Override
@@ -83,6 +65,8 @@ public class ItemController {
                 // pass item to onProgressUpdate to get user, update gameCount and get gameCount
                 // Apparently implemented in user.addItem() so commented out for now
                 //publishProgress(item);
+
+                System.out.println(item.getName() + " " + item.getOwner());
 
                 Index index = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
 

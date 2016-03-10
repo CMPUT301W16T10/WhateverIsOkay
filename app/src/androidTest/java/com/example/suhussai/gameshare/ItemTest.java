@@ -26,7 +26,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
+    /* This no longer exists
     public void testBidsOnItems(){
+
         setActivityIntent(new Intent());
         ViewBidsOnItem viewBidsOnItemObj = (ViewBidsOnItem) getActivity();
         String userName = "user1";
@@ -50,8 +52,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(user.getItems().get(0).isBidded() == true);
         assertTrue(viewBidsOnItemObj.findViewById(R.id.ViewItem_bidsListView).isShown());
 
-    }
+    } */
 
+    /* This view no longer exists...
     public void testViewBorrowedItems(){
         setActivityIntent(new Intent());
         ViewBorrowedItems viewBorrowedItems = (ViewBorrowedItems) getActivity();
@@ -76,7 +79,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         borrowed.add(item);
         assertEquals(user2.getBorrowedItems(), borrowed);
         assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
-    }
+    }*/
 
     public void testViewItemsBeingBorrowed(){
         setActivityIntent(new Intent());

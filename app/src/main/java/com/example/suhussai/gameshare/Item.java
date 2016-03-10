@@ -70,6 +70,7 @@ public class Item {
 
     public void addBid(Bid bid) {
         bids.add(bid);
+        setBidded();
     }
 
     public void setAvailable(){

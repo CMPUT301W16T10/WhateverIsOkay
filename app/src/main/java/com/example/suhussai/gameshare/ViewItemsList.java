@@ -3,7 +3,6 @@ package com.example.suhussai.gameshare;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -25,16 +24,8 @@ public class ViewItemsList extends AppCompatActivity {
 
     private ArrayAdapter<Item> adapter;
 
-    private String usernameString;
+    private User user;
     public static int mode_viewItemsList;
-
-    public String getUsernameString() {
-        return usernameString;
-    }
-
-    public void setUsernameString() {
-        this.usernameString = getIntent().getStringExtra("username");
-    }
 
     public int getMode_viewItemsList() {
         return mode_viewItemsList;
@@ -61,16 +52,13 @@ public class ViewItemsList extends AppCompatActivity {
                 Integer return_mode = getMode_viewItemsList();
                 intent.putExtra("mode", mode);
                 intent.putExtra("mode_viewItemsList", return_mode);
-                intent.putExtra("username", usernameString);
                 startActivity(intent);
                 finish();
             }
         });
 
-        setUsernameString();
+        user = UserController.getCurrentUser();
         setMode_viewItemsList();
-        System.out.println(Integer.toString(mode_viewItemsList));
-
 
         if (mode_viewItemsList == MODE_SEARCH_FOR_ITEMS) {
             setupSearchMode();
@@ -79,7 +67,7 @@ public class ViewItemsList extends AppCompatActivity {
             setupViewMyItemsMode();
         }
         if (mode_viewItemsList == MODE_VIEW_MY_BIDS_PLACED) {
-            setupViewMyBidsPacedMode();
+            setupViewMyBidsPlacedMode();
         }
         if (mode_viewItemsList == MODE_CURRENTLY_BORROWED_ITEMS) {
             setupBorrowedItemsMode();
@@ -101,52 +89,31 @@ public class ViewItemsList extends AppCompatActivity {
         View v = findViewById(R.id.myItemsAddItem);
         v.setVisibility(View.GONE);
 
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
+        final User user = getUserStuff(ItemController.GetItems.MODE_POPULATE_SEARCH);
 
-        // Grab the user's items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(getItems.MODE_POPULATE_SEARCH, usernameString);
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            final User user = getUser.get();
-            user.setItems(getItems.get());
-
-            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
-
-            // setting up the list view to have an item click listener
-            ListView LV = (ListView) findViewById(R.id.myItemsListView);
-            LV.setAdapter(adapter);
-            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
-                    Gson gson = new Gson();
-                    String fuel_purchase_list = gson.toJson(user.getItems());
-                    intent.putExtra("list_as_string", fuel_purchase_list);
-                    String purchase_pos = String.valueOf(position);
-                    intent.putExtra("position_as_string", purchase_pos);
-                    // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
-                    String mode = Integer.toString(ViewItem.MODE_VIEW);
-                    Integer return_mode = getMode_viewItemsList();
-                    intent.putExtra("mode", mode);
-                    intent.putExtra("mode_viewItemsList", return_mode);
-                    intent.putExtra("username", usernameString);
-                    startActivity(intent);
-                    //finish();
+        // setting up the list view to have an item click listener
+        ListView LV = (ListView) findViewById(R.id.myItemsListView);
+        LV.setAdapter(adapter);
+        LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                Gson gson = new Gson();
+                Item item = user.getItem(position);
+                ItemController.setCurrentItem(item);
+                // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                String mode = Integer.toString(ViewItem.MODE_VIEW);
+                Integer return_mode = getMode_viewItemsList();
+                intent.putExtra("mode", mode);
+                intent.putExtra("mode_viewItemsList", return_mode);
+                startActivity(intent);
+                //finish();
                 }
             });
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
-
 
     private void setupViewMyItemsMode() {
 
@@ -154,58 +121,37 @@ public class ViewItemsList extends AppCompatActivity {
         View v = findViewById(R.id.myItemsSearchView);
         v.setVisibility(View.GONE);
 
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
+        final User user = getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
 
-        // Grab the user's items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(getItems.MODE_GET_MY_ITEMS, usernameString);
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            final User user = getUser.get();
-            user.setItems(getItems.get());
+        // setting up the list view to have an item click listener
+        ListView LV = (ListView) findViewById(R.id.myItemsListView);
+        LV.setAdapter(adapter);
+        LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                Item item = user.getItem(position);
+                ItemController.setCurrentItem(item);
 
-            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
-
-            // setting up the list view to have an item click listener
-            ListView LV = (ListView) findViewById(R.id.myItemsListView);
-            LV.setAdapter(adapter);
-            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
-                    Gson gson = new Gson();
-                    String fuel_purchase_list = gson.toJson(user.getItems());
-                    intent.putExtra("list_as_string", fuel_purchase_list);
-                    String purchase_pos = String.valueOf(position);
-                    intent.putExtra("position_as_string", purchase_pos);
-                    // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
-                    String mode = Integer.toString(ViewItem.MODE_EDIT);
-                    Integer return_mode = getMode_viewItemsList();
-                    intent.putExtra("mode", mode);
-                    intent.putExtra("mode_viewItemsList", return_mode);
-                    intent.putExtra("username", usernameString);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+                // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                String mode = Integer.toString(ViewItem.MODE_EDIT);
+                Integer return_mode = getMode_viewItemsList();
+                intent.putExtra("mode", mode);
+                intent.putExtra("mode_viewItemsList", return_mode);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
-
-    private void setupViewMyBidsPacedMode() {
+    private void setupViewMyBidsPlacedMode() {
 
         // Change title:
         TextView title = (TextView) findViewById(R.id.myItemsTextView);
-        title.setText("My Bids Paced");
+        title.setText("My Bids Placed");
 
         // Hide searchbar & add button
         View v = findViewById(R.id.myItemsSearchView);
@@ -213,52 +159,27 @@ public class ViewItemsList extends AppCompatActivity {
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
 
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
+        final User user = getUserStuff(ItemController.GetItems.MODE_GET_BIDDED_ITEMS);
 
-        // Grab the user's items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(getItems.MODE_GET_BIDDED_ITEMS, usernameString);
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            final User user = getUser.get();
-            user.setItems(getItems.get());
-
-            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
-
-            // setting up the list view to have an item click listener
-            ListView LV = (ListView) findViewById(R.id.myItemsListView);
-            LV.setAdapter(adapter);
-            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
-                    Gson gson = new Gson();
-                    String fuel_purchase_list = gson.toJson(user.getItems());
-                    intent.putExtra("list_as_string", fuel_purchase_list);
-                    String purchase_pos = String.valueOf(position);
-                    intent.putExtra("position_as_string", purchase_pos);
-                    // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
-                    String mode = Integer.toString(ViewItem.MODE_VIEW);
-                    Integer return_mode = getMode_viewItemsList();
-                    intent.putExtra("mode", mode);
-                    intent.putExtra("mode_viewItemsList", return_mode);
-                    intent.putExtra("username", usernameString);
-                    startActivity(intent);
-                    finish();
+        // setting up the list view to have an item click listener
+        ListView LV = (ListView) findViewById(R.id.myItemsListView);
+        LV.setAdapter(adapter);
+        LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                String mode = Integer.toString(ViewItem.MODE_VIEW);
+                Integer return_mode = getMode_viewItemsList();
+                intent.putExtra("mode", mode);
+                intent.putExtra("mode_viewItemsList", return_mode);
+                startActivity(intent);
+                finish();
                 }
             });
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
     }
-
 
     private void setupBorrowedItemsMode() {
 
@@ -272,50 +193,50 @@ public class ViewItemsList extends AppCompatActivity {
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
 
+        final User user = getUserStuff(ItemController.GetItems.MODE_GET_BORROWED_ITEMS);
+
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
+
+        // setting up the list view to have an item click listener
+        ListView LV = (ListView) findViewById(R.id.myItemsListView);
+        LV.setAdapter(adapter);
+        LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                Item item = user.getItem(position);
+                ItemController.setCurrentItem(item);
+                // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                String mode = Integer.toString(ViewItem.MODE_VIEW);
+                Integer return_mode = getMode_viewItemsList();
+                intent.putExtra("mode", mode);
+                intent.putExtra("mode_viewItemsList", return_mode);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private User getUserStuff(String mode) {
         // Grab the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
+        getUser.execute(user.getUsername());
 
         // Grab the user's items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(getItems.MODE_GET_BORROWED_ITEMS, usernameString);
+        getItems.execute(mode, user.getUsername());
 
         // Fills in the places needed to be filled for the User Profile
         try {
             final User user = getUser.get();
             user.setItems(getItems.get());
-
-            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
-
-            // setting up the list view to have an item click listener
-            ListView LV = (ListView) findViewById(R.id.myItemsListView);
-            LV.setAdapter(adapter);
-            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
-                    Gson gson = new Gson();
-                    String fuel_purchase_list = gson.toJson(user.getItems());
-                    intent.putExtra("list_as_string", fuel_purchase_list);
-                    String purchase_pos = String.valueOf(position);
-                    intent.putExtra("position_as_string", purchase_pos);
-                    // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
-                    String mode = Integer.toString(ViewItem.MODE_VIEW);
-                    Integer return_mode = getMode_viewItemsList();
-                    intent.putExtra("mode", mode);
-                    intent.putExtra("mode_viewItemsList", return_mode);
-                    intent.putExtra("username", usernameString);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        return user;
     }
 }
 

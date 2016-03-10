@@ -21,8 +21,9 @@ public class ViewUserProfile extends AppCompatActivity {
     public static final int MODE_EDIT = 0;//for viewing own profile
     public static final int MODE_VIEW = 1;//for viewing others' profiles
 
-    private User user;
     private String usernameString;
+    private User newuser;
+    private User user;
     private TextView username;
     private EditText name;
     private EditText email;
@@ -34,8 +35,7 @@ public class ViewUserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         final int mode = getIntent().getExtras().getInt("mode");
 
-
-        usernameString = getIntent().getStringExtra("username");
+        user = UserController.getCurrentUser();
 
         username = (TextView) findViewById(R.id.UsernameText);
         name = (EditText) findViewById(R.id.NameText);
@@ -54,61 +54,10 @@ public class ViewUserProfile extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        /***
-         * http://www.tutorialspoint.com/java/util/timer_schedule_period.htm
-         final Timer timer = new Timer();
-         TimerTask timertask = new TimerTask() {
-        @Override
-        public void run() {
-        System.out.println("TICKING");
-        timer.purge();
-        }
-        };
-         timer.schedule(timertask, 1000, 1000);
-         ***/
-
-        /*** Fills in the places needed to be filled for the User Profile ***/
-        // starts after 1 seconds
-        // source: http://stackoverflow.com/questions/3342651/how-can-i-delay-a-java-program-for-a-few-seconds
-        try {
-            Thread.sleep(1000);                 //1000 milliseconds is one second.
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
-
-        try {
-            user = getUser.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        // If already an existing user
-        if (user != null) {
-            username.setText(user.getUsername());
-            name.setText(user.getName());
-            email.setText(user.getEmail());
-            phone.setText(user.getPhone());
-        }
-        //TODO: fix the problem stated below.
-        // Newly Created user when logging in... Need this fix this problem since
-        // User was already added when login button was pressed
-        else if (user == null) {
-            // sets up the new user if the user does not exist.
-            // disabling update if user == null
-            System.out.println("UPDATE DISABLED");
-            View v = findViewById(R.id.Update_Profile);
-            v.setVisibility(View.INVISIBLE);
-
-            user = new User();
-            //user.setUsername(usernameString);
-            username.setText(usernameString);
-        }
+        username.setText(user.getUsername());
+        name.setText(user.getName());
+        email.setText(user.getEmail());
+        phone.setText(user.getPhone());
     }
 
     private void setupEditMode(){
@@ -138,7 +87,6 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("username", usernameString);
                 intent.putExtra("mode", ViewItemsList.MODE_SEARCH_FOR_ITEMS);
                 startActivity(intent);
             }
@@ -150,7 +98,6 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("username", usernameString);
                 intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_ITEMS);
                 startActivity(intent);
             }
@@ -162,7 +109,6 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("username", usernameString);
                 intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_BIDS_PLACED);
                 startActivity(intent);
             }
@@ -174,7 +120,6 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("username", usernameString);
                 intent.putExtra("mode", ViewItemsList.MODE_CURRENTLY_BORROWED_ITEMS);
                 startActivity(intent);
             }
@@ -182,12 +127,14 @@ public class ViewUserProfile extends AppCompatActivity {
     }
 
     private void setupViewMode(){
-        //This block may be handled by the onStart method
-        /*UserController.GetUser getUser = new UserController.GetUser();
+
+        usernameString = getIntent().getExtras().getString("username");
+
+        UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(usernameString);
         try {
-            user = getUser.get();
-            if (user==null){
+            newuser = getUser.get();
+            if (newuser==null){
                 finish();//cannot display profile of null user, return
             }
         } catch (InterruptedException e) {
@@ -196,7 +143,7 @@ public class ViewUserProfile extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
             finish();//problem getting user, return without displaying profile
-        }*/
+        }
 
         View v = findViewById(R.id.Search_for_Items);
         v.setVisibility(View.GONE);
