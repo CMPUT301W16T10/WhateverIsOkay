@@ -43,9 +43,35 @@ public class ViewUserProfile extends AppCompatActivity {
         phone = (EditText) findViewById(R.id.PhoneText);
 
         if (mode==MODE_EDIT){
+            username.setText(user.getUsername());
+            name.setText(user.getName());
+            email.setText(user.getEmail());
+            phone.setText(user.getPhone());
             setupEditMode();
         }
         else if (mode==MODE_VIEW){
+
+            usernameString = getIntent().getExtras().getString("username");
+
+            UserController.GetUser getUser = new UserController.GetUser();
+            getUser.execute(usernameString);
+            try {
+                newuser = getUser.get();
+                if (newuser==null){
+                    finish();//cannot display profile of null user, return
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                finish();//problem getting user, return without displaying profile
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                finish();//problem getting user, return without displaying profile
+            }
+
+            username.setText(newuser.getUsername());
+            name.setText(newuser.getName());
+            email.setText(newuser.getEmail());
+            phone.setText(newuser.getPhone());
             setupViewMode();
         }
     }
@@ -53,11 +79,6 @@ public class ViewUserProfile extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        username.setText(user.getUsername());
-        name.setText(user.getName());
-        email.setText(user.getEmail());
-        phone.setText(user.getPhone());
     }
 
     private void setupEditMode(){
@@ -128,22 +149,6 @@ public class ViewUserProfile extends AppCompatActivity {
 
     private void setupViewMode(){
 
-        usernameString = getIntent().getExtras().getString("username");
-
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(usernameString);
-        try {
-            newuser = getUser.get();
-            if (newuser==null){
-                finish();//cannot display profile of null user, return
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            finish();//problem getting user, return without displaying profile
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            finish();//problem getting user, return without displaying profile
-        }
 
         View v = findViewById(R.id.Search_for_Items);
         v.setVisibility(View.GONE);
@@ -156,6 +161,7 @@ public class ViewUserProfile extends AppCompatActivity {
 
         v = findViewById(R.id.Currently_Borrowed_Items);
         v.setVisibility(View.GONE);
+
 
         username.setEnabled(false);
         name.setEnabled(false);

@@ -312,6 +312,7 @@ public class ViewItem extends AppCompatActivity{
                         //TODO Causes the same error as the update item call from the edit mode
                         ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                         updateItem.execute(item);
+                        finish();
                     }
                 });
 
