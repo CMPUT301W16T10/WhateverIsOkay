@@ -286,6 +286,8 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setEnabled(false);
         Platform.setEnabled(false);
 
+        item = ItemController.getCurrentItem();
+
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
 
         Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);

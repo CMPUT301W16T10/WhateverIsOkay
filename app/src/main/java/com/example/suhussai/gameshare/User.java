@@ -19,7 +19,7 @@ public class User {
     private int gameCount = 0;
 
     public User(){}
-    
+
     public User(String userName, String password){
         this.username = userName;
         this.password = password;
@@ -130,6 +130,8 @@ public class User {
         // Grab the items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
         getItems.execute(getItems.MODE_GET_MY_ITEMS, username);
+
+        UserController.setCurrentUser(this);
 
         try {
             items = getItems.get();

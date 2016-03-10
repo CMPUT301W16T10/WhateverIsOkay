@@ -89,7 +89,7 @@ public class ViewItemsList extends AppCompatActivity {
         View v = findViewById(R.id.myItemsAddItem);
         v.setVisibility(View.GONE);
 
-        final User user = getUserStuff(ItemController.GetItems.MODE_POPULATE_SEARCH);
+        getUserStuff(ItemController.GetItems.MODE_POPULATE_SEARCH);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
@@ -121,7 +121,7 @@ public class ViewItemsList extends AppCompatActivity {
         View v = findViewById(R.id.myItemsSearchView);
         v.setVisibility(View.GONE);
 
-        final User user = getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
+        getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
@@ -159,7 +159,7 @@ public class ViewItemsList extends AppCompatActivity {
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
 
-        final User user = getUserStuff(ItemController.GetItems.MODE_GET_BIDDED_ITEMS);
+        getUserStuff(ItemController.GetItems.MODE_GET_BIDDED_ITEMS);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
@@ -193,7 +193,7 @@ public class ViewItemsList extends AppCompatActivity {
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
 
-        final User user = getUserStuff(ItemController.GetItems.MODE_GET_BORROWED_ITEMS);
+        getUserStuff(ItemController.GetItems.MODE_GET_BORROWED_ITEMS);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
@@ -218,8 +218,8 @@ public class ViewItemsList extends AppCompatActivity {
         });
     }
 
-    private User getUserStuff(String mode) {
-        // Grab the user from the controller.
+    private void getUserStuff(String mode) {
+        // update the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(user.getUsername());
 
@@ -229,14 +229,14 @@ public class ViewItemsList extends AppCompatActivity {
 
         // Fills in the places needed to be filled for the User Profile
         try {
-            final User user = getUser.get();
+            user = getUser.get();
             user.setItems(getItems.get());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        return user;
+
     }
 }
 
