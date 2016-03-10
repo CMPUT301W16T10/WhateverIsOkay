@@ -162,6 +162,8 @@ public class ViewUserProfile extends AppCompatActivity {
         v = findViewById(R.id.Currently_Borrowed_Items);
         v.setVisibility(View.GONE);
 
+        v = findViewById(R.id.Update_Profile);
+        v.setVisibility(View.GONE);
 
         username.setEnabled(false);
         name.setEnabled(false);
