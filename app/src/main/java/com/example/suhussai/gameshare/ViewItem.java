@@ -299,10 +299,18 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
 
-
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
 
         Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);
+
+        if (item.isBorrowed()){
+            View g = findViewById(R.id.ViewItem_PlaceBid_Text);
+            g.setVisibility(View.GONE);
+            //View h = findViewById(R.id.ViewItem_bidValue);
+            EnterBid.setVisibility(View.GONE);
+            //View e = findViewById(R.id.ViewItem_Bid);
+            BidButton.setVisibility(View.GONE);
+        }
 
         //TODO probably a better way to do this
         //'this' needs to be accessed to call the next intent, but it is inside an OnClickListener
