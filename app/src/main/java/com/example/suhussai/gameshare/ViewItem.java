@@ -180,19 +180,23 @@ public class ViewItem extends AppCompatActivity{
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bid bid = item.getBids().get(position);
+                final Bid bid = item.getBids().get(position);
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBidder() + " for " + bid.getAmount() + "?");
                 adBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Accept this bid, decline the rest", Toast.LENGTH_SHORT).show();
+                        user.acceptBid(bid, item);
+                        Toast.makeText(getApplicationContext(),"Bid accepted",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 adBuilder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Decline this bid", Toast.LENGTH_SHORT).show();
+                        user.declineBid(bid, item);
+                        Toast.makeText(getApplicationContext(),"Bid declined",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 adBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {

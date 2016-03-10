@@ -181,16 +181,11 @@ public class User {
         this.borrowedItems.add(item);
     }
 
-    public void declineBid(){
-
+    public void declineBid(Bid bid, Item item){
+        item.declineBid(bid);
     }
 
-    public void acceptBid(User winningUser) {
-        /*
-        Item item = bid.getItem();
-        item.setStatus("borrowed");
-        item.setRate(bid.amount);
-        bid.getUser().addBorrowedItem(item);
-         */
-    }//TODO: change argument to take a Bid after test case has been changed accordingly
+    public void acceptBid(Bid bid, Item item) {
+        item.acceptBid(bid);
+    }
 }

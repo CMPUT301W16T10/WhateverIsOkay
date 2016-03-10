@@ -88,8 +88,17 @@ public class Item {
     }
 
     public void declineBid(Bid bid) {
+        bids.remove(bid);
+        // TODO notify bidder?
 
-    }//TODO: delete later after test case has been changed accordingly
+        if(bids.size() == 0) {
+            setAvailable();
+        }
+
+        // update the info in the elastic search
+        ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+        updateItem.execute(this);
+    }
 
     public String getBorrower(){
         return borrower;
@@ -112,8 +121,14 @@ public class Item {
     }
 
     public void acceptBid(Bid bid){
+        borrower = bid.getBidder();
+        bids.clear();
+        setBorrowed();
 
-    } //TODO: delete later after test case has been changed accordingly
+        // update the info in the elastic search
+        ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+        updateItem.execute(this);
+    }
 
     public boolean isBidded() {
         return bidded;

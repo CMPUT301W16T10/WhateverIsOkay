@@ -56,19 +56,27 @@
       <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.0227275">
-              <caret line="70" column="19" selection-start-line="70" selection-start-column="16" selection-end-line="70" selection-end-column="19" />
-              <folding />
+            <state vertical-scroll-proportion="-9.863636">
+              <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+              <folding>
+                <element signature="e#1492#1493#0" expanded="true" />
+                <element signature="e#1523#1524#0" expanded="true" />
+                <element signature="e#1710#1711#0" expanded="true" />
+                <element signature="e#1738#1739#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewItem.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ViewItem.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="314" column="33" selection-start-line="314" selection-start-column="33" selection-end-line="314" selection-end-column="33" />
-              <folding />
+            <state vertical-scroll-proportion="0.78347576">
+              <caret line="198" column="33" selection-start-line="198" selection-start-column="33" selection-end-line="198" selection-end-column="33" />
+              <folding>
+                <element signature="e#7287#7664#0" expanded="true" />
+                <element signature="e#7663#7664#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,17 +104,22 @@
       <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.568182">
-              <caret line="133" column="42" selection-start-line="133" selection-start-column="42" selection-end-line="133" selection-end-column="42" />
-              <folding />
+            <state vertical-scroll-proportion="-10.840909">
+              <caret line="188" column="26" selection-start-line="188" selection-start-column="26" selection-end-line="188" selection-end-column="26" />
+              <folding>
+                <element signature="e#4570#4571#0" expanded="true" />
+                <element signature="e#4606#4607#0" expanded="true" />
+                <element signature="e#4655#4656#0" expanded="true" />
+                <element signature="e#4690#4691#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ViewUserProfile.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ViewUserProfile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.49731904">
+            <state vertical-scroll-proportion="0.0">
               <caret line="71" column="44" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="44" />
               <folding>
                 <element signature="e#2653#2654#0" expanded="true" />
@@ -1687,15 +1700,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Bid.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_my_items.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/UserController.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewLogIn.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ItemController.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java" />
       </list>
     </option>
   </component>
@@ -2017,7 +2030,7 @@
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32590315" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39815527" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39815527" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -2393,14 +2406,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.0227275">
-          <caret line="70" column="19" selection-start-line="70" selection-start-column="16" selection-end-line="70" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2409,29 +2414,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="44" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="44" />
+          <folding>
+            <element signature="e#2653#2654#0" expanded="true" />
+            <element signature="e#2684#2685#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.568182">
-          <caret line="133" column="42" selection-start-line="133" selection-start-column="42" selection-end-line="133" selection-end-column="42" />
-          <folding />
+        <state vertical-scroll-proportion="-10.840909">
+          <caret line="188" column="26" selection-start-line="188" selection-start-column="26" selection-end-line="188" selection-end-column="26" />
+          <folding>
+            <element signature="e#4570#4571#0" expanded="true" />
+            <element signature="e#4606#4607#0" expanded="true" />
+            <element signature="e#4655#4656#0" expanded="true" />
+            <element signature="e#4690#4691#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.863636">
+          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding>
+            <element signature="e#1492#1493#0" expanded="true" />
+            <element signature="e#1523#1524#0" expanded="true" />
+            <element signature="e#1710#1711#0" expanded="true" />
+            <element signature="e#1738#1739#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="314" column="33" selection-start-line="314" selection-start-column="33" selection-end-line="314" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49731904">
-          <caret line="71" column="44" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.78347576">
+          <caret line="198" column="33" selection-start-line="198" selection-start-column="33" selection-end-line="198" selection-end-column="33" />
           <folding>
-            <element signature="e#2653#2654#0" expanded="true" />
-            <element signature="e#2684#2685#0" expanded="true" />
+            <element signature="e#7287#7664#0" expanded="true" />
+            <element signature="e#7663#7664#0" expanded="true" />
           </folding>
         </state>
       </provider>
