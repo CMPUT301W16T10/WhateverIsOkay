@@ -292,6 +292,14 @@ public class ViewItem extends AppCompatActivity{
 
         item = ItemController.getCurrentItem();
 
+        // gets the item info to display on the EditText fields
+        GameName.setText(item.getName());
+        Players.setText(item.getPlayers());
+        Age.setText(item.getAge());
+        TimeReq.setText(item.getTimeReq());
+        Platform.setText(item.getPlatform());
+
+
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
 
         Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);
@@ -311,6 +319,9 @@ public class ViewItem extends AppCompatActivity{
                         double bidAmount = Double.parseDouble(EnterBid.getText().toString());
                         User bidder = UserController.getCurrentUser();
                         Bid bid = new Bid(bidder.getUsername(), bidAmount);
+                        if (!item.isBidded()){
+                            item.setBidded();
+                        }
                         item.addBid(bid);
 
                         //TODO Causes the same error as the update item call from the edit mode
