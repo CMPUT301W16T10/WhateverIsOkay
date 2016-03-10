@@ -141,6 +141,12 @@ public class ItemController {
             }
 
             else if (mode.equals(MODE_SEARCH_KEYWORD)) {
+                // http://stackoverflow.com/questions/23681478/multiple-wildcards-in-one-query-in-elasticsearch
+                // 9 March 2016, user Alcanzar
+                // http://developer.android.com/reference/android/widget/SearchView.OnQueryTextListener.html#onQueryTextChange%28java.lang.String%29
+                // http://www.codota.com/android/scenarios/52fcbd6dda0a535f4ee25691/android.widget.SearchView?tag=dragonfly
+                // http://joelabrahamsson.com/elasticsearch-101/
+                // https://www.elastic.co/guide/en/elasticsearch/guide/1.x/_wildcard_and_regexp_queries.html
                 //TODO: insert search_string that does partial matching to item name here.
                 search_items = "{\n" +
                         "  \"from\": 0,\n" +
