@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,7 +24,8 @@ public class ViewItemsList extends AppCompatActivity {
     public static final int MODE_CURRENTLY_BORROWED_ITEMS = 3;
 
     private ArrayAdapter<Item> adapter;
-
+    private SearchView searchView;
+    private ListView LV;
     private User user;
     public static int mode_viewItemsList;
 
@@ -94,7 +96,7 @@ public class ViewItemsList extends AppCompatActivity {
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
 
         // setting up the list view to have an item click listener
-        ListView LV = (ListView) findViewById(R.id.myItemsListView);
+        LV = (ListView) findViewById(R.id.myItemsListView);
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,8 +113,69 @@ public class ViewItemsList extends AppCompatActivity {
                 intent.putExtra("mode_viewItemsList", return_mode);
                 startActivity(intent);
                 //finish();
-                }
-            });
+            }
+        });
+
+        searchView = (SearchView) findViewById(R.id.myItemsSearchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            public boolean onQueryTextSubmit(String queryText) {
+                updateItemListUsingKeywords(queryText);
+                return true;
+
+            }
+
+
+            public boolean onQueryTextChange(String newText) {
+                updateItemListUsingKeywords(newText);
+                return true;
+            }
+        });
+
+    }
+
+    private void updateItemListUsingKeywords(String keywords) {
+        // update the user from the controller.
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(user.getUsername());
+
+        // Grab the user's items from the controller.
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(ItemController.GetItems.MODE_SEARCH_KEYWORD, keywords);
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            user = getUser.get();
+            user.setItems(getItems.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
+
+        // setting up the list view to have an item click listener
+        LV = (ListView) findViewById(R.id.myItemsListView);
+        LV.setAdapter(adapter);
+        LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+        LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                Gson gson = new Gson();
+                Item item = user.getItem(position);
+                ItemController.setCurrentItem(item);
+                // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                String mode = Integer.toString(ViewItem.MODE_VIEW);
+                Integer return_mode = getMode_viewItemsList();
+                intent.putExtra("mode", mode);
+                intent.putExtra("mode_viewItemsList", return_mode);
+                startActivity(intent);
+                //finish();
+            }
+        });
     }
 
     private void setupViewMyItemsMode() {

@@ -142,8 +142,64 @@ public class ItemController {
 
             else if (mode.equals(MODE_SEARCH_KEYWORD)) {
                 //TODO: insert search_string that does partial matching to item name here.
-                search_items = "";
-            }
+                search_items = "{\n" +
+                        "  \"from\": 0,\n" +
+                        "  \"size\": 10000,\n" +
+                        "  \"query\": {\n" +
+                        "    \"bool\": {\n" +
+                        "      \"must\": [\n";
+
+                String[] keywords = params[1].toString().toLowerCase().split(" ");
+                for (int i = 0; i < keywords.length; i++) {
+                    if (keywords[i] == keywords[keywords.length-1]) {
+                        // last term to add
+                        // does not require comma
+                        search_items = search_items +
+                                "        {\n" +
+                                "          \"wildcard\": {\n" +
+                                "            \"name\": \"*"+keywords[i]+"*\"\n" +
+                                "          }\n" +
+                                "        }\n";
+                    }
+                    else {
+                        // not the last term to add
+                        // requires comma
+                        search_items = search_items +
+                                "        {\n" +
+                                "          \"wildcard\": {\n" +
+                                "            \"name\": \"*"+keywords[i]+"*\"\n" +
+                                "          }\n" +
+                                "        },\n";
+                    }
+
+                }
+                search_items = search_items +
+                        "      ]\n" +
+                        "    }\n" +
+                        "  }\n" +
+                        "}";
+
+/*                search_items = "{\n" +
+                        "  \"from\": 0,\n" +
+                        "  \"size\": 10000,\n" +
+                        "  \"query\": {\n" +
+                        "    \"bool\": {\n" +
+                        "      \"must\": [\n" +
+                        "        {\n" +
+                        "          \"wildcard\": {\n" +
+                        "            \"name\": \"*ma*\"\n" +
+                        "          }\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "          \"wildcard\": {\n" +
+                        "            \"name\": \"*10*\"\n" +
+                        "          }\n" +
+                        "        }\n" +
+                        "      ]\n" +
+                        "    }\n" +
+                        "  }\n" +
+                        "}";
+*/            }
 
             else if (mode.equals(MODE_GET_MY_ITEMS_WITH_BIDS)) {
                 search_items =  "{\n" +
