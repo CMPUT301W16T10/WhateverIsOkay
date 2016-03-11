@@ -252,7 +252,7 @@ public class ViewItem extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO modify this so the user is known at this stage. Using a test user in interim.
-                        User user = new User("testuser", "testpass");
+                        //User user = new User("testuser", "testpass");
                         user.deleteItem(item);
                         // TODO ensure user's item is not currently borrowed
                         returnToViewItems();

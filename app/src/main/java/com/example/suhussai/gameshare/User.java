@@ -106,15 +106,15 @@ public class User {
     }
 
     public ArrayList<Bid> getCurrentBids(Item item){
-        return new ArrayList<>();
+        return new ArrayList<Bid>();
     }
 
     public ArrayList<Item> getOwnedBorrowedItems() {
-        return new ArrayList<>();
+        return new ArrayList<Item>();
     }
 
     public ArrayList<Item> getOwnedAvailableItems() {
-        return new ArrayList<>();
+        return new ArrayList<Item>();
     }
 
     public void markItemReturned(Item item){
@@ -155,7 +155,12 @@ public class User {
         updateUserProfile.execute(this);
     }
 
-    public void deleteItem(Item item){ items.remove(item);}
+    public void deleteItem(Item item){
+        ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
+        deleteItem.execute(item);
+        items.remove(item);
+    }
+
 
 //    public void addOwnedItem(Item item){
 //        items.add(item);
@@ -172,7 +177,7 @@ public class User {
     }
 
     public ArrayList<Item> getLentItems() {
-        ArrayList<Item> beingBorrowed = new ArrayList<>();
+        ArrayList<Item> beingBorrowed = new ArrayList<Item>();
 
         return beingBorrowed;
     }

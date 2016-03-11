@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
@@ -271,6 +272,29 @@ public class ItemController {
 
                 try {
                     JestResult execute = client.execute(update);
+
+                    if (execute.isSucceeded()) {
+                        //yay... we don't need this if statement for now
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+
+    public static class DeleteItem extends AsyncTask<Item, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Item... params) {
+            verifyConfig();
+
+            for (Item item : params) {
+                Delete delete = new Delete.Builder("").index("cmput301wi16t10").type("items").id(item.getId()).build();
+
+                try {
+                    JestResult execute = client.execute(delete);
 
                     if (execute.isSucceeded()) {
                         //yay... we don't need this if statement for now
