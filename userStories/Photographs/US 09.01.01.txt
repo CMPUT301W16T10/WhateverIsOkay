@@ -1,0 +1,2 @@
+US 09.01.01 (added 2016-02-29)
+As an owner, I want to optionally attach a photograph to a thing of mine.

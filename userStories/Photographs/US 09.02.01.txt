@@ -1,0 +1,2 @@
+US 09.02.01 (added 2016-02-29)
+As an owner, I want to delete any attached photograph for a thing of mine.

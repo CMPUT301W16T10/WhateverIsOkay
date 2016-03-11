@@ -1,0 +1,2 @@
+US 09.03.01 (added 2016-02-29)
+As an owner or borrower, I want to view any attached photograph for a thing.

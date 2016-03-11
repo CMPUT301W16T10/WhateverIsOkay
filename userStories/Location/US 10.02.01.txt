@@ -1,0 +1,2 @@
+US 10.02.01 (added 2016-02-29)
+As a borrower, I want to view the geo location of where to receive a thing I will be borrowing.

@@ -1,0 +1,2 @@
+US 10.01.01 (added 2016-02-29)
+As an owner, I want to specify a geo location on a map of where to receive a thing when I accept a bid on the thing.
