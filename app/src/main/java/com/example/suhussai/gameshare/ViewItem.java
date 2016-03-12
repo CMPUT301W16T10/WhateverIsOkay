@@ -23,29 +23,66 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by dan on 2016-02-21.
+ * The view for displaying information about an item. This view has three different modes:
+ * 1. adding a new item, 2. editing an existing item, 3. viewing someone else's item
+ * @see Item
  */
 public class ViewItem extends AppCompatActivity{
 
     // modes are public so others can use them
+    /**
+     * Code to represent the add new item mode
+     */
     public static final int MODE_NEW = 0;
+    /**
+     * Code to represent the edit existing item mode
+     */
     public static final int MODE_EDIT = 1;
+    /**
+     * Code to represent the view item mode
+     */
     public static final int MODE_VIEW = 2;
-
-    // added the adapter for setting up the list view and passing via intent
+    /**
+     * the adapter for setting up the list view and passing via intent
+     */
     private ArrayAdapter<Bid> adapter;
-
+    /**
+     * The field displaying the name
+     */
     private EditText GameName;
+    /**
+     * The field displaying the player number
+     */
     private EditText Players;
+    /**
+     * The field displaying the age range
+     */
     private EditText Age;
+    /**
+     * The field displaying the time requirement
+     */
     private EditText TimeReq;
+    /**
+     * The field displaying the platform
+     */
     private EditText Platform;
+    /**
+     * The item being displayed
+     */
     private Item item;
-
+    /**
+     * The current user
+     */
     private User user;
 
 
-
+    /**
+     * The method to create the view
+     * @param savedInstanceState the bundle
+     * @see #setupViewMode()
+     * @see #setupEditMode()
+     * @see #setupNewMode()
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +128,11 @@ public class ViewItem extends AppCompatActivity{
         }
     }
 
+    /**
+     * The specific things that must be setup only when in add new item mode
+     * Called only from onCreate
+     * @see #onCreate(Bundle)
+     */
     private void setupNewMode(){
         // special handling for new entries
 
@@ -115,6 +157,10 @@ public class ViewItem extends AppCompatActivity{
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * The method to be run when the save button is pressed, creates a new item
+             * @param v the view
+             */
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 String name = GameName.getText().toString();
@@ -136,6 +182,10 @@ public class ViewItem extends AppCompatActivity{
         Button CancelButton = (Button) findViewById(R.id.ViewItem_Cancel);
 
         CancelButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * The method to be run when the cancel button is pressed, returns to previous view
+             * @param v the view
+             */
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 Toast.makeText(getApplicationContext(), "Item addition cancelled.", Toast.LENGTH_SHORT).show();
@@ -144,6 +194,11 @@ public class ViewItem extends AppCompatActivity{
         });
     }
 
+    /**
+     * The specific things that must be setup only when in edit item mode
+     * Called only from onCreate
+     * @see #onCreate(Bundle)
+     */
     private void setupEditMode(){
         //hide unused buttons
         View e = findViewById(R.id.ViewItem_Bid);
@@ -178,12 +233,18 @@ public class ViewItem extends AppCompatActivity{
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * Method called when pressing on a bid, asks user to accept or decline bid
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Bid bid = item.getBids().get(position);
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBidder() + " for " + bid.getAmount() + "?");
                 adBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    /**
+                     * User accepts bid
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user.acceptBid(bid, item);
@@ -192,6 +253,9 @@ public class ViewItem extends AppCompatActivity{
                     }
                 });
                 adBuilder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+                    /**
+                     * User declines bid
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user.declineBid(bid, item);
@@ -200,6 +264,9 @@ public class ViewItem extends AppCompatActivity{
                     }
                 });
                 adBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    /**
+                     * User cancels out of decision
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -212,6 +279,9 @@ public class ViewItem extends AppCompatActivity{
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Method called when pressing save button, any changes will be updated
+             */
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 item.setName(GameName.getText().toString());
@@ -232,6 +302,9 @@ public class ViewItem extends AppCompatActivity{
         Button CancelButton = (Button) findViewById(R.id.ViewItem_Cancel);
 
         CancelButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Method called when pressing cancel button, return to previous view
+             */
             public void onClick(View v) {
                 setResult(RESULT_OK);
 
@@ -245,11 +318,17 @@ public class ViewItem extends AppCompatActivity{
         Button DeleteButton = (Button) findViewById(R.id.ViewItem_Delete);
 
         DeleteButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Method called when pressing delete button, will ask for confirmation
+             */
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to delete this item?");
                 adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
+                    /**
+                     * User confirms, item will be deleted
+                     */
                     public void onClick(DialogInterface dialog, int which) {
                         //TODO modify this so the user is known at this stage. Using a test user in interim.
                         //User user = new User("testuser", "testpass");
@@ -261,6 +340,9 @@ public class ViewItem extends AppCompatActivity{
 
                 adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
+                    /**
+                     * User cancels, go back to view item
+                     */
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
@@ -270,6 +352,11 @@ public class ViewItem extends AppCompatActivity{
         });
     }
 
+    /**
+     * The specific things that must be setup only when in view item mode
+     * Called only from onCreate
+     * @see #onCreate(Bundle)
+     */
     private void setupViewMode(){
         //Hide buttons inactive in this mode
         View v = findViewById(R.id.ViewItem_Delete);
@@ -318,10 +405,16 @@ public class ViewItem extends AppCompatActivity{
         final Context holder = this;
 
         BidButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Method called when user clicks on bid button, will ask for confirmation
+             */
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
                 adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    /**
+                     * User confirms, bid is placed
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         double bidAmount = Double.parseDouble(EnterBid.getText().toString());
@@ -340,6 +433,9 @@ public class ViewItem extends AppCompatActivity{
                 });
 
                 adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    /**
+                     * User cancels, back to view item
+                     */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -352,6 +448,11 @@ public class ViewItem extends AppCompatActivity{
         Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Method called when View owner button is pressed, user taken to user profile of
+             * owner in view mode
+             * @see ViewUserProfile
+             */
             public void onClick(View v) {
                 String username = item.getOwner();
                 Intent intent = new Intent(holder, ViewUserProfile.class);
@@ -363,6 +464,9 @@ public class ViewItem extends AppCompatActivity{
         });
     }
 
+    /**
+     * Called to return to ViewItems screen
+     */
     public void returnToViewItems() {
         // TODO modify signature to include int mode for when viewItems has multiple modes, thus this function can be called to return it a specific mode.
         Intent intent = new Intent(ViewItem.this, ViewItemsList.class);
