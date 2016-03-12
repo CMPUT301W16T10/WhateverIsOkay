@@ -185,28 +185,7 @@ public class ItemController {
                         "    }\n" +
                         "  }\n" +
                         "}";
-
-/*                search_items = "{\n" +
-                        "  \"from\": 0,\n" +
-                        "  \"size\": 10000,\n" +
-                        "  \"query\": {\n" +
-                        "    \"bool\": {\n" +
-                        "      \"must\": [\n" +
-                        "        {\n" +
-                        "          \"wildcard\": {\n" +
-                        "            \"name\": \"*ma*\"\n" +
-                        "          }\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "          \"wildcard\": {\n" +
-                        "            \"name\": \"*10*\"\n" +
-                        "          }\n" +
-                        "        }\n" +
-                        "      ]\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "}";
-*/            }
+           }
 
             else if (mode.equals(MODE_GET_MY_ITEMS_WITH_BIDS)) {
                 search_items =  "{\n" +
