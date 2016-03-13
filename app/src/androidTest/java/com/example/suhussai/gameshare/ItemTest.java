@@ -1,30 +1,25 @@
 package com.example.suhussai.gameshare;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by bobby on 11/02/16.
  */
 public class ItemTest extends ActivityInstrumentationTestCase2 {
-    public ItemTest() {super(Item.class);}
-
-    public void testViewItems(){
-        setActivityIntent(new Intent());
-        ViewItemsList viewItemsList = (ViewItemsList) getActivity();
-        String userName = "user1";
-        String pass = "pass1";
-        User user = null;
-
-        user = User.signIn(userName, pass);
-
-        assertEquals(user.getItems(), new ArrayList());
-        assertTrue(viewItemsList.findViewById(R.id.myItemsListView).isShown());
-
+    public ItemTest() {
+        super(Item.class);
     }
+
+
 
     /* This no longer exists
     public void testBidsOnItems(){
@@ -81,7 +76,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
     }*/
 
-    public void testViewItemsBeingBorrowed(){
+    public void testViewItemsBeingBorrowed() {
         setActivityIntent(new Intent());
         ViewItemsList viewItemsList = (ViewItemsList) getActivity();
         String userName = "user1";
@@ -95,96 +90,202 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = User.signIn(userName, pass);
         user2 = User.signIn(userName2, pass2);
 
-        Item item = new Item("s",user);
+        Item item = new Item("s", userName);
         user.addItem(item);
 
         user2.bidOn(item);
-        user.acceptBid(user2);
+        //user.acceptBid(user2);
 
         ArrayList<Item> beingBorrowed = new ArrayList<>();
         beingBorrowed.add(item);
         assertEquals(user.getLentItems(), beingBorrowed);
         ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), viewItemsList.findViewById(R.id.myItemsListView));
-                //(viewItemsList.findViewById(R.id.myItemsListView).isShown());
+        //(viewItemsList.findViewById(R.id.myItemsListView).isShown());
 
     }
 
-    public void testAddItem(){
-        String name = "Monoply";
-        String username = "user1";
-        String password = "pass1";
-
-        User user = new User(username,password);
-        Item item = new Item(name,user);
+    public void testAddItem() {
+        Item item = new Item("new item", "BigOwner");
 
         assertFalse(user.getItems().contains(item));
         user.addItem(item);
         assertTrue(user.getItems().contains(item));
     }
 
-    public void testSelectItem(){
-        String name1 = "Monoply";
-        String name2 = "Risk";
-        String username = "user1";
-        String password = "pass1";
+    private User user = null;
+    private Item item1 = null;
+    private Item item2 = null;
+    String name1 = null;
+    String name2 = null;
+    String username = null;
+    String password = null;
 
-        User user = new User(username, password);
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        name1 = "Monoply";
+        name2 = "Risk";
+        username = "test_user";
+        password = "1";
 
-        Item item1 = new Item(name1,user);
-        Item item2 = new Item(name2,user);
+        user = new User(username, password);
+        UserController.setCurrentUser(user);
+
+        item1 = new Item(name1, username);
+        item2 = new Item(name2, username);
+        item1.setAvailable();
+        item2.setAvailable();
 
         user.addItem(item1);
         user.addItem(item2);
 
-        assertEquals(user.getItem(item2).getName(), name2);
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+
+        user = UserController.getCurrentUser();
+        if (user.getItems().contains(item1)) {
+            user.deleteItem(item1);
+        }
+        if (user.getItems().contains(item2)) {
+            user.deleteItem(item2);
+        }
+
+        user = null;
+        item1 = null;
+        item2 = null;
+    }
+
+    public void testDeleteItem() {
+        user.addItem(item1);
+        assertTrue(user.getItems().contains(item1));
+        user.deleteItem(item1);
+        assertFalse(user.getItems().contains(item1));
 
     }
 
-    public void testDeleteItem(){
-        String name = "Risk";
-        String username = "user1";
-        String password = "pass1";
-
-        User user = new User(username,password);
-        Item item = new Item(name,user);
-
-        user.addItem(item);
-        assertTrue(user.getItems().contains(item));
-        user.deleteItem(item);
-        assertFalse(user.getItems().contains(item));
-
+    public void testEditItem() {
+        assertEquals(user.getItems().get(0).getName(), name1);
+        user.getItem(0).setName("new_name");
+        assertEquals(user.getItem(0).getName(), "new_name");
     }
 
-    public void testEditItem(){
-        String name = "Rsk";
-        String new_name = "Risk";
-        String username = "user1";
-        String password = "pass1";
-
-        User user = new User(username,password);
-        Item item = new Item(name,user);
-
-        assertEquals(user.getItem(item).getName(), name);
-        user.getItem(item).setName(new_name);
-        assertEquals(user.getItem(item).getName(), new_name);
-
+    public void testStatus() {
+        // test for use case 02.01.01, must be true in all application states for all items
+        assertTrue((item2.getStatus() == "available"));
+        assertTrue((item1.getStatus() == "available"));
     }
+
+
 
     public void testUserProfile(){
+        // As a user, I want a profile with a unique username and my contact information.
         String username = "thinglover";
         String password = "pass1";
+        String password2 = "pass1";
 
         User user = new User(username, password);
+        assertNotNull(user);
+        user.setEmail("email@something.com");
+        user.setName("Joe");
+        user.setPhone("911");
 
-        ViewUserProfile userProfile = new ViewUserProfile();
-
-        userProfile.setUserid(user.getUsername());
-
-        assertEquals(userProfile.getUserid(), user.getUsername());
-
-
+        User user2 = new User(username, password2);
+        assertNull(user2); // username must be unique
 
     }
+
+    public void testUpdateProfile(){
+        // As a user, I want to edit the contact information in my profile.
+        String username = "thinglover";
+        String password = "pass1";
+        String email = "email@something.com";
+        String newEmail = "mail@something.com";
+        String name = "Joe";
+        String newName = "Joey";
+        String phoneNumber = "91";
+        String newPhoneNumber = "911";
+
+        User user = new User(username, password);
+        assertNotNull(user);
+        user.setEmail(email);
+        user.setName(name);
+        user.setPhone(phoneNumber);
+
+        assertEquals(user.getEmail(), email);
+        assertEquals(user.getName(), name);
+        assertEquals(user.getPhone(), phoneNumber);
+        assertEquals(user.getUsername(), username);
+
+        user.setEmail(newEmail);
+        user.setName(newName);
+        user.setPhone(newPhoneNumber);
+
+        assertEquals(user.getEmail(), newEmail);
+        assertEquals(user.getName(), newName);
+        assertEquals(user.getPhone(), newPhoneNumber);
+        assertEquals(user.getUsername(), username);
+    }
+
+    public void testGetOwnerInfo(){
+        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
+        assertEquals(item1.getOwner(), user.getUsername());
+        assertEquals(item2.getOwner(), user.getUsername());
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(item1.getOwner());
+
+        try {
+            User testUser = getUser.get();
+            assertNotNull(testUser.getEmail());
+            assertNotNull(testUser.getPhone());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void testSearchKeyword(){
+        // US 04.01.01
+        // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
+        // US 04.02.01
+        // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
+
+        String keyword = "Monoply";
+
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(ItemController.GetItems.MODE_SEARCH_KEYWORD, keyword);
+        boolean containsItemWithKeyWord = false;
+        try {
+            for (Item item : getItems.get()){
+                assertNotSame(item.getStatus(), "Borrowed"); // make sure item not borrowed
+                if (item.getName().contains(keyword)) {
+                    containsItemWithKeyWord = true;
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        assertTrue(containsItemWithKeyWord);
+
+    }
+
+    public void testBid(){
+        // test for use case 05.01.01
+        user.bidOn(item1);
+        assertTrue(item1.isBidded());
+        user.bidOn(item2);
+        assertTrue(item2.isBidded());
+    }
+
+
+/*
 
 
     public void testAcceptOfferOnMyThing(){
@@ -290,72 +391,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
 
-    public void testStatus(Item item) {
-        // test for use case 02.01.01, must be true in all application states for all items
-        assertTrue((item.getStatus() == "available") || (item.getStatus() == "bidded") ||
-                (item.getStatus() == "borrowed"));
-    }
-    
-    public void testUpdateProfile(){
-        // test for use case 03.02.01
-        User user1 = new User("user1","pass");
-        String email = "myemail@gamil.com";
 
-        ViewUserProfile userProfile = new ViewUserProfile();
-
-        userProfile.setUserid(user1.getUsername());
-        assertEquals(userProfile.getUseremail(), null);
-        userProfile.setUseremail(user1.getEmail());
-        assertEquals(userProfile.getUseremail(), user1.getEmail());
-
-	}
-
-    
-    public void testGetOwnerInfo(){
-        // test for use case 03.03.01
-        User user = new User("user","pass");
-        Item item = new Item("item",user);
-        assertEquals(item.getName(), user.getUsername());
-	}
-
-   
-    public void testSearchKeyword(){
-    	// test case for use case 04.01.01
-        User user = new User("user","pass");
-        Item item = new Item("item",user);
-        String keyword = "item";
-        assertTrue(item.getName().contains(keyword));
-    }
-
-    public void testSearchAllThings(){
-        // test for use case 04.02.01
-        ArrayList<Item> searchResults = new ArrayList<Item>();
-        ArrayList<Item> items = new ArrayList<Item>();
-        User user = new User("user","pass");
-        Item item1 = new Item("item1",user);
-        Item item2 = new Item("item2",user);
-        Item item3 = new Item("item3",user);
-        item1.setAvailable();
-        item2.setBidded();
-        item3.setBorrowed();
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        for (int i=0; i<items.size(); i++){
-            if (items.get(i).getStatus() != "borrowed")
-                searchResults.add(items.get(i));
-        }
-        assertEquals(searchResults.size(), 2);
-    }
-
-    public void testBid(){
-        // test for use case 05.01.01
-        User user = new User("user","pass");
-        Item item = new Item("item",user);
-        user.bidOn(item);
-        assertTrue(item.isBidded());
-    }
-    
     public void testSeePendingItems(){
         // test for use case 05.02.01
         ArrayList<Item> pendingItems = new ArrayList<Item>();
@@ -408,5 +444,5 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         items.add(user.getItem(item));
         assertTrue(items.contains(item));
     }
-
+*/
 }
