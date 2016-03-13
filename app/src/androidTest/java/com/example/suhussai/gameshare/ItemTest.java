@@ -278,10 +278,18 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     public void testBid(){
         // test for use case 05.01.01
-        user.bidOn(item1);
+        /*user.bidOn(item1);
         assertTrue(item1.isBidded());
         user.bidOn(item2);
-        assertTrue(item2.isBidded());
+        assertTrue(item2.isBidded());*/
+        User bidder = new User("name","pass");
+        Item item = new Item("game","name");
+        assertFalse(item.isBidded());
+        Bid bid = new Bid(bidder.getUsername(),1.0);
+        item.addBid(bid);
+        item.setBidded();
+        assertTrue(item.isBidded());
+        assertTrue(item.getBids().contains(bid));
     }
 
 
