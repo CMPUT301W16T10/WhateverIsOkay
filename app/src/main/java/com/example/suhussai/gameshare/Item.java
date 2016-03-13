@@ -365,6 +365,6 @@ public class Item {
      * @return string with the name and owner's username in it
      */
     public String toString() {
-        return this.getName() + " owned by " + this.getOwner();
+        return this.getName() + " ("+ this.getStatus() +") owned by " + this.getOwner();
     }
 }
