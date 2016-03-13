@@ -16,27 +16,72 @@ import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This view displays the results of searching for items, there are four different modes:
+ * 1. General search for items (allows keyword search) 2. View items owned by current user\
+ * 3. View items current user has bid on 4. View items currently borrowed
+ */
+/*TODO  The on click method for clicking on search results doesn't have to be defined separately
+  TODO  for each mode, as the only difference is the mode ViewItem is called with. This
+  TODO  destination mode can be stored in a variable, and the method only defined once.
+ */
 public class ViewItemsList extends AppCompatActivity {
-
+    /**
+     * Mode for general search
+     */
     public static final int MODE_SEARCH_FOR_ITEMS = 0;
+    /**
+     * Mode for owned items
+     */
     public static final int MODE_VIEW_MY_ITEMS = 1;
+    /**
+     * Mode for bidded on items
+     */
     public static final int MODE_VIEW_MY_BIDS_PLACED = 2;
+    /**
+     * Mode for borrowed items
+     */
     public static final int MODE_CURRENTLY_BORROWED_ITEMS = 3;
-
+    /**
+     * Adapter to hold results
+     */
     private ArrayAdapter<Item> adapter;
+    /**
+     * The search view
+     */
     private SearchView searchView;
+    /**
+     * The list results are displayed in
+     */
     private ListView LV;
+    /**
+     * The current user
+     */
     private User user;
+    /**
+     * The current mode
+     */
     public static int mode_viewItemsList;
 
+    /**
+     * Gets the current mode
+     * @return the mdoe
+     */
     public int getMode_viewItemsList() {
         return mode_viewItemsList;
     }
 
+    /**
+     * sets the current mode (only called from onCreate)
+     */
     public void setMode_viewItemsList() {
         this.mode_viewItemsList = getIntent().getExtras().getInt("mode");
     }
 
+    /**
+     * On create method, called to start view
+     * @param savedInstanceState the bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +91,9 @@ public class ViewItemsList extends AppCompatActivity {
 
         Button AddNew = (Button) findViewById(R.id.myItemsAddItem);
         AddNew.setOnClickListener(new View.OnClickListener() {
+            /**
+             * On click method for the add new button
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
@@ -80,6 +128,9 @@ public class ViewItemsList extends AppCompatActivity {
     //NOTE: some bugs when getting items may still exist due to possibly race conditions.
         // i.e. app crashed when signed into new user and clicked view my items.
 
+    /**
+     * Setup that only happens for the search mode (Only called from onCreate)
+     */
     private void setupSearchMode() {
         // TODO: implement another getItems with mode_search_keyword to refine search
 
@@ -100,6 +151,9 @@ public class ViewItemsList extends AppCompatActivity {
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * On click method for clicking on items, goes to view item mode
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
@@ -135,6 +189,10 @@ public class ViewItemsList extends AppCompatActivity {
 
     }
 
+    /**
+     * Updates the displayed items if user starts typing in the search bar
+     * @param keywords the entered search terms
+     */
     private void updateItemListUsingKeywords(String keywords) {
         // update the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
@@ -161,6 +219,9 @@ public class ViewItemsList extends AppCompatActivity {
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * On click method for clicking on items, goes to view item mode
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
@@ -178,6 +239,9 @@ public class ViewItemsList extends AppCompatActivity {
         });
     }
 
+    /**
+     * Setup that only happens for the view my items mode (Only called from onCreate)
+     */
     private void setupViewMyItemsMode() {
 
         // Hide searchbar:
@@ -193,6 +257,9 @@ public class ViewItemsList extends AppCompatActivity {
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * On click method for clicking on items, goes to view item mode
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
@@ -210,6 +277,9 @@ public class ViewItemsList extends AppCompatActivity {
         });
     }
 
+    /**
+     * Setup that only happens for the view bids placed mode (Only called from onCreate)
+     */
     private void setupViewMyBidsPlacedMode() {
 
         // Change title:
@@ -231,6 +301,9 @@ public class ViewItemsList extends AppCompatActivity {
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * On click method for clicking on items, goes to view item mode
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
                 // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
@@ -244,6 +317,9 @@ public class ViewItemsList extends AppCompatActivity {
             });
     }
 
+    /**
+     * Setup that only happens for the view borrowed items mode (Only called from onCreate)
+     */
     private void setupBorrowedItemsMode() {
 
         // Change title:
@@ -265,6 +341,9 @@ public class ViewItemsList extends AppCompatActivity {
         LV.setAdapter(adapter);
         LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /**
+             * On click method for clicking on items, goes to view item mode
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
@@ -281,6 +360,10 @@ public class ViewItemsList extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets information about the current user
+     * @param mode the mode
+     */
     private void getUserStuff(String mode) {
         // update the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();

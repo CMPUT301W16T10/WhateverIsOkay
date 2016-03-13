@@ -11,14 +11,26 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by sangsoo on 04/03/16.
+ * This is the initial view when starting the app. It prompts the user to log in
  */
 public class ViewLogIn extends AppCompatActivity {
-
+    /**
+     * The user
+     */
     private User user;
+    /**
+     * Field for username
+     */
     private EditText userid;
+    /**
+     * Field for password
+     */
     private EditText pass;
 
+    /**
+     * On create method
+     * @param savedInstanceState the bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +43,11 @@ public class ViewLogIn extends AppCompatActivity {
         // if the username does not exist.
         Button loginButton = (Button) findViewById(R.id.Login);
         loginButton.setOnClickListener(new View.OnClickListener(){
-
+            /**
+             * On click method for logging in, will log in if username exists and password is
+             * correct, refuse log in if password is wrong, and create new user if a new
+             * username is used
+             */
             @Override
             public void onClick(View v){
 

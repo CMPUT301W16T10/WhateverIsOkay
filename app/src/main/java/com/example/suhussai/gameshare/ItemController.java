@@ -19,22 +19,40 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Created by dan on 2016-02-21.
+ * Controller for actions involving items. Used to search for items, add new items, delete items,
+ * and update existing items. Uses elastic search.
+ * @see Item
  */
 public class ItemController {
+    /**
+     * The client
+     */
     private static JestDroidClient client;
 
+    /**
+     * The item currently being operated on
+     */
     private static Item currentItem;
 
+    /**
+     * Gets the current item
+     * @return the current item
+     */
     public static Item getCurrentItem() {
         return currentItem;
     }
 
+    /**
+     * Sets the current item
+     * @param currentItem the current item
+     */
     public static void setCurrentItem(Item currentItem) {
         ItemController.currentItem = currentItem;
     }
 
-    // If no client, add a client (from lonelyTwitter)
+    /**
+     * Adds the client if there isn't one already (from lonelyTwitter)
+     */
     public static void verifyConfig(){
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080"); // shove your url  in there
@@ -48,16 +66,24 @@ public class ItemController {
 
 
     // Adding Item to cmput301wi16t10/items. (reference: lonelyTwitter)
+    /**
+     * Adds an item to the online database (cmput301wi16t10/items)
+     */
     public static class AddItem extends AsyncTask<Item, Item, Void>{
 
+        /** Grabs the user, gameCount, updates gameCount on user, and generates a newId.
+         * reference: https://androidresearch.wordpress.com/2012/03/17/understanding-asynctask-once-and-forever/
+         */
         @Override
-        // Grabs the user, gameCount, updates gameCount on user, and generates a newId.
-        // reference: https://androidresearch.wordpress.com/2012/03/17/understanding-asynctask-once-and-forever/
-        protected void onProgressUpdate(Item... values){
+         protected void onProgressUpdate(Item... values){
             super.onProgressUpdate();
 
         }
 
+        /**
+         * Executes the elastic search
+         * @param params search parameters
+         */
         @Override
         protected Void doInBackground(Item... params){
             verifyConfig();
@@ -86,27 +112,48 @@ public class ItemController {
         }
     }
 
-    // obtain a list of items that match the criteria (owned by owner). reference: lonelyTwitter
-    // params[0] = mode
-    // params[1] = 0. owner, 1. borrower, 2. user, 3. keyword, 4. user, 5. owner (depending on mode)
+    /**
+     * obtain a list of items that match the criteria (owned by owner). reference: lonelyTwitter
+     * params[0] = mode
+     * params[1] = 0. owner, 1. borrower, 2. user, 3. keyword, 4. user, 5. owner (depending on mode)
+     */
     public static class GetItems extends AsyncTask<String, Void, ArrayList<Item>> {
 
-        // used to populate the list of user's items
+        /**
+         * used to populate the list of user's items
+         */
         public static final String MODE_GET_MY_ITEMS = "0";
-        // used to populate the list of others' items the user has borrowed
+        /**
+         * used to populate the list of others' items the user has borrowed
+         */
         public static final String MODE_GET_BORROWED_ITEMS = "1";
-        // used to populate the search with all items except the user's
+        /**
+         * used to populate the search with all items except the user's
+         */
         public static final String MODE_POPULATE_SEARCH = "2";
-        // used to repopulate the searched list to narrow it down using the partial matching keyword
+        /**
+         * used to repopulate the searched list to narrow it down using the partial matching keyword
+         */
         public static final String MODE_SEARCH_KEYWORD = "3";
-        // used to populate the list of others' items the user has placed bids on
+        /**
+         * used to populate the list of others' items the user has placed bids on
+         */
         public static final String MODE_GET_BIDDED_ITEMS = "4";
-        // used to populate the list of user's items with bids on them
+        /**
+         *  used to populate the list of user's items with bids on them
+         */
         public static final String MODE_GET_MY_ITEMS_WITH_BIDS = "5";
 
+        /**
+         * the search string
+         */
         private String search_items;
 
-
+        /**
+         * Ececutes the search
+         * @param params search parameters
+         * @return list of items
+         */
         @Override
         protected ArrayList<Item> doInBackground(String... params) {
             verifyConfig();
@@ -240,8 +287,16 @@ public class ItemController {
     }
 
     //TODO: Create an UpdateItem class to use for Editing an Item
+
+    /**
+     * Updates the given item with new information
+     */
     public static class UpdateItem extends AsyncTask<Item, Void, Void> {
 
+        /**
+         * Executes the search
+         * @param params search parameters
+         */
         @Override
         protected Void doInBackground(Item... params) {
             verifyConfig();
@@ -263,8 +318,15 @@ public class ItemController {
         }
     }
 
+    /**
+     * Deletes a given item from the database
+     */
     public static class DeleteItem extends AsyncTask<Item, Void, Void> {
 
+        /**
+         * Executes the elastic search
+         * @param params search parameters
+         */
         @Override
         protected Void doInBackground(Item... params) {
             verifyConfig();

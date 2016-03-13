@@ -12,23 +12,54 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by sangsoo on 12/02/16.
+ * View for viewing information about user, also the main page when viewing own profile.
+ * 2 modes: Edit own profile and view other's profile
+ * @see User
  */
-
 public class ViewUserProfile extends AppCompatActivity {
 
     // modes are public so others can use them
-    public static final int MODE_EDIT = 0;//for viewing own profile
-    public static final int MODE_VIEW = 1;//for viewing others' profiles
-
+    /**
+     * Mode for viewing own profile
+     */
+    public static final int MODE_EDIT = 0;
+    /**
+     * Mode for viewing others' profiles
+     */
+    public static final int MODE_VIEW = 1;
+    /**
+     * Username
+     */
     private String usernameString;
+    /**
+     * a new user object
+     */
     private User newuser;
+    /**
+     * The current user
+     */
     private User user;
+    /**
+     * Display of the username
+     */
     private TextView username;
+    /**
+     * Edit field for name
+     */
     private EditText name;
+    /**
+     * Edit field for email
+     */
     private EditText email;
+    /**
+     * Edit field for phone
+     */
     private EditText phone;
 
+    /**
+     * On create method for setting up view
+     * @param savedInstanceState the bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,16 +107,24 @@ public class ViewUserProfile extends AppCompatActivity {
         }
     }
 
+    /**
+     * On start method
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * Setup elements only used in edit mode (only called from onCreate)
+     */
     private void setupEditMode(){
         //TODO: Make passwords editable as well.
         Button updateButton = (Button) findViewById(R.id.Update_Profile);
         updateButton.setOnClickListener(new View.OnClickListener() {
-
+            /**
+             * On click method for update button, updates profile information
+             */
             @Override
             public void onClick(View v) {
 
@@ -105,6 +144,9 @@ public class ViewUserProfile extends AppCompatActivity {
         // Search for Item
         Button searchForItemsButton = (Button) findViewById(R.id.Search_for_Items);
         searchForItemsButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * On click method for search for items button, goes to ViewItemList in search mode
+             */
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
@@ -116,6 +158,9 @@ public class ViewUserProfile extends AppCompatActivity {
         // View the Items the User has put up to be borrowed
         Button viewMyItemsButton = (Button) findViewById(R.id.View_My_Items);
         viewMyItemsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * On click method for search for items button, goes to ViewItemList in my items mode
+             */
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
@@ -127,6 +172,9 @@ public class ViewUserProfile extends AppCompatActivity {
         // View the Items the User has currently placed bids on.
         Button viewMyBidsPlacedButton = (Button) findViewById(R.id.View_My_Bids_Placed);
         viewMyBidsPlacedButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * On click method for search for items button, goes to ViewItemList in bids placed mode
+             */
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
@@ -138,6 +186,9 @@ public class ViewUserProfile extends AppCompatActivity {
         // View the Items that the User has currently borrowed from a different User.
         Button currentlyBorrowedItemsButton = (Button) findViewById(R.id.Currently_Borrowed_Items);
         currentlyBorrowedItemsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * On click method for search for items button, goes to ViewItemList in borrowed items mode
+             */
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
@@ -147,6 +198,9 @@ public class ViewUserProfile extends AppCompatActivity {
         });
     }
 
+    /**
+     * Setup elements only used in view mode (only called from onCreate)
+     */
     private void setupViewMode(){
 
 

@@ -20,13 +20,21 @@ import io.searchbox.core.SearchResult;
 import static io.searchbox.core.Index.*;
 
 /**
- * Created by sangsoo on 04/03/16.
+ * Controller for doing elastic search
+ * @deprecated
  */
 public class ElasticsearchController {
 
+    /**
+     * The client
+     * @deprecated
+     */
     private static JestDroidClient client;
 
-    // If no client, add a client (from lonelyTwitter)
+    /**
+     * adds the client if there isn't one already (from lonelyTwitter)
+     * @deprecated
+     */
     public static void verifyConfig(){
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080"); // shove your url  in there
