@@ -14,20 +14,23 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static android.support.test.espresso.Espresso.onData;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * Created by bobby on 12/03/16.
  */
 public class AppUITesting extends ActivityInstrumentationTestCase2 {
     public AppUITesting() {
         super(ViewLogIn.class);
-    }
-
-    public void testAddItem() {
-        Item item = new Item("new item", "BigOwner");
-
-        assertFalse(user.getItems().contains(item));
-        user.addItem(item);
-        assertTrue(user.getItems().contains(item));
     }
 
     private User user = null;
@@ -44,9 +47,13 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+    }
+
+    public void testUIComponents() {
         name1 = "Monoply";
         name2 = "Risk";
-        username = "test_user";
+        username = "sang";
         password = "1";
 
         // user = new User(username, password);
@@ -56,119 +63,41 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         item1.setAvailable();
         item2.setAvailable();
 
+        getActivity();
+
         // login
-        instrumentation = getInstrumentation();
-        activity = getActivity();
-        Log.e("CHECK", "activity is " + activity.toString());
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                textInput = (EditText) activity.findViewById(R.id.UsernameText);
-                textInput.setText(username);
-                textInput = (EditText) activity.findViewById(R.id.PasswordText);
-                textInput.setText(password);
-                ((Button) activity.findViewById(R.id.Login)).performClick();
-            }
-        });
+        onView(withId(R.id.UsernameText))
+                .perform(typeText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(typeText(password), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
 
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(username);
+        // click on view my items
+        onView(withId(R.id.View_My_Items))
+                .perform(click());
 
-        //TODO: Need to check for empty passwords and usernames
-        //TODO: Need to not allow duplicate username items to exist in server (make user name unique)
+        // US 01.02.01
+        // As an owner, I want to view a list of all my things, and their descriptions and statuses.
+        onView(withId(R.id.myItemsListView))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.myItemsListView))
+                .check(matches(isClickable()));
 
-        try {
-            user = getUser.get();
-
-            // user does not exist, create new user.
-            if (user == null){
-                user = new User();
-                user.setUsername(username);
-                user.setPassword(password);
-                UserController.AddUser addUser = new UserController.AddUser();
-                addUser.execute(user);
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        user.addItem(item1);
-        user.addItem(item2);
-
-    }
-
-    public void testSelectItem() {
-        //  Owner selects one thing in their list of things to view its description and status.
+        // US 01.03.01
         // As an owner, I want to view one of my things, its description and status.
-        Intent intent = new Intent(getActivity(), ViewUserProfile.class);
-        intent.putExtra("mode", ViewUserProfile.MODE_EDIT);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getInstrumentation().getContext().startActivity(intent);
-//        getInstrumentation().startActivitySync(intent);
-        activity = getActivity();
-        assertNotNull(activity);
-        Log.e("CHECK", "activity is " + activity.toString());
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Button viewMyItemsButton = (Button) getActivity().findViewById(R.id.View_My_Items);
-                viewMyItemsButton.performClick();//click on view my items
-            }
-        });
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
+        onView(withId(R.id.ViewItem_NameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_PlayersText))
+                .check(matches(isDisplayed()));
 
-        intent = new Intent(getActivity(), ViewItemsList.class);
-        intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_ITEMS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getInstrumentation().getContext().startActivity(intent);
-        activity = getActivity(); // view items page
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ListView LV = (ListView) activity.findViewById(R.id.myItemsListView);
+        // go back to view items
+        pressBack();
 
-                LV.setSelection(0); // select first item
-            }
-        });
-
-
-        intent = new Intent(getActivity(), ViewItem.class);
-        String mode = Integer.toString(ViewItem.MODE_EDIT);
-        Integer return_mode = ViewItemsList.mode_viewItemsList;
-        intent.putExtra("mode", mode);
-        intent.putExtra("mode_viewItemsList", return_mode);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getInstrumentation().getContext().startActivity(intent);
-
-        activity = getActivity(); // view items page
-        assertNotNull(activity);
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                EditText nameText = (EditText) activity.findViewById(R.id.NameText);
-                assertNotNull(nameText);
-                assertTrue(nameText.isShown());
-                nameText = (EditText) activity.findViewById(R.id.PhoneText);
-                assertNotNull(nameText);
-                assertTrue(nameText.isShown());
-            }
-        });
-        assertTrue(true);
-    }
-
-
-    public void testViewItems() {
-        setActivityIntent(new Intent());
-        ViewItemsList viewItemsList = (ViewItemsList) getActivity();
-        String userName = "user1";
-        String pass = "pass1";
-        User user = null;
-
-        user = User.signIn(userName, pass);
-
-        assertEquals(user.getItems(), new ArrayList());
-        assertTrue(viewItemsList.findViewById(R.id.myItemsListView).isShown());
+        // go back to user profile
+        pressBack();
 
     }
 
