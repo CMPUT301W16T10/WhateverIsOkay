@@ -166,4 +166,17 @@
         android:layout_below="@id/View_My_Bids_Placed"
         android:layout_alignEnd="@+id/PhoneText" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/userProfile_ButtonTopMargin"
+        android:text="Currently Lent Items"
+        android:textSize="@dimen/userProfile_Text"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorGrey"
+        android:id="@+id/Currently_Lent_Items"
+        android:layout_below="@+id/Currently_Borrowed_Items"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/NameText" />
+
 </RelativeLayout>
