@@ -310,18 +310,11 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
-/*
-
 
     public void testAcceptOfferOnMyThing(){
-
-
         String name = "Monoply"; // some meaningful item name
-
         String username = "user1"; //some meaningful username
-
         String username2 = "user2"; //some other user
-
         String username3 = "user3"; //third user
 
         double amount = 1.46;
@@ -329,60 +322,42 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         double amount2 = 1.12;
 
         User user = new User( username , "");
-        Item item = new Item( name ,user);
+        Item item = new Item( name ,username);
         User borrower = new User( username2 , "");
         User borrower2 = new User( username3 , "");
 
-        Bid bid = new Bid( borrower, amount );
-        Bid bid2 = new Bid( borrower2, amount2 );
-        item.addBid( bid );
-        item.addBid( bid2 );
-        user.addItem(item );
-        assertEquals( user.getItem( item ).getStatus(), "Bidded" );
-        user.getItem( item ).acceptBid( bid );
-        assertEquals( user.getItem( item ).getStatus(), "Borrowed" );
-        assertFalse( user.getCurrentBids( item ).contains( bid )); //ensure the item’s accepted bid is no longer in current bid list
-        assertFalse( user.getCurrentBids( item ).contains( bid2 )); //ensure the item’s current bids do not include the second, auto declined bid.
-        assertEquals( user.getItem( item ).getBorrower(), borrower );
-        assertEquals( user.getItem( item ).getRate(), amount );
-
+        Bid bid = new Bid( username2, amount );
+        Bid bid2 = new Bid( username3, amount2 );
+        user.addItem(item);
+        item.addBid(bid);
+        item.addBid(bid2);
+        assertEquals(item.getStatus(), "bidded" );
+        user.acceptBid(bid, item);
+        assertEquals( item.getStatus(), "borrowed");
+        assertFalse(item.getBids().contains(bid)); //ensure the item’s accepted bid is no longer in current bid list
+        assertFalse(item.getBids().contains( bid2 )); //ensure the item’s current bids do not include the second, auto declined bid.
+        assertEquals(item.getBorrower(), borrower.getUsername() );
+        assertEquals(item.getRate(), amount );//Rate is currently not set, so this fails
     }
 
     public void testDeclineOfferOnMyThing(){
-
-
         String name = "Monopoly"; // some meaningful item name
-
         String username = "Steve.Smith"; //some meaningful username
-
         String username2 = "Joe.Stevens"; //some other user
-
         double amount = 1.46;
-
-
         User user = new User( username , "");
-        Item item = new Item( name ,user);
-
+        Item item = new Item( name ,username);
         User borrower = new User( username2 , "");
+        user.addItem(item);
+        Bid bid = new Bid( borrower.getUsername(), amount);
+        item.addBid(bid);
 
-
-
-        Bid bid = new Bid( borrower, amount );
-
-        item.addBid( bid );
-
-        user.addItem(item );
-
-        assertTrue( user.getCurrentBids( item ).contains( bid ) );
-
-        user.getItem( item ).declineBid( bid );
-
-        assertFalse( user.getCurrentBids( item ).contains( bid ) );
-
-
-
+        assertTrue(item.getBids().contains(bid));
+        user.declineBid(bid, item);
+        assertFalse(item.getBids().contains( bid ) );
+        assertEquals(item.getStatus(),"available");
     }
-
+    /*
     public void testMarkMyThingReturnedAndAvailable(){
 
 
@@ -428,17 +403,20 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
             pendingItems.add(item1);
         assertEquals(pendingItems.size(), 1);
     }
-
+    */
     public void testNotification(){
         // test for use case 05.03.01
         User user = new User("user","pass");
-        Item item = new Item("item",user);
+        Item item = new Item("item","user");
         User user2 = new User("user2","pass2");
         user.addItem(item);
-        user2.bidOn(item);
+        Bid bid = new Bid("user2",1.0);
+        item.addBid(bid);
+        user.acceptBid(bid,item);
+        //Notifications not implemented yet, so this will fail
         assertTrue(user.getNotifications().contains("Bid on item by " + user2.getUsername()));
     }
-
+    /*
     public void testViewBids(){
         // test for use case 05.04.01
         User user = new User("user","pass");
