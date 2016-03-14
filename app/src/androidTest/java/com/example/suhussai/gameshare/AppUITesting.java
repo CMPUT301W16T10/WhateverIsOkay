@@ -2,27 +2,19 @@ package com.example.suhussai.gameshare;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
@@ -37,6 +29,10 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     private Item item1 = null;
     private Item item2 = null;
     String name1 = null;
+    String players1 = null;
+    String age1 = null;
+    String timeReq1 = null;
+    String platform1 = null;
     String name2 = null;
     String username = null;
     String password = null;
@@ -61,11 +57,18 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // http://stackoverflow.com/questions/20427411/testing-multiple-activities-with-espresso
         // User: Jigish Chawda
         // Date: Sun-Mar-13
-        
+
+        username = "testui";
+        password = "1";
+
+
         name1 = "Monoply";
         name2 = "Risk";
-        username = "bruce";
-        password = "hello";
+        players1 = "2~4";
+        age1 = "10+";
+        timeReq1 = "10 hours";
+        platform1 = "board";
+
 
         // user = new User(username, password);
 
@@ -84,25 +87,128 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         onView(withId(R.id.Login))
                 .perform(click());
 
-        // click on view my items
+
+        // US 01.01.01
+        // As an owner, I want to add a thing in my things, each denoted with a clear, suitable description.
+
+        // click on View My Items on ViewUserProfile
+        onView(withId(R.id.View_My_Items))
+                .perform(click());
+        // click on Add Item on ViewItemsList
+        onView(withId(R.id.myItemsAddItem))
+                .perform(click());
+        // fill in the fields on ViewItem
+        onView(withId(R.id.ViewItem_NameEdit))
+                .perform(typeText(name1), closeSoftKeyboard());
+        // click on Save on ViewItem
+        onView(withId(R.id.ViewItem_Save))
+                .perform(click());
+        // After clicking Save, we are back to ViewItemsList
+        // Go back to ViewUserProfile
+        pressBack();
+        // Click View My Items button on ViewUserProfile to see if ViewItemsList has refreshed
         onView(withId(R.id.View_My_Items))
                 .perform(click());
 
+
         // US 01.02.01
         // As an owner, I want to view a list of all my things, and their descriptions and statuses.
+
+        // Check if the list is displayed
         onView(withId(R.id.myItemsListView))
                 .check(matches(isDisplayed()));
-        onView(withId(R.id.myItemsListView))
-                .check(matches(isClickable()));
+
 
         // US 01.03.01
         // As an owner, I want to view one of my things, its description and status.
+
+        // Click the item in list view on ViewItemsList.
         onView(withId(R.id.myItemsListView))
                 .perform(click());
-        onView(withId(R.id.ViewItem_NameText))
+        // Check if the correct TextEdit fields are displayed on ViewItem.
+        onView(withId(R.id.ViewItem_NameEdit))
                 .check(matches(isDisplayed()));
-        onView(withId(R.id.ViewItem_PlayersText))
+        onView(withId(R.id.ViewItem_PlayersEdit))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_AgeEdit))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_TimeReqEdit))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_PlatformEdit))
+                .check(matches(isDisplayed()));
+
+
+        // US 01.04.01
+        // As an owner, I want to edit a thing in my things.
+
+        // Currently in ViewItem.
+        // Edit the text fields on ViewItem
+        onView(withId(R.id.ViewItem_NameEdit))
+                .perform(replaceText(name2), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_PlayersEdit))
+                .perform(typeText(players1), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_AgeEdit))
+                .perform(typeText(age1), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_TimeReqEdit))
+                .perform(typeText(timeReq1), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_PlatformEdit))
+                .perform(typeText(platform1), closeSoftKeyboard());
+        // Click Save on ViewItem
+        onView(withId(R.id.ViewItem_Save))
+                .perform(click());
+        // Back on ViewItemsList
+        // Go back to ViewUserProfile
+        pressBack();
+        // Click View My Items button on ViewUserProfile to see if ViewItemsList has refreshed
+        onView(withId(R.id.View_My_Items))
+                .perform(click());
+        // Click the edited item on ViewItemsList to see if it is edited.
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
+
+
+        // US 01.05.01
+        // As an owner, I want to delete a thing in my things.
+
+        // Currently Viewing the Edited Item from above on ViewItem.
+        // Click the delete button.
+        onView(withId(R.id.ViewItem_Delete))
+                .perform(click());
+        onView(withText(R.string.dialogYes))
+                .perform(click());
+        // Back on ViewItemsList Screen
+        // Go back to ViewUserProfile
+        pressBack();
+        // Click View My Items button on ViewUserProfile to see if ViewItemsList has refreshed
+        onView(withId(R.id.View_My_Items))
+                .perform(click());
+
+
+        // US 03.01.01
+        // As a user, I want a profile with a unique username and my contact information.
+
+        // Go back to ViewUserProfile
+        pressBack();
+        // Check if all ViewUserProfile fields are displayed correctly.
+        onView(withId(R.id.UserProfile))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.NameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.UsernameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.EmailText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.PhoneText))
+                .check(matches(isDisplayed()));
+
+
+
+        /*
+         * TEST FAILS AFTER THIS POINT
+         *
+         * ADD UI TESTING HERE FROM US 03.02.01 TO CONTINUE
+         */
+
 
         // US 05.05.01
         // As an owner, I want to view the bids on one of my things.

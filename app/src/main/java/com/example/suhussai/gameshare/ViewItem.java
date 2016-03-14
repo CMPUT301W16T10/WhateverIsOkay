@@ -15,11 +15,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -248,7 +243,7 @@ public class ViewItem extends AppCompatActivity{
                 final Bid bid = item.getBids().get(position);
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("What do you wish to do with this bid from " + bid.getBidder() + " for " + bid.getAmount() + "?");
-                adBuilder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton(R.string.dialogAccept, new DialogInterface.OnClickListener() {
                     /**
                      * User accepts bid
                      */
@@ -259,7 +254,7 @@ public class ViewItem extends AppCompatActivity{
                         finish();
                     }
                 });
-                adBuilder.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+                adBuilder.setNegativeButton(R.string.dialogDecline, new DialogInterface.OnClickListener() {
                     /**
                      * User declines bid
                      */
@@ -270,7 +265,7 @@ public class ViewItem extends AppCompatActivity{
                         finish();
                     }
                 });
-                adBuilder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                adBuilder.setNeutralButton(R.string.dialogCancel, new DialogInterface.OnClickListener() {
                     /**
                      * User cancels out of decision
                      */
@@ -331,7 +326,7 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to delete this item?");
-                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton( R.string.dialogYes, new DialogInterface.OnClickListener() {
                     @Override
                     /**
                      * User confirms, item will be deleted
@@ -345,7 +340,7 @@ public class ViewItem extends AppCompatActivity{
                     }
                 });
 
-                adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                adBuilder.setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
                     @Override
                     /**
                      * User cancels, go back to view item
@@ -418,7 +413,7 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
-                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
                     /**
                      * User confirms, bid is placed
                      */
@@ -440,7 +435,7 @@ public class ViewItem extends AppCompatActivity{
                     }
                 });
 
-                adBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                adBuilder.setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
                     /**
                      * User cancels, back to view item
                      */

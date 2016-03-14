@@ -10,4 +10,12 @@
     <string name="userProfile">User Profile</string>
     <string name="login_register">Login/Register</string>
 
+    <string name="dialogYes">Yes</string>
+    <string name="dialogNo">No</string>
+    <string name="dialogAccept">Accept</string>
+    <string name="dialogDecline">Decline</string>
+    <string name="dialogCancel">Cancel</string>
+
+
+
 </resources>

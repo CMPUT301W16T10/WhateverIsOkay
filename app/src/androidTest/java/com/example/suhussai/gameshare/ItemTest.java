@@ -2,12 +2,14 @@ package com.example.suhussai.gameshare;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
@@ -76,6 +78,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
     }*/
 
+    // UC 11
     public void testAddItem() {
         Item item = new Item("new item", "BigOwner");
 
@@ -130,6 +133,14 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         item2 = null;
     }
 
+    // UC 14
+    public void testEditItem() {
+        assertEquals(user.getItems().get(0).getName(), name1);
+        user.getItem(0).setName("new_name");
+        assertEquals(user.getItem(0).getName(), "new_name");
+    }
+
+    // UC 15
     public void testDeleteItem() {
         user.addItem(item1);
         assertTrue(user.getItems().contains(item1));
@@ -138,12 +149,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
-    public void testEditItem() {
-        assertEquals(user.getItems().get(0).getName(), name1);
-        user.getItem(0).setName("new_name");
-        assertEquals(user.getItem(0).getName(), "new_name");
-    }
-
+    // US 02.01.01
     public void testStatus() {
         // test for use case 02.01.01, must be true in all application states for all items
         assertTrue((item2.getStatus() == "available"));
@@ -151,7 +157,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     }
 
 
-
+    // UC 31
     public void testUserProfile(){
         // As a user, I want a profile with a unique username and my contact information.
         String username = "thinglover";
@@ -169,6 +175,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
+    // UC 32
     public void testUpdateProfile(){
         // As a user, I want to edit the contact information in my profile.
         String username = "thinglover";
@@ -201,6 +208,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertEquals(user.getUsername(), username);
     }
 
+    // UC 33
     public void testGetOwnerInfo(){
         // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
         assertEquals(item1.getOwner(), user.getUsername());
@@ -220,7 +228,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
-
+    // UC 41
     public void testSearchKeyword(){
         // US 04.01.01
         // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
@@ -248,6 +256,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
+    // UC 51
     public void testBid(){
         // test for use case 05.01.01
         /*user.bidOn(item1);
@@ -264,6 +273,42 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(item.getBids().contains(bid));
     }
 
+    // UC 94
+    // reference: https://docs.oracle.com/javase/tutorial/2d/images/loadimage.html
+    // http://stackoverflow.com/questions/18507180/get-image-dimension-and-image-size-from-binary
+    public void testCheckPhotoSize(){
+        // load photo when LoadImageApp.java is implemented
+        //Image photo = null;
+        //photo = ImageIO.read(new File("image.jpg"));
+        File photo = new File("image.jpg");
+
+        double bytes = photo.length(); // 0 b for now since file is null
+        double max_size = 65536; // == 512 kb
+        assertTrue("size is greater than than 65536 bytes.", bytes < max_size);
+    }
+
+    // UC 101
+    // Need to implement GeoJson - Part to be implemented for Project Part 5
+    // & implement google maps: http://www.tutorialspoint.com/android/android_google_maps.htm
+    public void testMarkGeoLocation(){
+        String coordinates = "[-113.52715, 53.52676]"; // long , lat
+        // Use GoogleMap to pinpoint the coordinates (CSC)
+        String coordinatesReturned = "returned coordinates from GoogleMap after location set";
+        assertEquals(coordinates, coordinatesReturned);
+    }
+    // UC 102
+    // Needs same implementation as UC 101
+    public void testViewGeoLocation(){
+        // More of an UITesting to see if this displays on the Borrowed Item in ItemView once implemented.
+        Item item = new Item("game", "name");
+        item.setBorrowed();
+        assertTrue(item.isBorrowed());
+        assertTrue("Geolocation is not set by the lender yet.", item.getLocation() != null);
+
+
+
+
+    }
 
 /*
 

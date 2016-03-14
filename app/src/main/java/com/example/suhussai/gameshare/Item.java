@@ -50,7 +50,7 @@ public class Item {
      */
     private String owner;
     /**
-     * @deprecated
+     * The rate that the item will be borrowed at.
      */
     private double rate;
     /**
@@ -61,6 +61,11 @@ public class Item {
      * List of all bids on the item (empty when borrowed)
      */
     private ArrayList<Bid> bids = new ArrayList<Bid>();
+    /**
+     * The location of item when borrowed is true. [long, lat]
+     */
+    private String location = new String();
+
 
     // Overridden instantiation depending on the data provided in the construction.
 
@@ -99,7 +104,7 @@ public class Item {
     public Item(){}
 
     /**
-     * @deprecated
+     * Sets the rate of item to be borrowed.
      */
     public void setRate(double rate) {
         this.rate = rate;
@@ -211,7 +216,8 @@ public class Item {
     }
 
     /**
-     * @deprecated
+     * Gets the rate of the borrowed item.
+     * @return the item's borrowed rate in $/hr
      */
     public double getRate(){
         return rate;
@@ -325,6 +331,23 @@ public class Item {
     public void setPlatform(String platform) {
         this.platform = platform;
     }
+
+    /**
+     * Gets the geoLocation coordinates
+     * @return location string in [long, lat] format
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Sets the geoLocation given the string in [long, lat] format
+     * @param location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 
     /**
      * Gets the number of players
