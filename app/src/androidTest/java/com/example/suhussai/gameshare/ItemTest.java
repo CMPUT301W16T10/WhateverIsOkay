@@ -79,12 +79,12 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 12
     public void testViewItem() {
-        //TODO Add test for this
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 13
     public void testSelectItem() {
-        //TODO Add test for this
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 14
@@ -164,6 +164,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 33
     public void testGetOwnerInfo(){
+        // This Use Case deals largely with UI interface but a Unit Test is also supplied
+
         // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
         assertEquals(item1.getOwner(), user.getUsername());
         assertEquals(item2.getOwner(), user.getUsername());
@@ -234,23 +236,22 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 52
     public void testSeePendingItems() {
-        //TODO adjust for attributes and use setUp();
-        /*
+        //should adjust to use setUp();
         // test for use case 05.02.01
         ArrayList<Item> pendingItems = new ArrayList<Item>();
         User user = new User("user","pass");
-        Item item1 = new Item("item1",user);
+        Item item1 = new Item("item1",user.getUsername());
         item1.setBidded();
         user.addItem(item1);
         if (item1.getStatus() == "bidded")
             pendingItems.add(item1);
-        assertEquals(pendingItems.size(), 1);*/
+        assertEquals(pendingItems.size(), 1);
     }
 
     // UC 53
     public void testNotification(){
         // test for use case 05.03.01
-        //TODO use setUp() parameters
+        //should use setUp() parameters
         User user = new User("user","pass");
         Item item = new Item("item","user");
         User user2 = new User("user2","pass2");
@@ -264,12 +265,12 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 54
     public void testViewBids() {
-        //TODO adjust the test to fit attributes and setUp();
-        /*
+        //should adjust to use setUp();
+
         // test for use case 05.04.01
         User user = new User("user","pass");
-        Item item1 = new Item("item1",user);
-        Item item2 = new Item("item2",user);
+        Item item1 = new Item("item1",user.getUsername());
+        Item item2 = new Item("item2",user.getUsername());
         User user2 = new User("user2","pass2");
         user.addItem(item1);
         user.addItem(item2);
@@ -281,17 +282,17 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
             }
         }
         assertTrue(bidded.contains(item1));
-        assertFalse(bidded.contains(item2));*/
+        assertFalse(bidded.contains(item2));
     }
 
     // UC 55
     public void testBidsOnItems() {
-        //TODO set up this test
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 56
     public void testAcceptOfferOnMyThing(){
-        //TODO use setUp();
+        //should use setUp();
         String name = "Monoply"; // some meaningful item name
         String username = "user1"; //some meaningful username
         String username2 = "user2"; //some other user
@@ -322,7 +323,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 57
     public void testDeclineOfferOnMyThing(){
-        // TODO use setUp();
+        // should use setUp();
         String name = "Monopoly"; // some meaningful item name
         String username = "Steve.Smith"; //some meaningful username
         String username2 = "Joe.Stevens"; //some other user
@@ -342,24 +343,24 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 61
     public void testViewBorrowedItems() {
-        //TODO set up this test
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 62
     public void testViewItemsBeingBorrowed() {
-        //TODO set up this test
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 71
     public void testMarkMyThingsReturnedAndAvailable() {
-        //TODO adjust to use correct attributes and use setUp();
-        /*
+        //should adjust to use setUp();
+
         String name = "Monopoly"; // some meaningful item name
 
         String username = "Steve.Smith"; //some meaningful username
 
         User user = new User( username , "");
-        Item item = new Item( name,user );
+        Item item = new Item( name,user.getUsername() );
         item.setBorrowed(); //item is now borrowed
 
         user.addItem(item ); //user owns borrowed item
@@ -376,20 +377,24 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         assertFalse( user.getOwnedBorrowedItems().contains( item ) );
 
-        assertEquals( item.getStatus(), "Available" ); //redundant check*/
+        assertEquals( item.getStatus(), "Available" ); //redundant check
     }
 
     // UC 81
     public void testConnectivityPush() {
-        //TODO adjust to fit correct attributes, use setUp();
-        /*User user = new User("user1", "");
-        Item item = new Item("Risk",user);
+        //should adjust to use setUp();
+        User user = new User("user1", "");
+        Item item = new Item("Risk",user.getUsername());
         // disableConnection();//some method that simulates user being offline
         user.addItem(item);
         // enableConnection();//undoes the disableConnection method
         ArrayList<Item> items = new ArrayList<Item>();
-        items.add(user.getItem(item));
-        assertTrue(items.contains(item));*/
+        ArrayList<Item> userItems = new ArrayList<Item>();
+        userItems = user.getItems();
+        int size = userItems.size() - 1; //the last item in the list
+        Item theItem = user.getItem(size);
+        items.add(theItem);
+        assertTrue(items.contains(item));
     }
 
     // UC 91
