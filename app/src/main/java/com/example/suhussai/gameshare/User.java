@@ -231,7 +231,13 @@ public class User {
      * @return the items
      */
     public ArrayList<Item> getOwnedBorrowedItems() {
-        return new ArrayList<Item>();
+        ArrayList<Item> AL = new ArrayList<Item>();
+        for( Item i : items ) {
+            if( i.isBorrowed() ) {
+                AL.add(i);
+            }
+        }
+        return AL;
     }
 
     /**
@@ -239,15 +245,20 @@ public class User {
      * @return the items
      */
     public ArrayList<Item> getOwnedAvailableItems() {
-        return new ArrayList<Item>();
-    }
+        ArrayList<Item> AL = new ArrayList<Item>();
+        for( Item i : items ) {
+            if( !i.isBorrowed() && !i.isBidded() ) {
+                AL.add(i);
+            }
+        }
+        return AL;    }
 
     /**
      * Sets the item as having been returned
      * @param item the item
      */
     public void markItemReturned(Item item){
-        //TODO write this method
+        item.setAvailable();
     }
 
     /**

@@ -172,6 +172,8 @@ public class Item {
     public void setAvailable(){
         borrowed = false;
         bidded = false;
+        borrower = "";
+        rate = 0;
     }
 
     /**
