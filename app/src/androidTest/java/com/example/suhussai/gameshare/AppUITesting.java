@@ -92,6 +92,7 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .check(matches(isDisplayed()));
         onView(withId(R.id.ViewItem_PlayersText))
                 .check(matches(isDisplayed()));
+
         // US 05.05.01
         // As an owner, I want to view the bids on one of my things.
         onView(withId(R.id.ViewItem_bidsListView))
@@ -104,6 +105,23 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // go back to user profile
         pressBack();
 
+        // US 03.03.01
+        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
+        onView(withId(R.id.Search_for_Items)).perform(click());
+        onView(withId(R.id.myItemsListView)).perform(click());
+        onView(withId(R.id.ViewItem_ViewOwner)).check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_ViewOwner)).check(matches(isClickable()));
+        onView(withId(R.id.ViewItem_ViewOwner)).perform(click());
+        onView(withId(R.id.UsernameText)).check(matches(isDisplayed()));
+        onView(withId(R.id.EmailText)).check(matches(isDisplayed()));
+        onView(withId(R.id.PhoneText)).check(matches(isDisplayed()));
+
+        //back to item
+        pressBack();
+        //back to search
+        pressBack();
+        //back to profile
+        pressBack();
 
         // US 06.01.01
         // As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
@@ -124,5 +142,34 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .check(matches(isDisplayed()));
 
     }
+
+    /*public void testGetOwnerInfo(){
+        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
+        User user1 = new User("name1","pass1");
+        User user2 = new User("name2","pass2");
+        Item item = new Item("game","name1");
+        user1.addItem(item);
+        UserController.setCurrentUser(user2);
+        ItemController.setCurrentItem(item);
+        Instrumentation.ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewUserProfile.class.getName(), null, false);
+        Intent intent = new Intent(getActivity(), ViewItem.class);
+        intent.putExtra("modeInt", ViewItem.MODE_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getInstrumentation().getContext().startActivity(intent);
+        activity = getActivity();
+        Log.i("*************",activity.toString());
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Button button = (Button) activity.findViewById(R.id.ViewItem_ViewOwner);
+                assertNotNull(button);
+                button.performClick();
+            }
+        });
+        ViewUserProfile nextActivity = (ViewUserProfile) getInstrumentation().waitForMonitorWithTimeout(activityMonitor, 5000);
+
+        assertNotNull(nextActivity);
+    }*/
+
 
 }

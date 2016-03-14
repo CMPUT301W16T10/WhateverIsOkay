@@ -91,7 +91,14 @@ public class ViewItem extends AppCompatActivity{
         // turn that mode string back into an integer. there's maybe a way to use an extra that is an integer but i didn't look too closely.
         // TODO: change to passing integer like below
         String mode = getIntent().getStringExtra("mode");
-        final int activity_mode = Integer.parseInt(mode);
+        int temp;
+        if (mode==null){
+            temp=getIntent().getExtras().getInt("modeInt");
+        }
+        else{
+            temp=Integer.parseInt(mode);
+        }
+        final int activity_mode = temp;
 
         //TODO: set item to be the Item object being displayed when view is loaded (could be done on controller side)
         GameName = (EditText) findViewById(R.id.ViewItem_NameEdit);
