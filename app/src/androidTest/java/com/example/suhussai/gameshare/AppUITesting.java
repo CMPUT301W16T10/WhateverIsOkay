@@ -2,16 +2,21 @@ package com.example.suhussai.gameshare;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.action.ViewActions;
+import android.support.v7.widget.SearchView;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.EditText;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -36,8 +41,11 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     String name2 = null;
     String username = null;
     String password = null;
+    String username2 = null;
+    String password2 = null;
     Instrumentation instrumentation;
     Activity activity;
+    Activity activity2;
     EditText textInput;
     Instrumentation.ActivityMonitor monitor;
     @Override
@@ -61,9 +69,12 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         username = "testui";
         password = "1";
 
+        username2 = "testui2";
+        password2 = "2";
 
-        name1 = "Monoply";
-        name2 = "Risk";
+
+        name1 = "Monopoly";
+        name2 = "The Game of Risk";
         players1 = "2~4";
         age1 = "10+";
         timeReq1 = "10 hours";
@@ -77,9 +88,11 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         item1.setAvailable();
         item2.setAvailable();
 
-        getActivity();
 
-        // login
+        // Start App
+        getActivity();
+/*
+        // Login
         onView(withId(R.id.UsernameText))
                 .perform(typeText(username), closeSoftKeyboard());
         onView(withId(R.id.PasswordText))
@@ -167,6 +180,145 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .perform(click());
 
 
+        // US 03.01.01
+        // As a user, I want a profile with a unique username and my contact information.
+
+        // Go back to ViewItemsList
+        // pressBack();
+        // Go back to ViewUserProfile
+        pressBack();
+        // Check if all ViewUserProfile fields are displayed correctly.
+        onView(withId(R.id.UserProfile))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.NameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.UsernameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.EmailText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.PhoneText))
+                .check(matches(isDisplayed()));
+        // Go back to ViewLogin
+        pressBack();
+        // Try Logging in with a wrong password. Username is unique so it fails.
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText("2"), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        // Log back in with correct password.
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+
+
+        // US 03.02.01
+        // As a user, I want to edit the contact information in my profile.
+
+        // Fill in the Fields for ViewUserProfile.
+        onView(withId(R.id.NameText))
+                .perform(typeText("UI Tester 1"), closeSoftKeyboard());
+        onView(withId(R.id.EmailText))
+                .perform(typeText("tester1@uitest.ca"), closeSoftKeyboard());
+        onView(withId(R.id.PhoneText))
+                .perform(typeText("780-123-4567"), closeSoftKeyboard());
+        onView(withId(R.id.Update_Profile))
+                .perform(click());
+        // Go to ViewLogIn
+        pressBack();
+        // Login to view if edit has been commited in ViewUserProfile.
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        // Clear the Fields for ViewUserProfile.
+        onView(withId(R.id.NameText))
+                .perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.EmailText))
+                .perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.PhoneText))
+                .perform(replaceText(""), closeSoftKeyboard());
+        onView(withId(R.id.Update_Profile))
+                .perform(click());
+        // Go back to ViewLogIn
+        pressBack();
+*/
+
+        // US 04.01.01
+        // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
+        // US 04.02.01
+        // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
+
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        //Goto ViewItemsList in Search Mode
+        onView(withId(R.id.Search_for_Items))
+                .perform(click());
+        //Search for The Game of Risk
+        //onView(withId(R.id.myItemsSearchView))
+        //        .perform(click());
+        //onView(withId(android.support.design.R.id.search_src_text))
+        //        .perform(typeText(name2), pressKey(66));
+        //Select the item.
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
+
+
+        // US 03.03.01
+        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
+
+        // Click on the ViewOwner button on the ViewItem.
+        onView(withId(R.id.ViewItem_ViewOwner))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.ViewItem_ViewOwner))
+                .check(matches(isClickable()));
+        onView(withId(R.id.ViewItem_ViewOwner))
+                .perform(click());
+        onView(withId(R.id.UsernameText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.EmailText))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.PhoneText))
+                .check(matches(isDisplayed()));
+        //Go back to the ViewItem.
+        pressBack();
+
+        // US 05.01.01
+        // As a borrower, I want to bid for an available thing, with a monetary rate (in dollars per hour).
+
+        // Place bid of $10 / hr
+        onView(withId(R.id.ViewItem_bidValue))
+                .perform(typeText("10"), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_Bid))
+                .perform(click());
+        onView(withText(R.string.dialogYesBid))
+                .perform(click());
+        //Automatically goes back to ViewItemsList
+        //Go back to ViewUserProfile;
+        pressBack();
+
+/***********************************************************/
+
+
+
+
+
+
+
+
+
+
         // US 01.05.01
         // As an owner, I want to delete a thing in my things.
 
@@ -184,32 +336,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .perform(click());
 
 
-        // US 03.01.01
-        // As a user, I want a profile with a unique username and my contact information.
-
-        // Go back to ViewUserProfile
-        pressBack();
-        // Check if all ViewUserProfile fields are displayed correctly.
-        onView(withId(R.id.UserProfile))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.NameText))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.UsernameText))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.EmailText))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.PhoneText))
-                .check(matches(isDisplayed()));
-
-
-
-        /*
-         * TEST FAILS AFTER THIS POINT
-         *
-         * ADD UI TESTING HERE FROM US 03.02.01 TO CONTINUE
-         */
-
-
         // US 05.05.01
         // As an owner, I want to view the bids on one of my things.
         onView(withId(R.id.ViewItem_bidsListView))
@@ -222,16 +348,7 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // go back to user profile
         pressBack();
 
-        // US 03.03.01
-        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
-        onView(withId(R.id.Search_for_Items)).perform(click());
-        onView(withId(R.id.myItemsListView)).perform(click());
-        onView(withId(R.id.ViewItem_ViewOwner)).check(matches(isDisplayed()));
-        onView(withId(R.id.ViewItem_ViewOwner)).check(matches(isClickable()));
-        onView(withId(R.id.ViewItem_ViewOwner)).perform(click());
-        onView(withId(R.id.UsernameText)).check(matches(isDisplayed()));
-        onView(withId(R.id.EmailText)).check(matches(isDisplayed()));
-        onView(withId(R.id.PhoneText)).check(matches(isDisplayed()));
+
 
         //back to item
         pressBack();

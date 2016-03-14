@@ -413,7 +413,7 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
-                adBuilder.setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton(R.string.dialogYesBid, new DialogInterface.OnClickListener() {
                     /**
                      * User confirms, bid is placed
                      */
@@ -435,7 +435,7 @@ public class ViewItem extends AppCompatActivity{
                     }
                 });
 
-                adBuilder.setNegativeButton(R.string.dialogNo, new DialogInterface.OnClickListener() {
+                adBuilder.setNegativeButton(R.string.dialogNoBid, new DialogInterface.OnClickListener() {
                     /**
                      * User cancels, back to view item
                      */
