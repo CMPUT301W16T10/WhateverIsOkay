@@ -51,6 +51,17 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     }
 
     public void testUIComponents() {
+
+        // isClickable() from
+        // http://stackoverflow.com/questions/32906881/checking-if-a-button-is-clickable-in-espresso-test-android-studio
+        // User: Ads
+        // Date: Sun-Mar-13
+
+        // test multiple activities using espresso from
+        // http://stackoverflow.com/questions/20427411/testing-multiple-activities-with-espresso
+        // User: Jigish Chawda
+        // Date: Sun-Mar-13
+        
         name1 = "Monoply";
         name2 = "Risk";
         username = "bruce";
