@@ -368,6 +368,8 @@ public class ViewItemsList extends AppCompatActivity {
              */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                Item item = user.getItem(position);
+                ItemController.setCurrentItem(item);
                 // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
                 String mode = Integer.toString(ViewItem.MODE_VIEW);
                 Integer return_mode = getMode_viewItemsList();
