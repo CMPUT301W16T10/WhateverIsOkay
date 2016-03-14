@@ -307,15 +307,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         //Go back to ViewUserProfile;
         pressBack();
 
-/***********************************************************/
-
-
-
-
-
-
-
-
 
         // Go back to ViewLogin
         pressBack();
@@ -351,33 +342,32 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
         // US 05.05.01
         // As an owner, I want to view the bids on one of my things.
+
+        // Currently on ViewItemsList, so select an item.
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
+        // Check if bidsLIstView exists in the ViewItem.
         onView(withId(R.id.ViewItem_bidsListView))
                 .check(matches(isDisplayed()));
+        // go back to ViewItemsList
+        pressBack();
+        //back to ViewProfile
+        pressBack();
+
 
         // TODO: add status message in item view activity and enable test below
         // onView(withId(R.id.ViewItem_StatusText))
         //        .check(matches(isDisplayed()));
 
-        // go back to user profile
-        pressBack();
-
-
-
-        //back to item
-        pressBack();
-        //back to search
-        pressBack();
-        //back to profile
-        pressBack();
 
         // US 06.01.01
         // As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
         // click on currently borrowed items
+
         onView(withId(R.id.Currently_Borrowed_Items))
                 .perform(click());
         onView(withId(R.id.myItemsListView))
                 .check(matches(isDisplayed()));
-
         // go back to user profile
         pressBack();
 
