@@ -91,7 +91,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
         // Start App
         getActivity();
-/*
         // Login
         onView(withId(R.id.UsernameText))
                 .perform(typeText(username), closeSoftKeyboard());
@@ -248,7 +247,7 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .perform(click());
         // Go back to ViewLogIn
         pressBack();
-*/
+
 
         // US 04.01.01
         // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
@@ -318,11 +317,25 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
 
 
+        // Go back to ViewLogin
+        pressBack();
+        // Log back in with correct password.
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
 
         // US 01.05.01
         // As an owner, I want to delete a thing in my things.
 
-        // Currently Viewing the Edited Item from above on ViewItem.
+        // Go to My items
+        onView(withId(R.id.View_My_Items))
+                .perform(click());
+        //Select an item
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
         // Click the delete button.
         onView(withId(R.id.ViewItem_Delete))
                 .perform(click());
@@ -376,34 +389,4 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .check(matches(isDisplayed()));
 
     }
-
-    /*public void testGetOwnerInfo(){
-        // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
-        User user1 = new User("name1","pass1");
-        User user2 = new User("name2","pass2");
-        Item item = new Item("game","name1");
-        user1.addItem(item);
-        UserController.setCurrentUser(user2);
-        ItemController.setCurrentItem(item);
-        Instrumentation.ActivityMonitor activityMonitor = getInstrumentation().addMonitor(ViewUserProfile.class.getName(), null, false);
-        Intent intent = new Intent(getActivity(), ViewItem.class);
-        intent.putExtra("modeInt", ViewItem.MODE_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getInstrumentation().getContext().startActivity(intent);
-        activity = getActivity();
-        Log.i("*************",activity.toString());
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Button button = (Button) activity.findViewById(R.id.ViewItem_ViewOwner);
-                assertNotNull(button);
-                button.performClick();
-            }
-        });
-        ViewUserProfile nextActivity = (ViewUserProfile) getInstrumentation().waitForMonitorWithTimeout(activityMonitor, 5000);
-
-        assertNotNull(nextActivity);
-    }*/
-
-
 }
