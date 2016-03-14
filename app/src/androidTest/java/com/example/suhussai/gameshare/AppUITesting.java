@@ -53,8 +53,8 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     public void testUIComponents() {
         name1 = "Monoply";
         name2 = "Risk";
-        username = "sang";
-        password = "1";
+        username = "bruce";
+        password = "hello";
 
         // user = new User(username, password);
 
@@ -92,12 +92,36 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .check(matches(isDisplayed()));
         onView(withId(R.id.ViewItem_PlayersText))
                 .check(matches(isDisplayed()));
+        // US 05.05.01
+        // As an owner, I want to view the bids on one of my things.
+        onView(withId(R.id.ViewItem_bidsListView))
+                .check(matches(isDisplayed()));
 
-        // go back to view items
-        pressBack();
+        // TODO: add status message in item view activity and enable test below
+        // onView(withId(R.id.ViewItem_StatusText))
+        //        .check(matches(isDisplayed()));
 
         // go back to user profile
         pressBack();
+
+
+        // US 06.01.01
+        // As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
+        // click on currently borrowed items
+        onView(withId(R.id.Currently_Borrowed_Items))
+                .perform(click());
+        onView(withId(R.id.myItemsListView))
+                .check(matches(isDisplayed()));
+
+        // go back to user profile
+        pressBack();
+
+        // US 06.02.01
+        // As an owner, I want to view a list of my things being borrowed, each thing with its description and borrower username.
+        onView(withId(R.id.Currently_Lent_Items))
+                .perform(click());
+        onView(withId(R.id.myItemsListView))
+                .check(matches(isDisplayed()));
 
     }
 
