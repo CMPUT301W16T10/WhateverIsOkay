@@ -143,6 +143,10 @@ public class ItemController {
          *  used to populate the list of user's items with bids on them
          */
         public static final String MODE_GET_MY_ITEMS_WITH_BIDS = "5";
+        /**
+         *  used to populate the list of user's items with bids on them
+         */
+        public static final String MODE_GET_MY_LENT_ITEMS = "6";
 
         /**
          * the search string
@@ -246,6 +250,26 @@ public class ItemController {
                                 "\t}\n" +
                                 "}";
             }
+            else if (mode.equals(MODE_GET_MY_LENT_ITEMS)) {
+                search_items =  "{\n" +
+                        "    \"from\":0,\n" +
+                        "    \"size\":10000,\n" +
+                        "    \"query\": {\n" +
+                        "                   \"bool\" : {\n" +
+                        "                                  \"must\": [\n" +
+                        "                                                {\"match\" : {\n" +
+                        "                                                               \"owner\" :  \""+params[1]+"\"\n" +
+                        "                                                             }\n" +
+                        "                                                },\n" +
+                        "                                                {\"match\" : {\n" +
+                        "                                                                \"borrowed\":true\n" +
+                        "                                                             }\n" +
+                        "                                                }\n" +
+                        "                                            ]\n" +
+                        "                              }\n" +
+                        "               }\n" +
+                        "}\n";
+            }
 
             Search search = new Search.Builder(search_items).addIndex("cmput301wi16t10").addType("items").build();
 
@@ -253,6 +277,7 @@ public class ItemController {
                 SearchResult execute = client.execute(search);
                 if (execute.isSucceeded()) {
                     List<Item> foundItems = execute.getSourceAsObjectList(Item.class);
+                    Log.e("IMP_INFO", "Found "+foundItems.size() + " new items.");
                     item_list.addAll(foundItems);
 
                     if (mode.equals(MODE_GET_BIDDED_ITEMS)) {
@@ -278,6 +303,10 @@ public class ItemController {
                         // terminates here if we are getting bidded items.
                         return item_list2;
                     }
+                }else {
+                    Log.e("IMP_INFO", "Search was not successful.");
+                    Log.e("IMP_INFO", execute.getErrorMessage());
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
