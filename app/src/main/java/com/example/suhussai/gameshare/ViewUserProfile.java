@@ -196,6 +196,20 @@ public class ViewUserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // View the Items that the User has currently lent to a different User.
+        Button currentlyLentItemsButton = (Button) findViewById(R.id.Currently_Lent_Items);
+        currentlyLentItemsButton.setOnClickListener(new View.OnClickListener(){
+            /**
+             * On click method for search for items button, goes to ViewItemList in borrowed items mode
+             */
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
+                intent.putExtra("mode", ViewItemsList.MODE_CURRENTLY_LENT_ITEMS);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -217,6 +231,9 @@ public class ViewUserProfile extends AppCompatActivity {
         v.setVisibility(View.GONE);
 
         v = findViewById(R.id.Update_Profile);
+        v.setVisibility(View.GONE);
+
+        v = findViewById(R.id.Currently_Lent_Items);
         v.setVisibility(View.GONE);
 
         username.setEnabled(false);
