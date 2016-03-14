@@ -88,7 +88,7 @@ public class ViewLogIn extends AppCompatActivity {
                     intent.putExtra("mode",ViewUserProfile.MODE_EDIT);
                     UserController.setCurrentUser(user);
                     startActivity(intent);
-                    finish();
+                    //finish();
                     Toast.makeText(ViewLogIn.this, "Login Successful", Toast.LENGTH_SHORT).show();
                 }
 

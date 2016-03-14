@@ -21,72 +21,6 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         super(Item.class);
     }
 
-
-
-    /* This no longer exists
-    public void testBidsOnItems(){
-
-        setActivityIntent(new Intent());
-        ViewBidsOnItem viewBidsOnItemObj = (ViewBidsOnItem) getActivity();
-        String userName = "user1";
-        String pass = "pass1";
-        User user = null;
-
-        String userName2 = "user2";
-        String pass2 = "pass2";
-        User user2 = null;
-
-        user = User.signIn(userName, pass);
-        user2 = User.signIn(userName2, pass2);
-
-        Item item = new Item("s",user);
-        user.addItem(item);
-
-        user2.bidOn(item);
-
-        assertTrue(user.getItems().size() == 1);
-        assertTrue(user.getItems().get(0) == item);
-        assertTrue(user.getItems().get(0).isBidded() == true);
-        assertTrue(viewBidsOnItemObj.findViewById(R.id.ViewItem_bidsListView).isShown());
-
-    } */
-
-    /* This view no longer exists...
-    public void testViewBorrowedItems(){
-        setActivityIntent(new Intent());
-        ViewBorrowedItems viewBorrowedItems = (ViewBorrowedItems) getActivity();
-        String userName = "user1";
-        String pass = "pass1";
-        User user = null;
-
-        String userName2 = "user2";
-        String pass2 = "pass2";
-        User user2 = null;
-
-        user = User.signIn(userName, pass);
-        user2 = User.signIn(userName2, pass2);
-
-        Item item = new Item("s",user);
-        user.addItem(item);
-
-        user2.bidOn(item);
-        user.acceptBid(user2);
-
-        ArrayList<Item> borrowed = new ArrayList<>();
-        borrowed.add(item);
-        assertEquals(user2.getBorrowedItems(), borrowed);
-        assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
-    }*/
-
-    // UC 11
-    public void testAddItem() {
-        Item item = new Item("new item", "BigOwner");
-
-        assertFalse(user.getItems().contains(item));
-        user.addItem(item);
-        assertTrue(user.getItems().contains(item));
-    }
-
     private User user = null;
     private Item item1 = null;
     private Item item2 = null;
@@ -116,6 +50,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
+
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
@@ -131,6 +66,25 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         user = null;
         item1 = null;
         item2 = null;
+    }
+
+    // UC 11
+    public void testAddItem() {
+        Item item = new Item("new item", "BigOwner");
+
+        assertFalse(user.getItems().contains(item));
+        user.addItem(item);
+        assertTrue(user.getItems().contains(item));
+    }
+
+    // UC 12
+    public void testViewItem() {
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
+    }
+
+    // UC 13
+    public void testSelectItem() {
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
     // UC 14
@@ -151,7 +105,7 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // US 02.01.01
     public void testStatus() {
-        // test for use case 02.01.01, must be true in all application states for all items
+        // test for user story 02.01.01, must be true in all application states for all items
         assertTrue((item2.getStatus() == "available"));
         assertTrue((item1.getStatus() == "available"));
     }
@@ -210,6 +164,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 33
     public void testGetOwnerInfo(){
+        // This Use Case deals largely with UI interface but a Unit Test is also supplied
+
         // As a user, I want to, when a username is presented for a thing, retrieve and show its contact information.
         assertEquals(item1.getOwner(), user.getUsername());
         assertEquals(item2.getOwner(), user.getUsername());
@@ -256,6 +212,11 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     }
 
+    // UC 42
+    public void testSearchAllThings() {
+        //TODO set up this test
+    }
+
     // UC 51
     public void testBid(){
         // test for use case 05.01.01
@@ -271,6 +232,191 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         item.setBidded();
         assertTrue(item.isBidded());
         assertTrue(item.getBids().contains(bid));
+    }
+
+    // UC 52
+    public void testSeePendingItems() {
+        //should adjust to use setUp();
+        // test for use case 05.02.01
+        ArrayList<Item> pendingItems = new ArrayList<Item>();
+        User user = new User("user","pass");
+        Item item1 = new Item("item1",user.getUsername());
+        item1.setBidded();
+        user.addItem(item1);
+        if (item1.getStatus() == "bidded")
+            pendingItems.add(item1);
+        assertEquals(pendingItems.size(), 1);
+    }
+
+    // UC 53
+    public void testNotification(){
+        // test for use case 05.03.01
+        //should use setUp() parameters
+        User user = new User("user","pass");
+        Item item = new Item("item","user");
+        User user2 = new User("user2","pass2");
+        user.addItem(item);
+        Bid bid = new Bid("user2",1.0);
+        item.addBid(bid);
+        user.acceptBid(bid, item);
+        //Notifications not implemented yet, so this will fail
+        assertTrue(user.getNotifications().contains("Bid on item by " + user2.getUsername()));
+    }
+
+    // UC 54
+    public void testViewBids() {
+        //should adjust to use setUp();
+
+        // test for use case 05.04.01
+        User user = new User("user","pass");
+        Item item1 = new Item("item1",user.getUsername());
+        Item item2 = new Item("item2",user.getUsername());
+        User user2 = new User("user2","pass2");
+        user.addItem(item1);
+        user.addItem(item2);
+        user2.bidOn(item1);
+        ArrayList<Item> bidded = user.getItems();
+        for (int i = 0; i < bidded.size(); i++) {
+            if (!bidded.get(i).isBidded()){
+                bidded.remove(i);
+            }
+        }
+        assertTrue(bidded.contains(item1));
+        assertFalse(bidded.contains(item2));
+    }
+
+    // UC 55
+    public void testBidsOnItems() {
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
+    }
+
+    // UC 56
+    public void testAcceptOfferOnMyThing(){
+        //should use setUp();
+        String name = "Monoply"; // some meaningful item name
+        String username = "user1"; //some meaningful username
+        String username2 = "user2"; //some other user
+        String username3 = "user3"; //third user
+
+        double amount = 1.46;
+
+        double amount2 = 1.12;
+
+        User user = new User( username , "");
+        Item item = new Item( name ,username);
+        User borrower = new User( username2 , "");
+        User borrower2 = new User( username3 , "");
+
+        Bid bid = new Bid( username2, amount );
+        Bid bid2 = new Bid( username3, amount2 );
+        user.addItem(item);
+        item.addBid(bid);
+        item.addBid(bid2);
+        assertEquals(item.getStatus(), "bidded" );
+        user.acceptBid(bid, item);
+        assertEquals(item.getStatus(), "borrowed");
+        assertFalse(item.getBids().contains(bid)); //ensure the item’s accepted bid is no longer in current bid list
+        assertFalse(item.getBids().contains(bid2)); //ensure the item’s current bids do not include the second, auto declined bid.
+        assertEquals(item.getBorrower(), borrower.getUsername());
+        assertEquals(item.getRate(), amount );//Rate is currently not set, so this fails
+    }
+
+    // UC 57
+    public void testDeclineOfferOnMyThing(){
+        // should use setUp();
+        String name = "Monopoly"; // some meaningful item name
+        String username = "Steve.Smith"; //some meaningful username
+        String username2 = "Joe.Stevens"; //some other user
+        double amount = 1.46;
+        User user = new User( username , "");
+        Item item = new Item( name ,username);
+        User borrower = new User( username2 , "");
+        user.addItem(item);
+        Bid bid = new Bid( borrower.getUsername(), amount);
+        item.addBid(bid);
+
+        assertTrue(item.getBids().contains(bid));
+        user.declineBid(bid, item);
+        assertFalse(item.getBids().contains(bid));
+        assertEquals(item.getStatus(), "available");
+    }
+
+    // UC 61
+    public void testViewBorrowedItems() {
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
+    }
+
+    // UC 62
+    public void testViewItemsBeingBorrowed() {
+        // This Use Case deals solely with UI interface, not implemented in Unit Tests
+    }
+
+    // UC 71
+    public void testMarkMyThingsReturnedAndAvailable() {
+        //should adjust to use setUp();
+
+        String name = "Monopoly"; // some meaningful item name
+
+        String username = "Steve.Smith"; //some meaningful username
+
+        User user = new User( username , "");
+        Item item = new Item( name,user.getUsername() );
+        item.setBorrowed(); //item is now borrowed
+
+        user.addItem(item ); //user owns borrowed item
+
+        assertTrue( user.getOwnedBorrowedItems().contains( item ) );
+
+        assertFalse( user.getOwnedAvailableItems().contains( item ) );
+
+        assertEquals( item.getStatus(),"Borrowed" ); //redundant check
+
+        user.markItemReturned( item );
+
+        assertTrue( user.getOwnedAvailableItems().contains( item ) );
+
+        assertFalse( user.getOwnedBorrowedItems().contains( item ) );
+
+        assertEquals( item.getStatus(), "Available" ); //redundant check
+    }
+
+    // UC 81
+    public void testConnectivityPush() {
+        //should adjust to use setUp();
+        User user = new User("user1", "");
+        Item item = new Item("Risk",user.getUsername());
+        // disableConnection();//some method that simulates user being offline
+        user.addItem(item);
+        // enableConnection();//undoes the disableConnection method
+        ArrayList<Item> items = new ArrayList<Item>();
+        ArrayList<Item> userItems = new ArrayList<Item>();
+        userItems = user.getItems();
+        int size = userItems.size() - 1; //the last item in the list
+        Item theItem = user.getItem(size);
+        items.add(theItem);
+        assertTrue(items.contains(item));
+    }
+
+    // UC 91
+    public void testAddPhoto() {
+        //TODO set up this test
+        // Issue: Photos are of an unknown object type at this point. Unable to implement a unit test for this before investigating how
+        // We are likely to implement the functions
+    }
+
+
+    // UC 92
+    public void testDeletePhoto() {
+        //TODO set up this test
+        // Issue: Photos are of an unknown object type at this point. Unable to implement a unit test for this before investigating how
+        // We are likely to implement the functions
+    }
+
+    // UC 93
+    public void testViewPhoto() {
+        //TODO set up this test
+        // Issue: Photos are of an unknown object type at this point. Unable to implement a unit test for this before investigating how
+        // We are likely to implement the functions
     }
 
     // UC 94
@@ -304,170 +450,5 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         item.setBorrowed();
         assertTrue(item.isBorrowed());
         assertTrue("Geolocation is not set by the lender yet.", item.getLocation() != null);
-
-
-
-
     }
-
-/*
-
-
-    public void testAcceptOfferOnMyThing(){
-
-
-        String name = "Monoply"; // some meaningful item name
-
-        String username = "user1"; //some meaningful username
-
-        String username2 = "user2"; //some other user
-
-        String username3 = "user3"; //third user
-
-        double amount = 1.46;
-
-        double amount2 = 1.12;
-
-        User user = new User( username , "");
-        Item item = new Item( name ,user);
-        User borrower = new User( username2 , "");
-        User borrower2 = new User( username3 , "");
-
-        Bid bid = new Bid( borrower, amount );
-        Bid bid2 = new Bid( borrower2, amount2 );
-        item.addBid( bid );
-        item.addBid( bid2 );
-        user.addItem(item );
-        assertEquals( user.getItem( item ).getStatus(), "Bidded" );
-        user.getItem( item ).acceptBid( bid );
-        assertEquals( user.getItem( item ).getStatus(), "Borrowed" );
-        assertFalse( user.getCurrentBids( item ).contains( bid )); //ensure the item’s accepted bid is no longer in current bid list
-        assertFalse( user.getCurrentBids( item ).contains( bid2 )); //ensure the item’s current bids do not include the second, auto declined bid.
-        assertEquals( user.getItem( item ).getBorrower(), borrower );
-        assertEquals( user.getItem( item ).getRate(), amount );
-
-    }
-
-    public void testDeclineOfferOnMyThing(){
-
-
-        String name = "Monopoly"; // some meaningful item name
-
-        String username = "Steve.Smith"; //some meaningful username
-
-        String username2 = "Joe.Stevens"; //some other user
-
-        double amount = 1.46;
-
-
-        User user = new User( username , "");
-        Item item = new Item( name ,user);
-
-        User borrower = new User( username2 , "");
-
-
-
-        Bid bid = new Bid( borrower, amount );
-
-        item.addBid( bid );
-
-        user.addItem(item );
-
-        assertTrue( user.getCurrentBids( item ).contains( bid ) );
-
-        user.getItem( item ).declineBid( bid );
-
-        assertFalse( user.getCurrentBids( item ).contains( bid ) );
-
-
-
-    }
-
-    public void testMarkMyThingReturnedAndAvailable(){
-
-
-        String name = "Monopoly"; // some meaningful item name
-
-        String username = "Steve.Smith"; //some meaningful username
-
-
-
-
-        User user = new User( username , "");
-        Item item = new Item( name,user );
-        item.setBorrowed(); //item is now borrowed
-
-        user.addItem(item ); //user owns borrowed item
-
-        assertTrue( user.getOwnedBorrowedItems().contains( item ) );
-
-        assertFalse( user.getOwnedAvailableItems().contains( item ) );
-
-        assertEquals( item.getStatus(),"Borrowed" ); //redundant check
-
-        user.markItemReturned( item );
-
-        assertTrue( user.getOwnedAvailableItems().contains( item ) );
-
-        assertFalse( user.getOwnedBorrowedItems().contains( item ) );
-
-        assertEquals( item.getStatus(), "Available" ); //redundant check
-
-    }
-
-
-
-    public void testSeePendingItems(){
-        // test for use case 05.02.01
-        ArrayList<Item> pendingItems = new ArrayList<Item>();
-        User user = new User("user","pass");
-        Item item1 = new Item("item1",user);
-        item1.setBidded();
-        user.addItem(item1);
-        if (item1.getStatus() == "bidded")
-            pendingItems.add(item1);
-        assertEquals(pendingItems.size(), 1);
-    }
-
-    public void testNotification(){
-        // test for use case 05.03.01
-        User user = new User("user","pass");
-        Item item = new Item("item",user);
-        User user2 = new User("user2","pass2");
-        user.addItem(item);
-        user2.bidOn(item);
-        assertTrue(user.getNotifications().contains("Bid on item by " + user2.getUsername()));
-    }
-
-    public void testViewBids(){
-        // test for use case 05.04.01
-        User user = new User("user","pass");
-        Item item1 = new Item("item1",user);
-        Item item2 = new Item("item2",user);
-        User user2 = new User("user2","pass2");
-        user.addItem(item1);
-        user.addItem(item2);
-        user2.bidOn(item1);
-        ArrayList<Item> bidded = user.getItems();
-        for (int i = 0; i < bidded.size(); i++) {
-            if (!bidded.get(i).isBidded()){
-                bidded.remove(i);
-            }
-        }
-        assertTrue(bidded.contains(item1));
-        assertFalse(bidded.contains(item2));
-    }
-
-    public void testConnectivityPush(){
-
-        User user = new User("user1", "");
-        Item item = new Item("Risk",user);
-        // disableConnection();//some method that simulates user being offline
-        user.addItem(item);
-        // enableConnection();//undoes the disableConnection method
-        ArrayList<Item> items = new ArrayList<Item>();
-        items.add(user.getItem(item));
-        assertTrue(items.contains(item));
-    }
-*/
 }

@@ -11,7 +11,9 @@
     <string name="login_register">Login/Register</string>
 
     <string name="dialogYes">Yes</string>
+    <string name="dialogYesBid">Yes</string>
     <string name="dialogNo">No</string>
+    <string name="dialogNoBid">No</string>
     <string name="dialogAccept">Accept</string>
     <string name="dialogDecline">Decline</string>
     <string name="dialogCancel">Cancel</string>

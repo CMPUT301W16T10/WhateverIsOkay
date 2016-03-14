@@ -247,7 +247,7 @@ public class Item {
         borrower = bid.getBidder();
         bids.clear();
         setBorrowed();
-
+        this.setRate(bid.getAmount());
         // update the info in the elastic search
         ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
         updateItem.execute(this);
