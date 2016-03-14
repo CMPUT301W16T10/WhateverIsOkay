@@ -43,6 +43,10 @@ public class ViewItemsList extends AppCompatActivity {
      */
     public static final int MODE_CURRENTLY_BORROWED_ITEMS = 3;
     /**
+     * Mode for viewing my items borrowed by another user
+     */
+    public static final int MODE_CURRENTLY_LENT_ITEMS = 4;
+    /**
      * Adapter to hold results
      */
     private ArrayAdapter<Item> adapter;
@@ -121,6 +125,64 @@ public class ViewItemsList extends AppCompatActivity {
         }
         if (mode_viewItemsList == MODE_CURRENTLY_BORROWED_ITEMS) {
             setupBorrowedItemsMode();
+        }
+        if (mode_viewItemsList == MODE_CURRENTLY_LENT_ITEMS) {
+            setupLentItemsMode();
+        }
+
+    }
+
+    /**
+     * Setup that only happens when user requests to view items that are lent to others.
+     */
+    private void setupLentItemsMode() {
+        // Change title:
+        TextView title = (TextView) findViewById(R.id.myItemsTextView);
+        title.setText("Currently Lent Items");
+
+        // Hide searchbar & add button
+        View v = findViewById(R.id.myItemsSearchView);
+        v.setVisibility(View.GONE);
+        View w = findViewById(R.id.myItemsAddItem);
+        w.setVisibility(View.GONE);
+
+        // Grab the user's items from the controller.
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(ItemController.GetItems.MODE_GET_MY_LENT_ITEMS, user.getUsername());
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, getItems.get());
+
+            // setting up the list view to have an item click listener
+            LV = (ListView) findViewById(R.id.myItemsListView);
+            LV.setAdapter(adapter);
+            LV.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+            LV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                /**
+                 * On click method for clicking on items, goes to view item mode
+                 */
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                    Gson gson = new Gson();
+                    Item item = user.getItem(position);
+                    ItemController.setCurrentItem(item);
+                    // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
+                    String mode = Integer.toString(ViewItem.MODE_VIEW);
+                    Integer return_mode = getMode_viewItemsList();
+                    intent.putExtra("mode", mode);
+                    intent.putExtra("mode_viewItemsList", return_mode);
+                    startActivity(intent);
+                    //finish();
+                }
+            });
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
 
     }
