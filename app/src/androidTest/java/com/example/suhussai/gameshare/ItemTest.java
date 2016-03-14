@@ -76,34 +76,6 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue(viewBorrowedItems.findViewById(R.id.currentlyBorrowedListView).isShown());
     }*/
 
-    public void testViewItemsBeingBorrowed() {
-        setActivityIntent(new Intent());
-        ViewItemsList viewItemsList = (ViewItemsList) getActivity();
-        String userName = "user1";
-        String pass = "pass1";
-        User user = null;
-
-        String userName2 = "user2";
-        String pass2 = "pass2";
-        User user2 = null;
-
-        user = User.signIn(userName, pass);
-        user2 = User.signIn(userName2, pass2);
-
-        Item item = new Item("s", userName);
-        user.addItem(item);
-
-        user2.bidOn(item);
-        //user.acceptBid(user2);
-
-        ArrayList<Item> beingBorrowed = new ArrayList<>();
-        beingBorrowed.add(item);
-        assertEquals(user.getLentItems(), beingBorrowed);
-        ViewAsserts.assertOnScreen(getActivity().getWindow().getDecorView(), viewItemsList.findViewById(R.id.myItemsListView));
-        //(viewItemsList.findViewById(R.id.myItemsListView).isShown());
-
-    }
-
     public void testAddItem() {
         Item item = new Item("new item", "BigOwner");
 
