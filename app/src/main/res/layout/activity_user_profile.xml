@@ -179,4 +179,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/NameText" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:textSize="35sp"
+        android:id="@+id/newBids"
+        android:layout_above="@+id/View_My_Bids_Placed"
+        android:layout_alignEnd="@+id/Search_for_Items"
+        android:background="#ff0000"
+        android:textColor="#ffffff"
+        android:layout_alignTop="@+id/View_My_Items" />
+
 </RelativeLayout>

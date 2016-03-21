@@ -3,12 +3,14 @@ package com.example.suhussai.gameshare;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -210,6 +212,25 @@ public class ViewUserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Check if there are any new bids on the user's items
+        //TODO for some reason getItems returns an empty list here, this won't work until that is fixed
+        ArrayList<Item> items = user.getItems();
+        int count = 0;
+        for (Item i: items){
+            if (i.hasNewBid()){
+                count++;
+            }
+        }
+
+        TextView newBids = (TextView) findViewById(R.id.newBids);
+        if (count>0){
+            newBids.bringToFront();
+            newBids.setText(Integer.toString(count));
+        }
+        else{
+            newBids.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -219,6 +240,9 @@ public class ViewUserProfile extends AppCompatActivity {
 
 
         View v = findViewById(R.id.Search_for_Items);
+        v.setVisibility(View.GONE);
+
+        v = findViewById(R.id.newBids);
         v.setVisibility(View.GONE);
 
         v = findViewById(R.id.View_My_Items);

@@ -1,6 +1,7 @@
 package com.example.suhussai.gameshare;
 
 import android.app.AlertDialog;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,10 @@ public class Item {
      * @see #bidded
      */
     private boolean borrowed = false;
+    /**
+     * True if a bid has been added since the last time the owner viewed the item
+     */
+    private boolean newBid = false;
     /**
      * The owner's username
      */
@@ -111,6 +116,21 @@ public class Item {
     }
 
     /**
+     * Checks if item has a new bid
+     * @return true if new bids, else false
+     */
+    public boolean hasNewBid() {
+        return newBid;
+    }
+
+    /**
+     * Sets bids as viewed
+     */
+    public void setBidsViewed() {
+        newBid=false;
+    }
+
+    /**
      * Set's the borrower's username (now done in accept bid method
      * @deprecated
      * @param borrower borrower's username
@@ -163,6 +183,7 @@ public class Item {
      */
     public void addBid(Bid bid) {
         bids.add(bid);
+        newBid=true;
         setBidded();
     }
 
@@ -390,6 +411,16 @@ public class Item {
      * @return string with the name and owner's username in it
      */
     public String toString() {
-        return this.getName() + " ("+ this.getStatus() +") owned by " + this.getOwner();
+        String returnString;
+        if (UserController.getCurrentUser().getUsername().equals(this.owner)){
+            returnString =  this.getName() + " (" + this.getStatus() + ")";
+            if (newBid){
+                returnString += " (New Bids)";
+            }
+        }
+        else {
+            returnString = this.getName() + " (" + this.getStatus() + ") owned by " + this.getOwner();
+        }
+        return returnString;
     }
 }

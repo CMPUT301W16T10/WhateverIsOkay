@@ -352,6 +352,9 @@ public class ViewItem extends AppCompatActivity{
                 ad.show();
             }
         });
+
+        //Set any bids as viewed
+        item.setBidsViewed();
     }
 
     /**
