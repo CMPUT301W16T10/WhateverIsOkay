@@ -6,11 +6,10 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4b8c096-3320-4c4a-b6d7-356cccd711b6" name="Default" comment="" />
+    <list default="true" id="3a738cfb-324f-4633-8f2d-a838e1ee9ea2" name="Default" comment="" />
     <ignored path="WhateverIsOkay.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,106 +36,76 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ViewItemsList.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java">
+      <file leaf-file-name="ViewItem.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="444" column="32" selection-start-line="444" selection-start-column="32" selection-end-line="444" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.46958983">
+              <caret line="514" column="44" selection-start-line="514" selection-start-column="44" selection-end-line="514" selection-end-column="44" />
+              <folding>
+                <element signature="e#5573#6026#0" expanded="true" />
+                <element signature="e#6025#6026#0" expanded="true" />
+                <element signature="e#6140#7360#0" expanded="true" />
+                <element signature="e#7359#7360#0" expanded="true" />
+                <element signature="e#7480#7922#0" expanded="true" />
+                <element signature="e#7921#7922#0" expanded="true" />
+                <element signature="e#9570#11661#0" expanded="true" />
+                <element signature="e#10170#10191#0" expanded="true" />
+                <element signature="e#10707#10729#0" expanded="true" />
+                <element signature="e#11246#11267#0" expanded="true" />
+                <element signature="e#11660#11661#0" expanded="true" />
+                <element signature="e#11706#12215#0" expanded="true" />
+                <element signature="e#12214#12215#0" expanded="true" />
+                <element signature="e#12329#13615#0" expanded="true" />
+                <element signature="e#13614#13615#0" expanded="true" />
+                <element signature="e#14529#16054#0" expanded="true" />
+                <element signature="e#14926#14944#0" expanded="true" />
+                <element signature="e#15637#15654#0" expanded="true" />
+                <element signature="e#16053#16054#0" expanded="true" />
+                <element signature="e#18247#20240#0" expanded="true" />
+                <element signature="e#18695#18716#0" expanded="true" />
+                <element signature="e#19823#19843#0" expanded="true" />
+                <element signature="e#20239#20240#0" expanded="true" />
+                <element signature="e#20285#20740#0" expanded="true" />
+                <element signature="e#20739#20740#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_view_item.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_item.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.789474">
+              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
               <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViewUserProfile.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3723404">
-              <caret line="216" column="103" selection-start-line="216" selection-start-column="103" selection-end-line="216" selection-end-column="103" />
-              <folding>
-                <element signature="e#3313#3314#0" expanded="true" />
-                <element signature="e#3344#3345#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_user_profile.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml">
           <provider editor-type-id="android-designer">
             <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.589286">
-              <caret line="186" column="28" selection-start-line="186" selection-start-column="28" selection-end-line="186" selection-end-column="28" />
-              <folding>
-                <element signature="e#272#305#0" expanded="true" />
-                <element signature="e#330#365#0" expanded="true" />
-                <element signature="e#391#426#0" expanded="true" />
-                <element signature="e#450#483#0" expanded="true" />
-                <element signature="e#720#741#0" expanded="true" />
-                <element signature="e#1125#1150#0" expanded="true" />
-                <element signature="e#1497#1531#0" expanded="true" />
-                <element signature="e#1596#1621#0" expanded="true" />
-                <element signature="e#1929#1963#0" expanded="true" />
-                <element signature="e#2030#2055#0" expanded="true" />
-                <element signature="e#2359#2393#0" expanded="true" />
-                <element signature="e#2458#2483#0" expanded="true" />
-                <element signature="e#2787#2812#0" expanded="true" />
-                <element signature="e#3075#3100#0" expanded="true" />
-                <element signature="e#3436#3461#0" expanded="true" />
-                <element signature="e#3799#3824#0" expanded="true" />
-                <element signature="e#4478#4503#0" expanded="true" />
-                <element signature="e#4956#4992#0" expanded="true" />
-                <element signature="e#5055#5080#0" expanded="true" />
-                <element signature="e#5550#5586#0" expanded="true" />
-                <element signature="e#5655#5680#0" expanded="true" />
-                <element signature="e#6152#6188#0" expanded="true" />
-                <element signature="e#6262#6287#0" expanded="true" />
-                <element signature="e#6714#6750#0" expanded="true" />
-                <element signature="e#6820#6845#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="207" column="34" selection-start-line="207" selection-start-column="27" selection-end-line="207" selection-end-column="34" />
-              <folding>
-                <element signature="e#4548#4549#0" expanded="true" />
-                <element signature="e#4576#4577#0" expanded="true" />
-                <element signature="e#5122#5128#0" expanded="true" />
-                <element signature="e#5462#5468#0" expanded="true" />
-              </folding>
-            </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Item.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
+            <state vertical-scroll-proportion="-3.9772727">
+              <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
               <folding>
-                <element signature="e#2907#2908#0" expanded="true" />
-                <element signature="e#2939#2940#0" expanded="true" />
-                <element signature="e#3069#3070#0" expanded="true" />
-                <element signature="e#3098#3099#0" expanded="true" />
-                <element signature="e#3176#3177#0" expanded="true" />
-                <element signature="e#3204#3205#0" expanded="true" />
+                <element signature="e#3340#3341#0" expanded="true" />
+                <element signature="e#3372#3373#0" expanded="true" />
+                <element signature="e#3502#3503#0" expanded="true" />
+                <element signature="e#3531#3532#0" expanded="true" />
+                <element signature="e#4590#4591#0" expanded="true" />
+                <element signature="e#4618#4619#0" expanded="true" />
+                <element signature="e#5860#5861#0" expanded="true" />
+                <element signature="e#5891#5892#0" expanded="true" />
+                <element signature="e#6028#6029#0" expanded="true" />
+                <element signature="e#6055#6056#0" expanded="true" />
+                <element signature="e#6981#6982#0" expanded="true" />
+                <element signature="e#7010#7011#0" expanded="true" />
+                <element signature="e#7090#7091#0" expanded="true" />
+                <element signature="e#7126#7127#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViewItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="356" column="29" selection-start-line="356" selection-start-column="29" selection-end-line="356" selection-end-column="29" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -1387,8 +1356,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4373966214000" />
-        <entry key="C:\Users\Dave\Documents\GitHub\WhateverIsOkay" value="4373957555741" />
+        <entry key="C:\Users\Dave\Documents\GitHub\WhateverIsOkay" value="4376826766007" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1604,11 +1572,11 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-codec/commons-codec/1.4/commons-codec-1.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.1.1/appcompat-v7-23.1.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/design/23.1.1/design-23.1.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.1.1/support-v4-23.1.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/23.1.1/recyclerview-v7-23.1.1.aar" />
-                            <option value="$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/appcompat-v7/23.1.1/appcompat-v7-23.1.1.aar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/design/23.1.1/design-23.1.1.aar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.1.1/support-v4-23.1.1.aar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/23.1.1/recyclerview-v7-23.1.1.aar" />
+                            <option value="$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar" />
                             <option value="$MODULE_DIR$/src/include/jest-droid-2.0.1-SNAPSHOT.jar" />
                           </list>
                         </option>
@@ -1750,14 +1718,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java" />
-        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java" />
-        <option value="$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/AppUITesting.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_view_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java" />
       </list>
     </option>
   </component>
@@ -1765,8 +1728,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="-11" />
+    <option name="y" value="-11" />
+    <option name="width" value="2182" />
+    <option name="height" value="1402" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1791,6 +1756,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1875,121 +1841,20 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_4_API_18_2_portrait" />
-    <property name="FullScreen" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lonelyTwitter" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Galaxy_Nexus_API_18" />
   </component>
   <component name="RunManager" selected="Android Application.app">
-    <configuration default="false" name="ItemTest" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="TESTING_TYPE" value="2" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="android.support.test.runner.AndroidJUnitRunner" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="com.example.suhussai.gameshare.ItemTest" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="testEditItem()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="TESTING_TYPE" value="3" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="android.support.test.runner.AndroidJUnitRunner" />
-      <option name="METHOD_NAME" value="testEditItem" />
-      <option name="CLASS_NAME" value="com.example.suhussai.gameshare.ItemTest" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="testViewBids()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="TESTING_TYPE" value="3" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="android.support.test.runner.AndroidJUnitRunner" />
-      <option name="METHOD_NAME" value="testViewBids" />
-      <option name="CLASS_NAME" value="com.example.suhussai.gameshare.ItemTest" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="testBid()" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="TESTING_TYPE" value="3" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="android.support.test.runner.AndroidJUnitRunner" />
-      <option name="METHOD_NAME" value="testBid" />
-      <option name="CLASS_NAME" value="com.example.suhussai.gameshare.ItemTest" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <method />
-    </configuration>
-    <configuration default="false" name="AppUITesting" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="app" />
-      <option name="TESTING_TYPE" value="2" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="android.support.test.runner.AndroidJUnitRunner" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="com.example.suhussai.gameshare.AppUITesting" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="EXTRA_OPTIONS" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <method />
-    </configuration>
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="" />
       <option name="DEPLOY" value="true" />
@@ -2132,23 +1997,9 @@
       <option name="ACTIVITY_CLASS" value="" />
       <method />
     </configuration>
-    <list size="6">
+    <list size="1">
       <item index="0" class="java.lang.String" itemvalue="Android Application.app" />
-      <item index="1" class="java.lang.String" itemvalue="Android Tests.ItemTest" />
-      <item index="2" class="java.lang.String" itemvalue="Android Tests.testEditItem()" />
-      <item index="3" class="java.lang.String" itemvalue="Android Tests.testViewBids()" />
-      <item index="4" class="java.lang.String" itemvalue="Android Tests.testBid()" />
-      <item index="5" class="java.lang.String" itemvalue="Android Tests.AppUITesting" />
     </list>
-    <recent_temporary>
-      <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Android Tests.AppUITesting" />
-        <item index="1" class="java.lang.String" itemvalue="Android Tests.testViewBids()" />
-        <item index="2" class="java.lang.String" itemvalue="Android Tests.testBid()" />
-        <item index="3" class="java.lang.String" itemvalue="Android Tests.ItemTest" />
-        <item index="4" class="java.lang.String" itemvalue="Android Tests.testEditItem()" />
-      </list>
-    </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
       <option name="MAIN_CLASS_NAME" />
       <option name="HTML_FILE_NAME" />
@@ -2163,295 +2014,123 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a4b8c096-3320-4c4a-b6d7-356cccd711b6" name="Default" comment="" />
-      <created>1457976465088</created>
+      <changelist id="3a738cfb-324f-4633-8f2d-a838e1ee9ea2" name="Default" comment="" />
+      <created>1458942450288</created>
       <option name="number" value="Default" />
-      <updated>1457976465088</updated>
+      <updated>1458942450288</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
+    <frame x="-11" y="-11" width="2182" height="1402" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26550868" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32993197" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24976122" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24892704" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32754344" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24976122" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32993197" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-  </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="1" />
-    </breakpoint-manager>
+    <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_item.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/AppUITesting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="-15.789474">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="441" column="33" selection-start-line="441" selection-start-column="33" selection-end-line="441" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="231" column="27" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="27" />
-          <folding>
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
-            <element signature="e#3069#3070#0" expanded="true" />
-            <element signature="e#3098#3099#0" expanded="true" />
-            <element signature="e#3176#3177#0" expanded="true" />
-            <element signature="e#3204#3205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/AppUITesting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="382" column="1" selection-start-line="382" selection-start-column="1" selection-end-line="382" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="231" column="27" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="27" />
-          <folding>
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
-            <element signature="e#3069#3070#0" expanded="true" />
-            <element signature="e#3098#3099#0" expanded="true" />
-            <element signature="e#3176#3177#0" expanded="true" />
-            <element signature="e#3204#3205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="231" column="27" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="27" />
-          <folding>
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
-            <element signature="e#3069#3070#0" expanded="true" />
-            <element signature="e#3098#3099#0" expanded="true" />
-            <element signature="e#3176#3177#0" expanded="true" />
-            <element signature="e#3204#3205#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/ItemTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/suhussai/gameshare/AppUITesting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17095116">
-          <caret line="337" column="8" selection-start-line="337" selection-start-column="8" selection-end-line="337" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_user_profile.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.589286">
-          <caret line="186" column="28" selection-start-line="186" selection-start-column="28" selection-end-line="186" selection-end-column="28" />
-          <folding>
-            <element signature="e#272#305#0" expanded="true" />
-            <element signature="e#330#365#0" expanded="true" />
-            <element signature="e#391#426#0" expanded="true" />
-            <element signature="e#450#483#0" expanded="true" />
-            <element signature="e#720#741#0" expanded="true" />
-            <element signature="e#1125#1150#0" expanded="true" />
-            <element signature="e#1497#1531#0" expanded="true" />
-            <element signature="e#1596#1621#0" expanded="true" />
-            <element signature="e#1929#1963#0" expanded="true" />
-            <element signature="e#2030#2055#0" expanded="true" />
-            <element signature="e#2359#2393#0" expanded="true" />
-            <element signature="e#2458#2483#0" expanded="true" />
-            <element signature="e#2787#2812#0" expanded="true" />
-            <element signature="e#3075#3100#0" expanded="true" />
-            <element signature="e#3436#3461#0" expanded="true" />
-            <element signature="e#3799#3824#0" expanded="true" />
-            <element signature="e#4478#4503#0" expanded="true" />
-            <element signature="e#4956#4992#0" expanded="true" />
-            <element signature="e#5055#5080#0" expanded="true" />
-            <element signature="e#5550#5586#0" expanded="true" />
-            <element signature="e#5655#5680#0" expanded="true" />
-            <element signature="e#6152#6188#0" expanded="true" />
-            <element signature="e#6262#6287#0" expanded="true" />
-            <element signature="e#6714#6750#0" expanded="true" />
-            <element signature="e#6820#6845#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewLogIn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.88829786">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItemsList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="444" column="32" selection-start-line="444" selection-start-column="32" selection-end-line="444" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="207" column="34" selection-start-line="207" selection-start-column="27" selection-end-line="207" selection-end-column="34" />
-          <folding>
-            <element signature="e#4548#4549#0" expanded="true" />
-            <element signature="e#4576#4577#0" expanded="true" />
-            <element signature="e#5122#5128#0" expanded="true" />
-            <element signature="e#5462#5468#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/Item.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
+        <state vertical-scroll-proportion="-3.9772727">
+          <caret line="433" column="0" selection-start-line="433" selection-start-column="0" selection-end-line="433" selection-end-column="0" />
           <folding>
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#2939#2940#0" expanded="true" />
-            <element signature="e#3069#3070#0" expanded="true" />
-            <element signature="e#3098#3099#0" expanded="true" />
-            <element signature="e#3176#3177#0" expanded="true" />
-            <element signature="e#3204#3205#0" expanded="true" />
+            <element signature="e#3340#3341#0" expanded="true" />
+            <element signature="e#3372#3373#0" expanded="true" />
+            <element signature="e#3502#3503#0" expanded="true" />
+            <element signature="e#3531#3532#0" expanded="true" />
+            <element signature="e#4590#4591#0" expanded="true" />
+            <element signature="e#4618#4619#0" expanded="true" />
+            <element signature="e#5860#5861#0" expanded="true" />
+            <element signature="e#5891#5892#0" expanded="true" />
+            <element signature="e#6028#6029#0" expanded="true" />
+            <element signature="e#6055#6056#0" expanded="true" />
+            <element signature="e#6981#6982#0" expanded="true" />
+            <element signature="e#7010#7011#0" expanded="true" />
+            <element signature="e#7090#7091#0" expanded="true" />
+            <element signature="e#7126#7127#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="356" column="29" selection-start-line="356" selection-start-column="29" selection-end-line="356" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/suhussai/gameshare/ViewUserProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3723404">
-          <caret line="216" column="103" selection-start-line="216" selection-start-column="103" selection-end-line="216" selection-end-column="103" />
+        <state vertical-scroll-proportion="0.46958983">
+          <caret line="514" column="44" selection-start-line="514" selection-start-column="44" selection-end-line="514" selection-end-column="44" />
           <folding>
-            <element signature="e#3313#3314#0" expanded="true" />
-            <element signature="e#3344#3345#0" expanded="true" />
+            <element signature="e#5573#6026#0" expanded="true" />
+            <element signature="e#6025#6026#0" expanded="true" />
+            <element signature="e#6140#7360#0" expanded="true" />
+            <element signature="e#7359#7360#0" expanded="true" />
+            <element signature="e#7480#7922#0" expanded="true" />
+            <element signature="e#7921#7922#0" expanded="true" />
+            <element signature="e#9570#11661#0" expanded="true" />
+            <element signature="e#10170#10191#0" expanded="true" />
+            <element signature="e#10707#10729#0" expanded="true" />
+            <element signature="e#11246#11267#0" expanded="true" />
+            <element signature="e#11660#11661#0" expanded="true" />
+            <element signature="e#11706#12215#0" expanded="true" />
+            <element signature="e#12214#12215#0" expanded="true" />
+            <element signature="e#12329#13615#0" expanded="true" />
+            <element signature="e#13614#13615#0" expanded="true" />
+            <element signature="e#14529#16054#0" expanded="true" />
+            <element signature="e#14926#14944#0" expanded="true" />
+            <element signature="e#15637#15654#0" expanded="true" />
+            <element signature="e#16053#16054#0" expanded="true" />
+            <element signature="e#18247#20240#0" expanded="true" />
+            <element signature="e#18695#18716#0" expanded="true" />
+            <element signature="e#19823#19843#0" expanded="true" />
+            <element signature="e#20239#20240#0" expanded="true" />
+            <element signature="e#20285#20740#0" expanded="true" />
+            <element signature="e#20739#20740#0" expanded="true" />
           </folding>
         </state>
       </provider>

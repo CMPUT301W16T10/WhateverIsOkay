@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AbsListView;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -69,6 +72,18 @@ public class ViewItem extends AppCompatActivity{
      * The current user
      */
     private User user;
+    /**
+     * The Image button on the screen, used to capture an image for the game
+     */
+    private ImageButton pictureButton;
+    /**
+     * The item's image
+     */
+    private Bitmap image = null;
+    /**
+     * Used to facilitate the return from intent
+     */
+    static final int REQUEST_IMAGE_CAPTURE = 99;
 
 
     /**
@@ -101,6 +116,7 @@ public class ViewItem extends AppCompatActivity{
         Age = (EditText) findViewById(R.id.ViewItem_AgeEdit);
         TimeReq = (EditText) findViewById(R.id.ViewItem_TimeReqEdit);
         Platform = (EditText) findViewById(R.id.ViewItem_PlatformEdit);
+        pictureButton = (ImageButton) findViewById(R.id.ViewItem_pictureButton);
 
         // Grab the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
@@ -156,6 +172,16 @@ public class ViewItem extends AppCompatActivity{
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
 
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                    // There is no item yet, so no need to check to see if it has an image yet
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                    }
+            }
+        });
+
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +198,10 @@ public class ViewItem extends AppCompatActivity{
                 String platform = Platform.getText().toString();
 
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
+
+                if( image != null ) {
+                    item.addImage(image);
+                }
 
                 user.addItem(item); // the information stored in elastic search online is updated inside user class via this method
 
@@ -225,6 +255,9 @@ public class ViewItem extends AppCompatActivity{
         Age.setText(item.getAge());
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
+        if( item.hasImage() ) {
+            pictureButton.setImageBitmap(item.getImage());
+        }
 
         adapter = new ArrayAdapter<Bid>(this, R.layout.my_bids_list_view, item.getBids());
         adapter.notifyDataSetChanged();
@@ -250,7 +283,7 @@ public class ViewItem extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user.acceptBid(bid, item);
-                        Toast.makeText(getApplicationContext(),"Bid accepted",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Bid accepted", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -261,7 +294,7 @@ public class ViewItem extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user.declineBid(bid, item);
-                        Toast.makeText(getApplicationContext(),"Bid declined",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Bid declined", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
@@ -278,6 +311,19 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (item.hasImage()) {
+                    // TODO open the picture in a new window to view
+                } else {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                    }
+                }
+            }
+        });
+
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +337,12 @@ public class ViewItem extends AppCompatActivity{
                 item.setAge(Age.getText().toString());
                 item.setTimeReq(TimeReq.getText().toString());
                 item.setPlatform(Platform.getText().toString());
+
+                // the image variable is only updated from null on successful return from camera call.
+                // edit the item's image only if the camera was called successfully and the save button is hit.
+                if( image != null ) {
+                    item.addImage(image);
+                }
 
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
@@ -390,6 +442,9 @@ public class ViewItem extends AppCompatActivity{
         Age.setText(item.getAge());
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
+        if( item.hasImage() ) {
+            pictureButton.setImageBitmap(item.getImage());
+        }
 
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
 
@@ -451,6 +506,17 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (item.hasImage()) {
+                    // TODO open the picture in a new window to view
+                } else {
+                    // Nothing. In edit mode, if there's no image then do nothing.
+                    Toast.makeText(getApplicationContext(),"This item does not have an image.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
@@ -462,8 +528,8 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 String username = item.getOwner();
                 Intent intent = new Intent(holder, ViewUserProfile.class);
-                intent.putExtra("mode",ViewUserProfile.MODE_VIEW);
-                intent.putExtra("username",username);
+                intent.putExtra("mode", ViewUserProfile.MODE_VIEW);
+                intent.putExtra("username", username);
                 //TODO send user to ViewUserProfile (and perhaps mode)
                 startActivity(intent);
             }
@@ -479,6 +545,22 @@ public class ViewItem extends AppCompatActivity{
         intent.putExtra("mode", ViewItemsList.mode_viewItemsList);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Return from the camera with a new image and add it to the item.
+     * @param requestCode if equals image capture, then the activity called was to capture a new image (other requests could exist).
+     *                    This parameter simply identifies what intent was originally called to process the return properly
+     * @param resultCode determining that cancel wasn't pressed
+     * @param data The data coming from the other activity upon its return; the content depends on the requestCode used
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            Bundle extras = data .getExtras();
+            image = (Bitmap) extras.get("data");
+            pictureButton.setImageBitmap(image);
+        }
     }
 
     // TODO add other return to various views where necessary

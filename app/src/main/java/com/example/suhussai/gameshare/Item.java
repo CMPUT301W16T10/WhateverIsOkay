@@ -1,8 +1,12 @@
 package com.example.suhussai.gameshare;
 
 import android.app.AlertDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -70,6 +74,16 @@ public class Item {
      * The location of item when borrowed is true. [long, lat]
      */
     private String location = new String();
+
+    /**
+     * The decoded thumbnail image for the game, not saved via elastic controller (transient).
+     */
+    private transient Bitmap image;
+
+    /**
+     * The thumbnail base 64 image string to be decoded to produce the real image to display.
+     */
+    private String imageBase64 = "";
 
 
     // Overridden instantiation depending on the data provided in the construction.
@@ -403,6 +417,44 @@ public class Item {
     public String getPlatform() {
         return platform;
     }
+
+    /**
+     * Takes in a new bitmap image and replaces both the image and base64 string image with the new value.
+     * @param newImage the new bitmap to replace this item's picture
+     */
+    public void addImage(Bitmap newImage){
+        if (newImage != null) {
+            image = newImage;
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            newImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+            byte[] b = byteArrayOutputStream.toByteArray();
+            imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
+
+        }
+    }
+
+    /**
+     * Returns the decoded bitmap image based on the base64 string associated
+     * @return the decoded bitmap
+     */
+    public Bitmap getImage(){
+        if (image == null && imageBase64 != "") {
+            byte[] decodeString = Base64.decode(imageBase64, Base64.DEFAULT);
+            image = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
+        }
+        return image;
+    }
+
+  public boolean hasImage() {
+      if( imageBase64.equals("") ) {
+          return false;
+      }
+      else {
+          return true;
+      }
+  }
 
     // added so the list view looks decent. TODO fix this
 
