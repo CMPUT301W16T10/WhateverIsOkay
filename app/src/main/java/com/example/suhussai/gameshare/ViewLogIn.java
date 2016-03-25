@@ -1,6 +1,8 @@
 package com.example.suhussai.gameshare;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -38,6 +40,8 @@ public class ViewLogIn extends AppCompatActivity {
 
         userid = (EditText) findViewById(R.id.UsernameText);
         pass = (EditText) findViewById(R.id.PasswordText);
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
 
         // Login button logs into the App if the username exists and the password matches OR
         // if the username does not exist.
@@ -63,19 +67,20 @@ public class ViewLogIn extends AppCompatActivity {
                 try {
                     user = getUser.get();
 
-                    // user does not exist, create new user.
-                    if (user == null){
-                        user = new User();
-                        user.setUsername(username);
-                        user.setPassword(password);
-                        UserController.AddUser addUser = new UserController.AddUser();
-                        addUser.execute(user);
-                    }
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
+                }
+
+                // user does not exist, create new user.
+                if (user == null){
+                    user = new User();
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    UserController.AddUser addUser = new UserController.AddUser();
+                    addUser.execute(user);
+                    UserController.setCurrentUser(user);
                 }
 
 
@@ -99,4 +104,23 @@ public class ViewLogIn extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * On start method
+     */
+    @Override
+    protected void onStart() {
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
+        if (UserController.isConnected()) {
+            //ItemController.updateCloud();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),
+                    "Connection not found. Limited features available.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        super.onStart();
+    }
+
 }

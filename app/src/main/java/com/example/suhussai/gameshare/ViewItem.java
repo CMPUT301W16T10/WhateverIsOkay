@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -103,6 +104,8 @@ public class ViewItem extends AppCompatActivity{
         Platform = (EditText) findViewById(R.id.ViewItem_PlatformEdit);
 
         // Grab the user from the controller.
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
         UserController.GetUser getUser = new UserController.GetUser();
         getUser.execute(UserController.getCurrentUser().getUsername());
 
@@ -128,6 +131,24 @@ public class ViewItem extends AppCompatActivity{
         else {
             // fourth mode maybe?
         }
+    }
+
+    /**
+     * On start method
+     */
+    @Override
+    protected void onStart() {
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
+        if (UserController.isConnected()) {
+            ItemController.updateCloud();
+        }
+        else {
+            Toast.makeText(getApplicationContext(),
+                    "Connection not found. Limited features available.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        super.onStart();
     }
 
     /**

@@ -3,11 +3,21 @@ package com.example.suhussai.gameshare;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -23,12 +33,8 @@ import io.searchbox.core.SearchResult;
  * and update existing items. Uses elastic search.
  * @see Item
  */
-public class ItemController {
-    /**
-     * The client
-     */
-    private static JestDroidClient client;
-
+public class ItemController extends GSController{
+    private static String FILENAME = "itemsToPush.txt";
     /**
      * The item currently being operated on
      */
@@ -48,20 +54,6 @@ public class ItemController {
      */
     public static void setCurrentItem(Item currentItem) {
         ItemController.currentItem = currentItem;
-    }
-
-    /**
-     * Adds the client if there isn't one already (from lonelyTwitter)
-     */
-    public static void verifyConfig(){
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080"); // shove your url  in there
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
     }
 
 
@@ -86,28 +78,49 @@ public class ItemController {
          */
         @Override
         protected Void doInBackground(Item... params){
-            verifyConfig();
+            if (verifyConfig()) {
+                for (Item item : params){
+                    // pass item to onProgressUpdate to get user, update gameCount and get gameCount
+                    // Apparently implemented in user.addItem() so commented out for now
+                    //publishProgress(item);
 
-            for (Item item : params){
-                // pass item to onProgressUpdate to get user, update gameCount and get gameCount
-                // Apparently implemented in user.addItem() so commented out for now
-                //publishProgress(item);
+                    System.out.println(item.getName() + " " + item.getOwner());
 
-                System.out.println(item.getName() + " " + item.getOwner());
+                    Index index = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
 
-                Index index = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
-
-                try {
-                    JestResult execute = client.execute(index);
-                    // DocumentResult execute = client.execute(index);
-                    if (execute.isSucceeded()) {
-                    } else {
-                        Log.e("TODO", "Our insert of item failed, oh no!");
+                    try {
+                        JestResult execute = client.execute(index);
+                        // DocumentResult execute = client.execute(index);
+                        if (execute.isSucceeded()) {
+                        } else {
+                            Log.e("TODO", "Our insert of item failed, oh no!");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
             }
+            else {
+                // TODO: local storage
+                try {
+                    FileOutputStream fos = currentContext.openFileOutput(FILENAME,
+                            0);
+                    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+                    Gson gson = new Gson();
+                    gson.toJson(params, out);
+                    out.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    throw new RuntimeException();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    throw new RuntimeException();
+                }
+
+            }
+
             return null;
         }
     }
@@ -160,8 +173,6 @@ public class ItemController {
          */
         @Override
         protected ArrayList<Item> doInBackground(String... params) {
-            verifyConfig();
-
             // NOTE: A HUGE ASSUMPTION IS ABOUT TO BE MADE
             // Assume that only one string is passed in.
 
@@ -271,48 +282,135 @@ public class ItemController {
                         "}\n";
             }
 
-            Search search = new Search.Builder(search_items).addIndex("cmput301wi16t10").addType("items").build();
 
-            try {
-                SearchResult execute = client.execute(search);
-                if (execute.isSucceeded()) {
-                    List<Item> foundItems = execute.getSourceAsObjectList(Item.class);
-                    Log.e("IMP_INFO", "Found "+foundItems.size() + " new items.");
-                    item_list.addAll(foundItems);
+            if (verifyConfig()) {
+                Log.e("TOD", "getting items from the cloud");
+                Search search = new Search.Builder(search_items).addIndex("cmput301wi16t10").addType("items").build();
 
-                    if (mode.equals(MODE_GET_BIDDED_ITEMS)) {
-                        //performed populate search, check bids on all items, if bidder == user, add to new list then return new list.
-                        // item_list2 = new array to be returned.
-                        ArrayList<Item> item_list2 = new ArrayList<Item>();
-                        // for each item in item_list
-                        for (int i = 0 ; i < item_list.size() ; i++) {
-                            Item temp_item = item_list.get(i);
-                            ArrayList<Bid> temp_bids_list = temp_item.getBids();
-                            // for each bid in bids_list of the current item
-                            for (int j = 0 ; j < temp_bids_list.size(); j++) {
-                                Bid temp_bid = temp_bids_list.get(j);
-                                // if bidder == username, add item to item_list2 and break
-                                if (temp_bid.getBidder() != null) {
-                                    if (temp_bid.getBidder().equals(params[1])) {
-                                        item_list2.add(temp_item);
-                                        break;
+                try {
+                    SearchResult execute = client.execute(search);
+                    if (execute.isSucceeded()) {
+                        List<Item> foundItems = execute.getSourceAsObjectList(Item.class);
+                        Log.e("IMP_INFO", "Found "+foundItems.size() + " new items.");
+                        item_list.addAll(foundItems);
+
+                        if (mode.equals(MODE_GET_BIDDED_ITEMS)) {
+                            //performed populate search, check bids on all items, if bidder == user, add to new list then return new list.
+                            // item_list2 = new array to be returned.
+                            ArrayList<Item> item_list2 = new ArrayList<Item>();
+                            // for each item in item_list
+                            for (int i = 0 ; i < item_list.size() ; i++) {
+                                Item temp_item = item_list.get(i);
+                                ArrayList<Bid> temp_bids_list = temp_item.getBids();
+                                // for each bid in bids_list of the current item
+                                for (int j = 0 ; j < temp_bids_list.size(); j++) {
+                                    Bid temp_bid = temp_bids_list.get(j);
+                                    // if bidder == username, add item to item_list2 and break
+                                    if (temp_bid.getBidder() != null) {
+                                        if (temp_bid.getBidder().equals(params[1])) {
+                                            item_list2.add(temp_item);
+                                            break;
+                                        }
                                     }
                                 }
                             }
+                            // terminates here if we are getting bidded items.
+                            return item_list2;
                         }
-                        // terminates here if we are getting bidded items.
-                        return item_list2;
-                    }
-                }else {
-                    Log.e("IMP_INFO", "Search was not successful.");
-                    Log.e("IMP_INFO", execute.getErrorMessage());
+                    }else {
+                        Log.e("IMP_INFO", "Search was not successful.");
+                        Log.e("IMP_INFO", execute.getErrorMessage());
 
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            }
+            else {
+                Log.e("TOD", "no internet, so getting items from local storage.");
+                if (mode.equals(MODE_GET_MY_ITEMS)) {
+                    try {
+                        FileInputStream fis = currentContext.openFileInput(FILENAME);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+                        Gson gson = new Gson();
+
+                        // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
+                        Type listType = new TypeToken<ArrayList<Item>>() {}.getType();
+                        item_list = gson.fromJson(in, listType);
+
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        item_list = new ArrayList<Item>();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        throw new RuntimeException();
+                    }
+                }
             }
             return item_list;
         }
+    }
+
+    /**
+     * Updates cloud when internet connectivity is found.
+     */
+    public static void updateCloud() {
+        // read local file for items to push
+        Log.e("TOD", "updating the cloud");
+        ArrayList<Item> all_item_list = new ArrayList<>();
+        ArrayList<Item> my_item_list = new ArrayList<>();
+        try {
+            FileInputStream fis = currentContext.openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+
+            // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
+            Type listType = new TypeToken<ArrayList<Item>>() {}.getType();
+            all_item_list = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            all_item_list = new ArrayList<Item>();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
+
+        /*
+        http://stackoverflow.com/questions/9863742/how-to-pass-an-arraylist-to-a-varargs-method-parameter
+        User: aioobe
+        Date: Thu Mar 24
+         */
+
+        if (all_item_list.size() > 0) {
+            for (Item item : all_item_list) {
+                if (item.getOwner() == UserController.getCurrentUser().toString()){
+                    my_item_list.add(item);
+                }
+            }
+            Log.e("TOD", "Adding these items to cloud: " + my_item_list.size());
+            AddItem addItem = new AddItem();
+            addItem.execute(my_item_list.toArray(new Item[my_item_list.size()]));
+
+            Log.e("TOD", "deleting the local storage");
+            all_item_list.removeAll(my_item_list);
+            if (all_item_list.size() > 0) {
+
+            }
+            else {
+                currentContext.deleteFile(FILENAME);
+            }
+
+        } else {
+            Log.e("TOD", "local storage already clear.");
+
+        }
+
+
+
+
+
     }
 
     //TODO: Create an UpdateItem class to use for Editing an Item
@@ -328,21 +426,23 @@ public class ItemController {
          */
         @Override
         protected Void doInBackground(Item... params) {
-            verifyConfig();
+            if (verifyConfig()) {
+                for (Item item : params) {
+                    Index update = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
 
-            for (Item item : params) {
-                Index update = new Index.Builder(item).index("cmput301wi16t10").type("items").id(item.getId()).build();
+                    try {
+                        JestResult execute = client.execute(update);
 
-                try {
-                    JestResult execute = client.execute(update);
-
-                    if (execute.isSucceeded()) {
-                        //yay... we don't need this if statement for now
+                        if (execute.isSucceeded()) {
+                            //yay... we don't need this if statement for now
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
             }
+
             return null;
         }
     }
@@ -358,21 +458,26 @@ public class ItemController {
          */
         @Override
         protected Void doInBackground(Item... params) {
-            verifyConfig();
+            if (verifyConfig()) {
+                for (Item item : params) {
+                    Delete delete = new Delete.Builder("").index("cmput301wi16t10").type("items").id(item.getId()).build();
 
-            for (Item item : params) {
-                Delete delete = new Delete.Builder("").index("cmput301wi16t10").type("items").id(item.getId()).build();
+                    try {
+                        JestResult execute = client.execute(delete);
 
-                try {
-                    JestResult execute = client.execute(delete);
-
-                    if (execute.isSucceeded()) {
-                        //yay... we don't need this if statement for now
+                        if (execute.isSucceeded()) {
+                            //yay... we don't need this if statement for now
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
             }
+            else {
+                // TODO: local storage
+            }
+
             return null;
         }
     }

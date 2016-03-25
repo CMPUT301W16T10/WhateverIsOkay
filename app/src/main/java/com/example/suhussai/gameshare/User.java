@@ -1,6 +1,7 @@
 package com.example.suhussai.gameshare;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -286,7 +287,8 @@ public class User {
         }
 
         // set to item's ID before sending to controller
-        item.setId(getUsername() + (char) 31 + getGameCount());
+        // item.setId(getUsername() + (char) 31 + getGameCount());
+        item.setId(UUID.randomUUID().toString());
         items.add(item);
 
         // Post the new item information

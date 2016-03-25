@@ -1,5 +1,8 @@
 package com.example.suhussai.gameshare;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,12 +33,7 @@ import java.util.Map;
  * and update existing user profiles. Uses elastic search.
  * @see User
  */
-public class UserController {
-    /**
-     * The client
-     */
-    private static JestDroidClient client;
-
+public class UserController extends GSController{
     /**
      * The user who is currently using the application
      */
@@ -57,20 +55,6 @@ public class UserController {
         UserController.currentUser = currentUser;
     }
 
-    /**
-     * Adds the client if there isn't one already (from lonelyTwitter)
-     */
-    public static void verifyConfig(){
-        if (client == null) {
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
-            DroidClientConfig config = builder.build();
-
-            JestClientFactory factory = new JestClientFactory();
-            factory.setDroidClientConfig(config);
-            client = (JestDroidClient) factory.getObject();
-        }
-    }
-
 
     // Add user to cmput301wi16t10/users. (reference: lonelyTwitter)
     /**
@@ -84,20 +68,20 @@ public class UserController {
          */
         @Override
         protected Void doInBackground(User... params){
-            verifyConfig();
+            if (verifyConfig()) {
+                for (User user : params){
 
-            for (User user : params){
+                    Index index = new Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
 
-                Index index = new Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
-
-                try {
-                    DocumentResult execute = client.execute(index);
-                    if (execute.isSucceeded()) {
-                    } else {
-                        Log.e("TODO", "Our insert of user failed, oh no!");
+                    try {
+                        DocumentResult execute = client.execute(index);
+                        if (execute.isSucceeded()) {
+                        } else {
+                            Log.e("TODO", "Our insert of user failed, oh no!");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
             return null;
@@ -117,31 +101,35 @@ public class UserController {
          */
         @Override
         protected User doInBackground(String... params) {
-            verifyConfig();
 
-            User user = new User();
+            User user = null;
+            if (verifyConfig()) {
+                String search_username =
+                        "{\n" +
+                                "\"query\" : {\n" +
+                                "            \"match_all\" : {}\n" +
+                                "        },\n" +
+                                "        \"filter\" : {\n" +
+                                "             \"term\":{\"username\" : \"" + params[0] + "\" }\n" +
+                                "        }\n" +
+                                "    }\n" +
+                                "}\n";
 
-            String search_username =
-                    "{\n" +
-                            "\"query\" : {\n" +
-                            "            \"match_all\" : {}\n" +
-                            "        },\n" +
-                            "        \"filter\" : {\n" +
-                            "             \"term\":{\"username\" : \"" + params[0] + "\" }\n" +
-                            "        }\n" +
-                            "    }\n" +
-                            "}\n";
+                Search search = new Search.Builder(search_username).addIndex("cmput301wi16t10").addType("users").build();
 
-            Search search = new Search.Builder(search_username).addIndex("cmput301wi16t10").addType("users").build();
-
-            try {
-                SearchResult execute = client.execute(search);
-                if (execute.isSucceeded()) {
-                    user = execute.getSourceAsObject(User.class);
+                try {
+                    SearchResult execute = client.execute(search);
+                    if (execute.isSucceeded()) {
+                        user = execute.getSourceAsObject(User.class);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            else if (getCurrentUser() != null){
+                user = getCurrentUser();
+            }
+
             return user;
         }
     }
@@ -159,22 +147,25 @@ public class UserController {
          */
         @Override
         protected Void doInBackground(User... params){
-            verifyConfig();
-            
-            for (User user : params){
-                Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
+            if (verifyConfig()) {
+                for (User user : params){
+                    Index update = new Index.Builder(user).index("cmput301wi16t10").type("users").id(user.getUsername()).build();
 
-                try {
-                    JestResult execute = client.execute(update);
+                    try {
+                        JestResult execute = client.execute(update);
 
-                    if (execute.isSucceeded()) {
-                        //yay... we don't need this if statement for now
+                        if (execute.isSucceeded()) {
+                            //yay... we don't need this if statement for now
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
             }
+
             return null;
         }
     }
+
 }
