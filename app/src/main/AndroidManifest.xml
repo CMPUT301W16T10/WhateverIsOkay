@@ -3,6 +3,7 @@
     package="com.example.suhussai.gameshare">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,7 @@
         <activity android:name=".ViewUserProfile" />
         <activity android:name=".ViewItem" />
         <activity android:name=".ViewItemsList" />
+        <activity android:name=".ViewImage"></activity>
     </application>
 
 </manifest>

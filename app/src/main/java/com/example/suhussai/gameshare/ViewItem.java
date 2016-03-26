@@ -4,10 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -18,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -84,6 +89,7 @@ public class ViewItem extends AppCompatActivity{
      * Used to facilitate the return from intent
      */
     static final int REQUEST_IMAGE_CAPTURE = 99;
+    static final int REQUEST_LOAD_IMG = 98;
 
 
     /**
@@ -174,11 +180,11 @@ public class ViewItem extends AppCompatActivity{
 
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                    // There is no item yet, so no need to check to see if it has an image yet
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                    }
+                if( image != null) {
+                    viewImage();
+                } else {
+                    selectImage();
+                }
             }
         });
 
@@ -327,12 +333,9 @@ public class ViewItem extends AppCompatActivity{
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (image != null) {
-                    // TODO open the picture in a new window to view
+                    viewImage();
                 } else {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
-                    }
+                    selectImage();
                 }
             }
         });
@@ -460,6 +463,7 @@ public class ViewItem extends AppCompatActivity{
         Platform.setEnabled(false);
 
         item = ItemController.getCurrentItem();
+        image = item.getImage();
 
         // gets the item info to display on the EditText fields
         GameName.setText(item.getName());
@@ -468,7 +472,7 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
         if( item.hasImage() ) {
-            pictureButton.setImageBitmap(item.getImage());
+            pictureButton.setImageBitmap(image);
         }
 
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
@@ -503,12 +507,8 @@ public class ViewItem extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         double bidAmount = Double.parseDouble(EnterBid.getText().toString());
-                        //TODO the next 6 lines should be a single method in the Item class
                         User bidder = UserController.getCurrentUser();
                         Bid bid = new Bid(bidder.getUsername(), bidAmount);
-                        if (!item.isBidded()){
-                            item.setBidded();
-                        }
                         item.addBid(bid);
 
                         //TODO Causes the same error as the update item call from the edit mode
@@ -534,7 +534,7 @@ public class ViewItem extends AppCompatActivity{
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (item.hasImage()) {
-                    // TODO open the picture in a new window to view
+                    viewImage();
                 } else {
                     // Nothing. In edit mode, if there's no image then do nothing.
                     Toast.makeText(getApplicationContext(),"This item does not have an image.", Toast.LENGTH_SHORT).show();
@@ -561,6 +561,38 @@ public class ViewItem extends AppCompatActivity{
         });
     }
 
+    private void selectImage() {
+        //- See more at: http://www.theappguruz.com/blog/android-take-photo-camera-gallery-code-sample#sthash.pAYePD9s.dpuf
+        final CharSequence[] options = { "Use Camera", "Choose from Library", "Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(ViewItem.this);
+        builder.setTitle("Add an image to this item");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Use Camera")) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                    }
+                } else if (options[item].equals("Choose from Library")) {
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult( intent, REQUEST_LOAD_IMG);
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void viewImage() {
+        Intent intent = new Intent(ViewItem.this, ViewImage.class);
+        intent.putExtra("imageToView",image);
+        startActivity(intent);
+    }
+
     /**
      * Called to return to ViewItems screen
      */
@@ -582,8 +614,35 @@ public class ViewItem extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
+            // TODO do we need to limit size of the camera image the way we do with gallery? it seems to successfully limit the byte size
             Bundle extras = data .getExtras();
             image = (Bitmap) extras.get("data");
+            pictureButton.setImageBitmap(image);
+        }
+        else if(requestCode == REQUEST_LOAD_IMG && resultCode == RESULT_OK) {
+            //http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
+
+            // Must grab the intent's data as a URI to extract the image from the gallery
+            // TODO the images are sort of slow now that we're not using the emulated camera, maybe need to adjust something.
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            // Get the cursor
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            // Move to first row
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String imgDecodableString = cursor.getString(columnIndex);
+            cursor.close();
+
+            // The image from the gallery, of unknown size.
+            // We will scale it to 256x256 bytes for total size 65536
+            Bitmap tempImage = BitmapFactory.decodeFile(imgDecodableString);
+
+            // TODO is this step necessary?
+            image = Bitmap.createScaledBitmap(tempImage,256,256,true);
+
             pictureButton.setImageBitmap(image);
         }
     }
