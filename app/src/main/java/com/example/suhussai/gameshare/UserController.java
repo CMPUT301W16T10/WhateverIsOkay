@@ -1,32 +1,18 @@
 package com.example.suhussai.gameshare;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.searchly.jestdroid.DroidClientConfig;
-import com.searchly.jestdroid.JestClientFactory;
-import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-import io.searchbox.core.Update;
 
 import static io.searchbox.core.Index.*;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Controller for actions involving users. Used to search for users, add new users,
@@ -53,6 +39,9 @@ public class UserController extends GSController{
      */
     public static void setCurrentUser(User currentUser) {
         UserController.currentUser = currentUser;
+        // save user to registered users.
+
+        addUserToLocalRecords(currentUser);
     }
 
 
@@ -84,6 +73,8 @@ public class UserController extends GSController{
                     }
                 }
             }
+            else {
+            }
             return null;
         }
     }
@@ -103,7 +94,17 @@ public class UserController extends GSController{
         protected User doInBackground(String... params) {
 
             User user = null;
-            if (verifyConfig()) {
+            // no internet and user not set
+            // check if in file
+            Log.e("TOD", "checking in local storage for user...");
+            ArrayList<User> usersList = loadUsersFromFile();
+            for (User u: usersList) {
+                Log.e("TOD", "found user: "+u.getUsername());
+                if (u.getUsername().equals(params[0])) {
+                    user = u;
+                }
+            }
+            if (verifyConfig() && user == null) {
                 String search_username =
                         "{\n" +
                                 "\"query\" : {\n" +
@@ -126,7 +127,7 @@ public class UserController extends GSController{
                     e.printStackTrace();
                 }
             }
-            else if (getCurrentUser() != null){
+            else if (getCurrentUser() != null) {
                 user = getCurrentUser();
             }
 

@@ -3,24 +3,9 @@ package com.example.suhussai.gameshare;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.searchly.jestdroid.DroidClientConfig;
-import com.searchly.jestdroid.JestClientFactory;
-import com.searchly.jestdroid.JestDroidClient;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
@@ -34,7 +19,6 @@ import io.searchbox.core.SearchResult;
  * @see Item
  */
 public class ItemController extends GSController{
-    private static String FILENAME = "itemsToPush.txt";
     /**
      * The item currently being operated on
      */
@@ -103,22 +87,9 @@ public class ItemController extends GSController{
             }
             else {
                 // TODO: local storage
-                try {
-                    FileOutputStream fos = currentContext.openFileOutput(FILENAME,
-                            0);
-                    BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-                    Gson gson = new Gson();
-                    gson.toJson(params, out);
-                    out.flush();
-                    fos.close();
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    throw new RuntimeException();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    throw new RuntimeException();
-                }
-
+                // no longer needed, user will keep
+                // reference of item and the entire
+                // user will be saved, not just the items.
             }
 
             return null;
@@ -329,89 +300,15 @@ public class ItemController extends GSController{
             }
             else {
                 Log.e("TOD", "no internet, so getting items from local storage.");
-                if (mode.equals(MODE_GET_MY_ITEMS)) {
-                    try {
-                        FileInputStream fis = currentContext.openFileInput(FILENAME);
-                        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-                        Gson gson = new Gson();
-
-                        // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
-                        Type listType = new TypeToken<ArrayList<Item>>() {}.getType();
-                        item_list = gson.fromJson(in, listType);
-
-                    } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
-                        item_list = new ArrayList<Item>();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        throw new RuntimeException();
-                    }
-                }
+                item_list = UserController.getCurrentUser().getItems();
+//                if (mode.equals(MODE_GET_MY_ITEMS)) {
+//                    item_list = loadUsersFromFile();
+//                }
             }
             return item_list;
         }
     }
 
-    /**
-     * Updates cloud when internet connectivity is found.
-     */
-    public static void updateCloud() {
-        // read local file for items to push
-        Log.e("TOD", "updating the cloud");
-        ArrayList<Item> all_item_list = new ArrayList<>();
-        ArrayList<Item> my_item_list = new ArrayList<>();
-        try {
-            FileInputStream fis = currentContext.openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-
-            // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
-            Type listType = new TypeToken<ArrayList<Item>>() {}.getType();
-            all_item_list = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            all_item_list = new ArrayList<Item>();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
-        }
-
-        /*
-        http://stackoverflow.com/questions/9863742/how-to-pass-an-arraylist-to-a-varargs-method-parameter
-        User: aioobe
-        Date: Thu Mar 24
-         */
-
-        if (all_item_list.size() > 0) {
-            for (Item item : all_item_list) {
-                if (item.getOwner() == UserController.getCurrentUser().toString()){
-                    my_item_list.add(item);
-                }
-            }
-            Log.e("TOD", "Adding these items to cloud: " + my_item_list.size());
-            AddItem addItem = new AddItem();
-            addItem.execute(my_item_list.toArray(new Item[my_item_list.size()]));
-
-            Log.e("TOD", "deleting the local storage");
-            all_item_list.removeAll(my_item_list);
-            if (all_item_list.size() > 0) {
-
-            }
-            else {
-                currentContext.deleteFile(FILENAME);
-            }
-
-        } else {
-            Log.e("TOD", "local storage already clear.");
-
-        }
-
-
-
-
-
-    }
 
     //TODO: Create an UpdateItem class to use for Editing an Item
 

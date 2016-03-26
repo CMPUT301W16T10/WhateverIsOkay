@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -46,14 +48,14 @@ public class ViewLogIn extends AppCompatActivity {
         // Login button logs into the App if the username exists and the password matches OR
         // if the username does not exist.
         Button loginButton = (Button) findViewById(R.id.Login);
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
             /**
              * On click method for logging in, will log in if username exists and password is
              * correct, refuse log in if password is wrong, and create new user if a new
              * username is used
              */
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
 
                 String username = userid.getText().toString();
                 String password = pass.getText().toString();
@@ -74,53 +76,49 @@ public class ViewLogIn extends AppCompatActivity {
                 }
 
                 // user does not exist, create new user.
-                if (user == null){
+                // only if connected to the internet
+                if (user == null && UserController.isConnected()) {
                     user = new User();
                     user.setUsername(username);
                     user.setPassword(password);
                     UserController.AddUser addUser = new UserController.AddUser();
                     addUser.execute(user);
-                    UserController.setCurrentUser(user);
+                } else if (user != null) {
+                    // new user OR user and the password matches -> login.
+                    if (user.getUsername().equals(username) &&
+                            user.getPassword().equals(password)) {
+
+                        UserController.setCurrentUser(user);
+                        setResult(RESULT_OK);
+
+                        Log.e("TOD", "Updating local storage with new user: " + user.getUsername());
+                        UserController.addUserToLocalRecords(user);
+
+                        Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
+                        intent.putExtra("mode", ViewUserProfile.MODE_EDIT);
+                        UserController.setCurrentUser(user);
+                        startActivity(intent);
+                        //finish();
+                        Toast.makeText(ViewLogIn.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // reject login.
+                    else {
+                        Toast.makeText(ViewLogIn.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(ViewLogIn.this, "Account Not Recognized." +
+                            "Need internet connection to register new account.", Toast.LENGTH_SHORT).show();
+                    UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                            getApplicationContext());
                 }
 
 
-                // new user OR user and the password matches -> login.
-                if (user.getUsername().equals(username) &&
-                        user.getPassword().equals(password) ){
-
-                    setResult(RESULT_OK);
-                    Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
-                    intent.putExtra("mode",ViewUserProfile.MODE_EDIT);
-                    UserController.setCurrentUser(user);
-                    startActivity(intent);
-                    //finish();
-                    Toast.makeText(ViewLogIn.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                }
-
-                // reject login.
-                else {
-                    Toast.makeText(ViewLogIn.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
 
-    /**
-     * On start method
-     */
-    @Override
-    protected void onStart() {
-        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
-                getApplicationContext());
-        if (UserController.isConnected()) {
-            //ItemController.updateCloud();
-        }
-        else {
-            Toast.makeText(getApplicationContext(),
-                    "Connection not found. Limited features available.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        super.onStart();
-    }
+
 
 }

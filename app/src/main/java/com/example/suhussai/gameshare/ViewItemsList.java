@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
   TODO  for each mode, as the only difference is the mode ViewItem is called with. This
   TODO  destination mode can be stored in a variable, and the method only defined once.
  */
-public class ViewItemsList extends AppCompatActivity {
+public class ViewItemsList extends SmartView {
     /**
      * Mode for general search
      */
@@ -136,25 +136,6 @@ public class ViewItemsList extends AppCompatActivity {
         }
 
     }
-
-    /**
-     * On start method
-     */
-    @Override
-    protected void onStart() {
-        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
-                getApplicationContext());
-        if (UserController.isConnected()) {
-            ItemController.updateCloud();
-        }
-        else {
-            Toast.makeText(getApplicationContext(),
-                    "Connection not found. Limited features available.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        super.onStart();
-    }
-
 
     /**
      * Setup that only happens when user requests to view items that are lent to others.

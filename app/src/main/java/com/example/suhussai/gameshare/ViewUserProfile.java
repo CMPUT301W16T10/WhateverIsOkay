@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  * 2 modes: Edit own profile and view other's profile
  * @see User
  */
-public class ViewUserProfile extends AppCompatActivity {
+public class ViewUserProfile extends SmartView {
 
     // modes are public so others can use them
     /**
@@ -58,6 +58,25 @@ public class ViewUserProfile extends AppCompatActivity {
      * Edit field for phone
      */
     private EditText phone;
+
+    /**
+     * On start method
+     */
+    @Override
+    protected void onStart() {
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
+
+        if (UserController.isConnected()) {
+            GSController.updateCloud();
+        }
+        else {
+            GSController.updateLocalRecords();
+        }
+        super.onStart();
+    }
+
+
 
     /**
      * On create method for setting up view
@@ -110,25 +129,6 @@ public class ViewUserProfile extends AppCompatActivity {
             phone.setText(newuser.getPhone());
             setupViewMode();
         }
-    }
-
-    /**
-     * On start method
-     */
-    @Override
-    protected void onStart() {
-        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
-                getApplicationContext());
-        if (UserController.isConnected()) {
-            ItemController.updateCloud();
-
-        }
-        else {
-            Toast.makeText(getApplicationContext(),
-                    "Connection not found. Limited features available.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        super.onStart();
     }
 
     /**

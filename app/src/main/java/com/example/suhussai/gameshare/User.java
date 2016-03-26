@@ -1,5 +1,7 @@
 package com.example.suhussai.gameshare;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -286,9 +288,14 @@ public class User {
             e.printStackTrace();
         }
 
-        // set to item's ID before sending to controller
-        // item.setId(getUsername() + (char) 31 + getGameCount());
-        item.setId(UUID.randomUUID().toString());
+        if (UserController.connected) {
+            // set to item's ID before sending to controller
+            Log.e("TOD", "COnnected so making id.");
+            item.setId(getUsername() + (char) 31 + getGameCount());
+        } else {
+            Log.e("TOD", "Not COnnected so NOT making id.");
+        }
+        //item.setId(UUID.randomUUID().toString());
         items.add(item);
 
         // Post the new item information
@@ -299,6 +306,27 @@ public class User {
         // Adds the Item to the user
         UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
         updateUserProfile.execute(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        try {
+            User u = (User) o;
+            if (u.getUsername().equals(this.getUsername()) &&
+                    u.getPassword().equals(this.getPassword())) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.getUsername().hashCode() + this.getPassword().hashCode());
     }
 
     /**

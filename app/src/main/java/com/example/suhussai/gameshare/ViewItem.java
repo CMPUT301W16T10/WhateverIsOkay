@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.util.concurrent.ExecutionException;
  * 1. adding a new item, 2. editing an existing item, 3. viewing someone else's item
  * @see Item
  */
-public class ViewItem extends AppCompatActivity{
+public class ViewItem extends SmartView{
 
     // modes are public so others can use them
     /**
@@ -133,23 +134,6 @@ public class ViewItem extends AppCompatActivity{
         }
     }
 
-    /**
-     * On start method
-     */
-    @Override
-    protected void onStart() {
-        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
-                getApplicationContext());
-        if (UserController.isConnected()) {
-            ItemController.updateCloud();
-        }
-        else {
-            Toast.makeText(getApplicationContext(),
-                    "Connection not found. Limited features available.",
-                    Toast.LENGTH_SHORT).show();
-        }
-        super.onStart();
-    }
 
     /**
      * The specific things that must be setup only when in add new item mode
@@ -193,6 +177,7 @@ public class ViewItem extends AppCompatActivity{
                 String platform = Platform.getText().toString();
 
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
+
 
                 user.addItem(item); // the information stored in elastic search online is updated inside user class via this method
 
