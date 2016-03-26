@@ -77,7 +77,7 @@ public class ViewItem extends AppCompatActivity{
      */
     private ImageButton pictureButton;
     /**
-     * The item's image
+     * The image that may be associated with an item.
      */
     private Bitmap image = null;
     /**
@@ -182,6 +182,19 @@ public class ViewItem extends AppCompatActivity{
             }
         });
 
+        Button DeleteImageButton = (Button) findViewById(R.id.ViewItem_pictureDeleteButton);
+
+        DeleteImageButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * The method to be run when the delete image button is pressed, clears an image from the view.
+             * @param v the view
+             */
+            public void onClick(View v) {
+                image = null;
+                pictureButton.setImageBitmap(image);
+            }
+        });
+
         Button SaveButton = (Button) findViewById(R.id.ViewItem_Save);
 
         SaveButton.setOnClickListener(new View.OnClickListener() {
@@ -199,9 +212,8 @@ public class ViewItem extends AppCompatActivity{
 
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
 
-                if( image != null ) {
-                    item.addImage(image);
-                }
+                // if image is null, the item's image base 64 is cleared out on save
+                item.addImage(image);
 
                 user.addItem(item); // the information stored in elastic search online is updated inside user class via this method
 
@@ -256,7 +268,8 @@ public class ViewItem extends AppCompatActivity{
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
         if( item.hasImage() ) {
-            pictureButton.setImageBitmap(item.getImage());
+            image = item.getImage();
+            pictureButton.setImageBitmap(image);
         }
 
         adapter = new ArrayAdapter<Bid>(this, R.layout.my_bids_list_view, item.getBids());
@@ -313,7 +326,7 @@ public class ViewItem extends AppCompatActivity{
 
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (item.hasImage()) {
+                if (image != null) {
                     // TODO open the picture in a new window to view
                 } else {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -321,6 +334,19 @@ public class ViewItem extends AppCompatActivity{
                         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
                     }
                 }
+            }
+        });
+
+        Button DeleteImageButton = (Button) findViewById(R.id.ViewItem_pictureDeleteButton);
+
+        DeleteImageButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * The method to be run when the delete image button is pressed, clears an image from the view.
+             * @param v the view
+             */
+            public void onClick(View v) {
+                image = null;
+                pictureButton.setImageBitmap(image);
             }
         });
 
@@ -338,11 +364,8 @@ public class ViewItem extends AppCompatActivity{
                 item.setTimeReq(TimeReq.getText().toString());
                 item.setPlatform(Platform.getText().toString());
 
-                // the image variable is only updated from null on successful return from camera call.
-                // edit the item's image only if the camera was called successfully and the save button is hit.
-                if( image != null ) {
-                    item.addImage(image);
-                }
+                // if image is null, the item's image base 64 is cleared out on save.
+                item.addImage(image);
 
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
@@ -426,6 +449,8 @@ public class ViewItem extends AppCompatActivity{
         c.setVisibility(View.GONE);
         View d = findViewById(R.id.ViewItem_bidsListView);
         d.setVisibility(View.GONE);
+        View e = findViewById(R.id.ViewItem_pictureDeleteButton);
+        e.setVisibility(View.GONE);
 
         //Make fields uneditable
         GameName.setEnabled(false);

@@ -78,7 +78,7 @@ public class Item {
     /**
      * The decoded thumbnail image for the game, not saved via elastic controller (transient).
      */
-    private transient Bitmap image;
+    private transient Bitmap image = null;
 
     /**
      * The thumbnail base 64 image string to be decoded to produce the real image to display.
@@ -431,7 +431,13 @@ public class Item {
 
             byte[] b = byteArrayOutputStream.toByteArray();
             imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
-
+        }
+        // clear out the image if an empty image is "added"
+        // in this way, a "save" will delete an image if it was deleted from the view
+        // deleting an image will therefore be handled by the view directly.
+        else {
+            image = null;
+            imageBase64 = "";
         }
     }
 
