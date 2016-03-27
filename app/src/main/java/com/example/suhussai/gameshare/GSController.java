@@ -157,24 +157,29 @@ public class GSController {
 
         userList = loadUsersFromFile();
         User userToUpdate = UserController.getCurrentUser();
+        if (userList.contains(userToUpdate)) {
+            // get user from the local storage
+            userToUpdate = userList.get(userList.indexOf(userToUpdate));
+
+            ArrayList<Item> itemArrayList = new ArrayList<>();
+            for (Item item : userToUpdate.getItems()) {
+                if (item.getId().equals("")) {
+                    userToUpdate.incrementGameCount();
+                    // set to item's ID before sending to controller
+                    item.setId(userToUpdate.getUsername() + (char) 31 + userToUpdate.getGameCount());
+                    Log.e("TOD", "found item needing to be pushed to cloud. " + item.getName());
+                }
+                Log.e("TOD", "item ids. " + item.getId());
+                itemArrayList.add(item);
+            }
+            userToUpdate.setItems(itemArrayList);
+        }
 
         /*
         http://stackoverflow.com/questions/9863742/how-to-pass-an-arraylist-to-a-varargs-method-parameter
         User: aioobe
         Date: Thu Mar 24
          */
-        ArrayList<Item> itemArrayList = new ArrayList<>();
-        for (Item item : userToUpdate.getItems()) {
-            if (item.getId().equals("")) {
-                userToUpdate.incrementGameCount();
-                // set to item's ID before sending to controller
-                item.setId(userToUpdate.getUsername() + (char) 31 + userToUpdate.getGameCount());
-                Log.e("TOD", "found item needing to be pushed to cloud. " + item.getName());
-            }
-            Log.e("TOD", "item ids. " + item.getId());
-            itemArrayList.add(item);
-        }
-        userToUpdate.setItems(itemArrayList);
 
         // delete old items of the userToUpdate
         Log.e("TOD", "deleting the items of user in cloud.");

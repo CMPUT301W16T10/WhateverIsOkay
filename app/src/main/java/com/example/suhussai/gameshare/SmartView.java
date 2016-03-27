@@ -3,6 +3,7 @@ package com.example.suhussai.gameshare;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -14,6 +15,7 @@ public class SmartView extends AppCompatActivity {
      */
     @Override
     protected void onStart() {
+        Log.e("TOD", "Start onStart.");
         UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
                 getApplicationContext());
 
@@ -27,6 +29,7 @@ public class SmartView extends AppCompatActivity {
             // GSController.updateLocalRecords();
         }
         super.onStart();
+        Log.e("TOD", "Done onStart.");
     }
 
     // http://developer.android.com/reference/android/app/Activity.html#onStop%28%29
@@ -40,16 +43,18 @@ public class SmartView extends AppCompatActivity {
      */
     @Override
     protected void onStop() {
+        Log.e("TOD", "Start onStop.");
         UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
                 getApplicationContext());
 
         if (UserController.isConnected()) {
-            GSController.updateCloud();
+            GSController. updateCloud();
         }
         else {
             GSController.updateLocalRecords();
         }
         super.onStop();
+        Log.e("TOD", "Done onStop.");
     }
 
 

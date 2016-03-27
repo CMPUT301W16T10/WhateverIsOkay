@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  * 2 modes: Edit own profile and view other's profile
  * @see User
  */
-public class ViewUserProfile extends SmartView {
+public class ViewUserProfile extends AppCompatActivity {
 
     // modes are public so others can use them
     /**
@@ -62,6 +62,7 @@ public class ViewUserProfile extends SmartView {
     /**
      * On start method
      */
+    /*
     @Override
     protected void onStart() {
         UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
@@ -76,6 +77,7 @@ public class ViewUserProfile extends SmartView {
         super.onStart();
     }
 
+    */
 
 
     /**
@@ -84,6 +86,15 @@ public class ViewUserProfile extends SmartView {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
+                getApplicationContext());
+
+        if (UserController.isConnected()) {
+            GSController.updateCloud();
+        }
+        else {
+            GSController.updateLocalRecords();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         final int mode = getIntent().getExtras().getInt("mode");
