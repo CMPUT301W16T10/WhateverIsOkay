@@ -313,6 +313,7 @@ public class ViewItemsList extends AppCompatActivity {
         getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
+        adapter.notifyDataSetChanged();
 
         // setting up the list view to have an item click listener
         ListView LV = (ListView) findViewById(R.id.myItemsListView);
