@@ -41,7 +41,9 @@ public class UserController extends GSController{
         UserController.currentUser = currentUser;
         // save user to registered users.
 
-        addUserToLocalRecords(currentUser);
+        if (currentUser != null) {
+            addUserToLocalRecords(currentUser);
+        }
     }
 
 

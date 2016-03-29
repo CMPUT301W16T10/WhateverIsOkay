@@ -48,6 +48,11 @@ public class User {
      * Total number of games user has had over all time (doesn't decrement on game deletion)
      */
     private int gameCount = 0;
+    /**
+     * Boolean displaying whether or not the user contains offline information
+     * ready to push up.
+     */
+    private Boolean pushNeeded = false;
 
     /**
      * Constructor
@@ -389,4 +394,13 @@ public class User {
     public void acceptBid(Bid bid, Item item) {
         item.acceptBid(bid);
     }
+
+    public Boolean getPushNeeded() {
+        return pushNeeded;
+    }
+
+    public void setPushNeeded(Boolean pushNeeded) {
+        this.pushNeeded = pushNeeded;
+    }
+
 }

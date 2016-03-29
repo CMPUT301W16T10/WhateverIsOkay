@@ -91,6 +91,24 @@ public class ViewLogIn extends AppCompatActivity {
                         UserController.setCurrentUser(user);
                         setResult(RESULT_OK);
 
+                        if (UserController.isConnected()) {
+                            GSController.updateCloud();
+
+                            // Grab the user's items from the controller.
+                            ItemController.GetItems getItems = new ItemController.GetItems();
+                            getItems.execute(ItemController.GetItems.MODE_GET_MY_ITEMS, user.getUsername());
+
+                            try {
+                                user.setItems(getItems.get());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+
                         Log.e("TOD", "Updating local storage with new user: " + user.getUsername());
                         UserController.addUserToLocalRecords(user);
 
@@ -119,6 +137,9 @@ public class ViewLogIn extends AppCompatActivity {
         });
     }
 
-
-
+    @Override
+    protected void onStart() {
+        UserController.setCurrentUser(null);
+        super.onStart();
+    }
 }

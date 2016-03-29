@@ -89,12 +89,6 @@ public class ViewUserProfile extends AppCompatActivity {
         UserController.setupController((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE),
                 getApplicationContext());
 
-        if (UserController.isConnected()) {
-            GSController.updateCloud();
-        }
-        else {
-            GSController.updateLocalRecords();
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         final int mode = getIntent().getExtras().getInt("mode");

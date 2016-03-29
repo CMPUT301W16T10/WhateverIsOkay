@@ -428,6 +428,7 @@ public class ViewItem extends SmartView{
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // add check for "" (empty) bid value
                         double bidAmount = Double.parseDouble(EnterBid.getText().toString());
                         //TODO the next 6 lines should be a single method in the Item class
                         User bidder = UserController.getCurrentUser();

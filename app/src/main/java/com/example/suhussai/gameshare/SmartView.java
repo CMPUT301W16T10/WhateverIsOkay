@@ -39,7 +39,7 @@ public class SmartView extends AppCompatActivity {
     // User: ksu
 
     /**
-     * On start method
+     * On stop method
      */
     @Override
     protected void onStop() {
@@ -48,7 +48,7 @@ public class SmartView extends AppCompatActivity {
                 getApplicationContext());
 
         if (UserController.isConnected()) {
-            GSController. updateCloud();
+            GSController.updateCloud();
         }
         else {
             GSController.updateLocalRecords();

@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by suhussai on 24/03/16.
@@ -39,15 +40,12 @@ public class GSController {
      */
     protected static Context currentContext = null;
     private static String FILENAME = "usersOnThisDevice.txt";
-    protected static String elasticSearchUrl = "http://gameshare-umtest.rhcloud.com";
-    private static String serverUri;
 
     /**
      * Adds the client if there isn't one already (from lonelyTwitter)
      */
     public static Boolean verifyConfig(){
         if (client == null) {
-            serverUri = "";
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
             DroidClientConfig config = builder.build();
 
@@ -160,41 +158,47 @@ public class GSController {
         if (userList.contains(userToUpdate)) {
             // get user from the local storage
             userToUpdate = userList.get(userList.indexOf(userToUpdate));
-
-            ArrayList<Item> itemArrayList = new ArrayList<>();
-            for (Item item : userToUpdate.getItems()) {
-                if (item.getId().equals("")) {
-                    userToUpdate.incrementGameCount();
-                    // set to item's ID before sending to controller
-                    item.setId(userToUpdate.getUsername() + (char) 31 + userToUpdate.getGameCount());
-                    Log.e("TOD", "found item needing to be pushed to cloud. " + item.getName());
+            if (userToUpdate.getPushNeeded()) {
+                Log.e("TOD", "Push needed, so updating the cloud.");
+                userToUpdate.setPushNeeded(false);
+                ArrayList<Item> itemArrayList = new ArrayList<>();
+                for (Item item : userToUpdate.getItems()) {
+                    if (item.getId().equals("")) {
+                        userToUpdate.incrementGameCount();
+                        // set to item's ID before sending to controller
+                        item.setId(userToUpdate.getUsername() + (char) 31 + userToUpdate.getGameCount());
+                        Log.e("TOD", "found item needing to be pushed to cloud. " + item.getName());
+                    }
+                    Log.e("TOD", "item ids. " + item.getId());
+                    itemArrayList.add(item);
                 }
-                Log.e("TOD", "item ids. " + item.getId());
-                itemArrayList.add(item);
-            }
-            userToUpdate.setItems(itemArrayList);
-        }
+                userToUpdate.setItems(itemArrayList);
 
-        /*
+                        /*
         http://stackoverflow.com/questions/9863742/how-to-pass-an-arraylist-to-a-varargs-method-parameter
         User: aioobe
         Date: Thu Mar 24
          */
 
-        // delete old items of the userToUpdate
-        Log.e("TOD", "deleting the items of user in cloud.");
-        ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
-        deleteItem.execute(userToUpdate.getItems().toArray(new Item[userToUpdate.getItems().size()]));
+                // delete old items of the userToUpdate
+                Log.e("TOD", "deleting the items of user in cloud.");
+                ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
+                deleteItem.execute(userToUpdate.getItems().toArray(new Item[userToUpdate.getItems().size()]));
 
-        // add the new items of the userToUpdate
-        Log.e("TOD", "adding the items of user in cloud.");
-        ItemController.AddItem addItem = new ItemController.AddItem();
-        addItem.execute(userToUpdate.getItems().toArray(new Item[userToUpdate.getItems().size()]));
+                // add the new items of the userToUpdate
+                Log.e("TOD", "adding the items of user in cloud.");
+                ItemController.AddItem addItem = new ItemController.AddItem();
+                addItem.execute(userToUpdate.getItems().toArray(new Item[userToUpdate.getItems().size()]));
 
-        // update user profile
-        UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-        updateUserProfile.execute(userToUpdate);
+                // update user profile
+                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                updateUserProfile.execute(userToUpdate);
 
+
+
+            }
+
+        }
 
         updateLocalRecords();
     }
@@ -203,6 +207,7 @@ public class GSController {
      * Updates local storage when internet connectivity is not found.
      */
     public static void updateLocalRecords() {
+
         // read local file for items to push
         Log.e("TOD", "updating the local storage");
         ArrayList<User> userArrayList = new ArrayList<>();
@@ -216,7 +221,9 @@ public class GSController {
         userArrayList.add(userToUpdate);
         Log.e("TOD", "saved user had these many items: " + userToUpdate.getItems().size());
         UserController.saveToFile(userArrayList);
-
+        if (UserController.isConnected() == false) {
+            userToUpdate.setPushNeeded(true);
+        }
 
     }
 
@@ -233,6 +240,7 @@ public class GSController {
         else {
             Log.e("TOD", "new user being added. Count will not decrease.sye");
             updateLocalRecords();
+            UserController.getCurrentUser().setPushNeeded(false);
         }
 
     }
