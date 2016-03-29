@@ -9,6 +9,14 @@
     <string name="phone">Phone:   </string>
     <string name="userProfile">User Profile</string>
     <string name="login_register">Login/Register</string>
+    <string name="addNewItem">Add New Item</string>
+    <string name="myItems">My Items</string>
+    <string name="filter">Filter</string>
+    <string name="platform">Platform: </string>
+    <string name="minAge">| Age: </string>
+    <string name="minPlayers">| Players (Min): </string>
+    <string name="maxPlayers">| Players (Max): </string>
+    <string name="minTimeReq">| Time Required: </string>
 
     <string name="dialogYes">Yes</string>
     <string name="dialogYesBid">Yes</string>
@@ -18,5 +26,44 @@
     <string name="dialogDecline">Decline</string>
     <string name="dialogCancel">Cancel</string>
 
+    <!-- FILTER STRINGS -->
+    <string-array name="platform_array">
+        <item>Board Game</item>
+        <item>Card Game</item>
+        <item>PC</item>
+        <item>Playstation 3</item>
+        <item>Playstation 4</item>
+        <item>Xbox 360</item>
+        <item>Xbox One</item>
+    </string-array>
+
+    <string-array name="age_array">
+        <item>6+</item>
+        <item>10+</item>
+        <item>13+</item>
+        <item>17+</item>
+        <item>18+</item>
+    </string-array>
+
+    <string-array name="players_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="timeReq_array">
+        <item>5 min+</item>
+        <item>15 min+</item>
+        <item>30 min+</item>
+        <item>45 min+</item>
+        <item>1 hour+</item>
+    </string-array>
 
 </resources>

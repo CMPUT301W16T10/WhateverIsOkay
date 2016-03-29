@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -111,6 +112,57 @@ public class ViewItemsList extends AppCompatActivity {
             }
         });
 
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        Spinner platformSpinner = (Spinner) findViewById(R.id.platformSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
+                R.array.platform_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        platformSpinner.setAdapter(platformAdapter);
+
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        Spinner ageSpinner = (Spinner) findViewById(R.id.minAgeSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> AgeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.age_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        AgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        ageSpinner.setAdapter(AgeAdapter);
+
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        Spinner minPlayersSpinner = (Spinner) findViewById(R.id.minPlayersSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> minPlayersAdapter = ArrayAdapter.createFromResource(this,
+                R.array.players_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        minPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        minPlayersSpinner.setAdapter(minPlayersAdapter);
+
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        Spinner maxPlayersSpinner = (Spinner) findViewById(R.id.maxPlayersSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> maxPlayersAdapter = ArrayAdapter.createFromResource(this,
+                R.array.players_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        maxPlayersSpinner.setAdapter(maxPlayersAdapter);
+
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        Spinner timeReqSpinner = (Spinner) findViewById(R.id.minTimeSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
+                R.array.timeReq_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        timeReqSpinner.setAdapter(timeReqAdapter);
+
+
         user = UserController.getCurrentUser();
         setMode_viewItemsList();
 
@@ -145,6 +197,8 @@ public class ViewItemsList extends AppCompatActivity {
         v.setVisibility(View.GONE);
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
+        View x = findViewById(R.id.filterLinearLayout);
+        x.setVisibility(View.GONE);
 
         // Grab the user's items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
@@ -309,6 +363,8 @@ public class ViewItemsList extends AppCompatActivity {
         // Hide searchbar:
         View v = findViewById(R.id.myItemsSearchView);
         v.setVisibility(View.GONE);
+        View x = findViewById(R.id.filterLinearLayout);
+        x.setVisibility(View.GONE);
 
         getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
 
@@ -354,6 +410,8 @@ public class ViewItemsList extends AppCompatActivity {
         v.setVisibility(View.GONE);
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
+        View x = findViewById(R.id.filterLinearLayout);
+        x.setVisibility(View.GONE);
 
         getUserStuff(ItemController.GetItems.MODE_GET_BIDDED_ITEMS);
 
@@ -396,6 +454,8 @@ public class ViewItemsList extends AppCompatActivity {
         v.setVisibility(View.GONE);
         View w = findViewById(R.id.myItemsAddItem);
         w.setVisibility(View.GONE);
+        View x = findViewById(R.id.filterLinearLayout);
+        x.setVisibility(View.GONE);
 
         getUserStuff(ItemController.GetItems.MODE_GET_BORROWED_ITEMS);
 

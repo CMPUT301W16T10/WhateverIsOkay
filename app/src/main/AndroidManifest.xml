@@ -21,7 +21,8 @@
         <activity android:name=".ViewUserProfile" />
         <activity android:name=".ViewItem" />
         <activity android:name=".ViewItemsList" />
-        <activity android:name=".ViewImage"></activity>
+        <activity android:name=".ViewImage">
+        </activity>
     </application>
 
 </manifest>
