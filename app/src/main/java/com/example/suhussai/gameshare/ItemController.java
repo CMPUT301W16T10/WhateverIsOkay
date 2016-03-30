@@ -207,25 +207,24 @@ public class ItemController {
                         "    \"bool\": {\n" +
                         "      \"must\": [\n";
 
-                String[] keywords = params[1].toString().toLowerCase().split(" ");
-                for (int i = 0; i < keywords.length; i++) {
-                    if (keywords[i] == keywords[keywords.length-1]) {
+                String[] keywords = params[1].toLowerCase().split(" ");
+                for (String keyword : keywords) {
+                    if (keyword.equals(keywords[keywords.length - 1])) {
                         // last term to add
                         // does not require comma
                         search_items = search_items +
                                 "        {\n" +
                                 "          \"wildcard\": {\n" +
-                                "            \"name\": \"*"+keywords[i]+"*\"\n" +
+                                "            \"name\": \"*" + keyword + "*\"\n" +
                                 "          }\n" +
                                 "        }\n";
-                    }
-                    else {
+                    } else {
                         // not the last term to add
                         // requires comma
                         search_items = search_items +
                                 "        {\n" +
                                 "          \"wildcard\": {\n" +
-                                "            \"name\": \"*"+keywords[i]+"*\"\n" +
+                                "            \"name\": \"*" + keyword + "*\"\n" +
                                 "          }\n" +
                                 "        },\n";
                     }

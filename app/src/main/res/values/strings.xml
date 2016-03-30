@@ -17,6 +17,8 @@
     <string name="minPlayers">| Players (Min): </string>
     <string name="maxPlayers">| Players (Max): </string>
     <string name="minTimeReq">| Time Required: </string>
+    <string name="send">Send</string>
+    <string name="messageHint">Enter a message...</string>
 
     <string name="dialogYes">Yes</string>
     <string name="dialogYesBid">Yes</string>

@@ -113,53 +113,35 @@ public class ViewItemsList extends AppCompatActivity {
         });
 
         // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Platform Spinner
         Spinner platformSpinner = (Spinner) findViewById(R.id.platformSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
                 R.array.platform_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         platformSpinner.setAdapter(platformAdapter);
-
-        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Age Spinner
         Spinner ageSpinner = (Spinner) findViewById(R.id.minAgeSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> AgeAdapter = ArrayAdapter.createFromResource(this,
                 R.array.age_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         AgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         ageSpinner.setAdapter(AgeAdapter);
-
-        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Min Players Spinner
         Spinner minPlayersSpinner = (Spinner) findViewById(R.id.minPlayersSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> minPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         minPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         minPlayersSpinner.setAdapter(minPlayersAdapter);
-
-        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Max Players Spinner
         Spinner maxPlayersSpinner = (Spinner) findViewById(R.id.maxPlayersSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> maxPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         maxPlayersSpinner.setAdapter(maxPlayersAdapter);
-
-        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Time Required Spinner
         Spinner timeReqSpinner = (Spinner) findViewById(R.id.minTimeSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
                 R.array.timeReq_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         timeReqSpinner.setAdapter(timeReqAdapter);
 
 
