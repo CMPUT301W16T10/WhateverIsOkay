@@ -121,6 +121,10 @@ public class ViewUserProfile extends AppCompatActivity {
      * Setup elements only used in edit mode (only called from onCreate)
      */
     private void setupEditMode(){
+
+        View v = findViewById(R.id.Message_Button);
+        v.setVisibility(View.GONE);
+
         //TODO: Make passwords editable as well.
         Button updateButton = (Button) findViewById(R.id.Update_Profile);
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +268,20 @@ public class ViewUserProfile extends AppCompatActivity {
         name.setEnabled(false);
         email.setEnabled(false);
         phone.setEnabled(false);
+
+        // Message the User
+        Button messageButton = (Button) findViewById(R.id.Message_Button);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * On click method for search for items button, goes to ViewItemList in search mode
+             */
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewUserProfile.this, ViewChat.class);
+                intent.putExtra("friend", usernameString);
+                startActivity(intent);
+            }
+        });
     }
 
 }
