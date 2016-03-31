@@ -455,8 +455,14 @@ public class ViewItemsList extends AppCompatActivity {
      * @param mode the mode
      */
     private void getUserStuff(String mode) {
-
-        if (UserController.isConnected() || mode == ItemController.GetItems.MODE_GET_MY_ITEMS) {
+        if (mode == ItemController.GetItems.MODE_GET_MY_ITEMS) {
+            user = UserController.getCurrentUser();
+            Log.e("TOD", "removing item for this." + user);
+            Log.e("TOD", "showing user items only. " + user.getItems().size());
+            Log.e("TOD","showing user items only. " + user.getItems());
+        }
+        else if (UserController.isConnected() || mode == ItemController.GetItems.MODE_GET_MY_ITEMS) {
+            Log.e("TOD","getting user items.");
             // update the user from the controller.
             UserController.GetUser getUser = new UserController.GetUser();
             getUser.execute(user.getUsername());

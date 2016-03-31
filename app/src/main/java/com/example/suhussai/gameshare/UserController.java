@@ -98,17 +98,24 @@ public class UserController extends GSController{
             User user = null;
             // no internet and user not set
             // check if in file
-            if (getCurrentUser() != null) {
+ /*           if (getCurrentUser() != null) {
                 user = getCurrentUser();
             }
-            else if (verifyConfig() == false) {
-                Log.e("TOD", "checking in local storage for user...");
-                ArrayList<User> usersList = loadUsersFromFile();
-                for (User u: usersList) {
-                    Log.e("TOD", "found user: "+u.getUsername());
-                    if (u.getUsername().equals(params[0])) {
-                        user = u;
+            else
+*/
+            if (verifyConfig() == false) {
+                if (getCurrentUser() != null) {
+                    user = getCurrentUser();
+                } else {
+                    Log.e("TOD", "checking in local storage for user...");
+                    ArrayList<User> usersList = loadUsersFromFile();
+                    for (User u: usersList) {
+                        Log.e("TOD", "found user: "+u.getUsername());
+                        if (u.getUsername().equals(params[0])) {
+                            user = u;
+                        }
                     }
+
                 }
             }
             else if (verifyConfig()) {

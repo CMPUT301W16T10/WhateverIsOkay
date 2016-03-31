@@ -262,7 +262,7 @@ public class ItemController extends GSController{
                     SearchResult execute = client.execute(search);
                     if (execute.isSucceeded()) {
                         List<Item> foundItems = execute.getSourceAsObjectList(Item.class);
-                        Log.e("IMP_INFO", "Found "+foundItems.size() + " new items.");
+                        Log.e("IMP_INFO", "Found "+foundItems.size() + " new items for params:" + params[1]);
                         item_list.addAll(foundItems);
 
                         if (mode.equals(MODE_GET_BIDDED_ITEMS)) {

@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -301,6 +302,15 @@ public class ViewItem extends SmartView{
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
 
+                int indexToUpdate = 0;
+                for (Item i : user.getItems()) {
+                    if (i.getId().equals(item.getId()) == false) {
+                        indexToUpdate++;
+                    }
+                }
+                Item itemToUpdate = user.getItem(indexToUpdate);
+                user.getItems().remove(itemToUpdate);
+                user.getItems().add(item);
                 // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
                 Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_SHORT).show();
                 returnToViewItems();

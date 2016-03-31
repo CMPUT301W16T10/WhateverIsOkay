@@ -339,9 +339,13 @@ public class User {
      * @param item the item
      */
     public void deleteItem(Item item){
+        Log.e("TOD", "removing item for this." + this);
+        Log.e("TOD", "size before." + items.size());
+        items.remove(item);
+        Log.e("TOD", "size after." + items.size());
+        UserController.setCurrentUser(this);
         ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
         deleteItem.execute(item);
-        items.remove(item);
     }
 
     /**

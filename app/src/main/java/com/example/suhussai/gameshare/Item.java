@@ -108,6 +108,55 @@ public class Item {
      */
     public Item(){}
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (bidded != item.bidded) return false;
+        if (borrowed != item.borrowed) return false;
+        if (newBid != item.newBid) return false;
+        if (Double.compare(item.rate, rate) != 0) return false;
+        if (Id != null ? !Id.equals(item.Id) : item.Id != null) return false;
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (players != null ? !players.equals(item.players) : item.players != null) return false;
+        if (age != null ? !age.equals(item.age) : item.age != null) return false;
+        if (timeReq != null ? !timeReq.equals(item.timeReq) : item.timeReq != null) return false;
+        if (platform != null ? !platform.equals(item.platform) : item.platform != null)
+            return false;
+        if (owner != null ? !owner.equals(item.owner) : item.owner != null) return false;
+        if (borrower != null ? !borrower.equals(item.borrower) : item.borrower != null)
+            return false;
+        if (bids != null ? !bids.equals(item.bids) : item.bids != null) return false;
+        return !(location != null ? !location.equals(item.location) : item.location != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = Id != null ? Id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (players != null ? players.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (timeReq != null ? timeReq.hashCode() : 0);
+        result = 31 * result + (platform != null ? platform.hashCode() : 0);
+        result = 31 * result + (bidded ? 1 : 0);
+        result = 31 * result + (borrowed ? 1 : 0);
+        result = 31 * result + (newBid ? 1 : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        temp = Double.doubleToLongBits(rate);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (borrower != null ? borrower.hashCode() : 0);
+        result = 31 * result + (bids != null ? bids.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
+    }
+
     /**
      * Sets the rate of item to be borrowed.
      */

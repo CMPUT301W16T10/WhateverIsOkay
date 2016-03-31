@@ -53,6 +53,7 @@ public class SmartView extends AppCompatActivity {
         else {
             GSController.updateLocalRecords();
         }
+
         super.onStop();
         Log.e("TOD", "Done onStop.");
     }
