@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -433,6 +434,9 @@ public class ViewItem extends AppCompatActivity{
 
         //Set any bids as viewed
         item.setBidsViewed();
+        //TODO this isn't updating the item
+        ItemController.UpdateItem updateItem1 = new ItemController.UpdateItem();
+        updateItem1.execute(item);
     }
 
     /**
