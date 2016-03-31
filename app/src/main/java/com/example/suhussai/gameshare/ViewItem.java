@@ -1,6 +1,8 @@
 package com.example.suhussai.gameshare;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
@@ -22,6 +25,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
@@ -30,7 +41,7 @@ import java.util.concurrent.ExecutionException;
  * 1. adding a new item, 2. editing an existing item, 3. viewing someone else's item
  * @see Item
  */
-public class ViewItem extends AppCompatActivity{
+public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
 
     // modes are public so others can use them
     /**
@@ -86,6 +97,10 @@ public class ViewItem extends AppCompatActivity{
      */
     private Bitmap image = null;
     /**
+     * The map that the borrower should meet the lender.
+     */
+    private GoogleMap map;
+    /**
      * Used to facilitate the return from intent
      */
     static final int REQUEST_IMAGE_CAPTURE = 99;
@@ -103,6 +118,11 @@ public class ViewItem extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
+
+        // reference: https://developers.google.com/maps/documentation/android-api/map#add_map_code
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.ViewItem_Map);
+        mapFragment.getMapAsync(this);
 
         // turn that mode string back into an integer. there's maybe a way to use an extra that is an integer but i didn't look too closely.
         // TODO: change to passing integer like below
@@ -152,6 +172,40 @@ public class ViewItem extends AppCompatActivity{
         }
     }
 
+    @Override
+    /**
+     * Sets the position on the map to Location set by lender.
+     */
+    //TODO: Screen rotation crashes this thing. :(
+    // Reference: https://developers.google.com/maps/documentation/android-api/map
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        try {
+            LatLng latLng = item.getLocation();
+            //map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            if (item.getLocation() == null) {
+                latLng = new LatLng(0, 0);
+                map.addMarker(new MarkerOptions().position(latLng).title("DON'T GO HERE"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+            else {
+                map.addMarker(new MarkerOptions().position(latLng).title("Location to Meet")
+                        .snippet(String.format("lat: %.6f",latLng.latitude)+ String.format(", lng: %.6f",latLng.longitude)));
+                // reference: http://stackoverflow.com/questions/29868121/how-do-i-zoom-in-automatically-to-the-current-location-in-google-map-api-for-and
+                float zoomLevel = 15; //This goes up to 21
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+
+        // Reference: https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMapOptions
+        //GoogleMapOptions options = new GoogleMapOptions();
+        //options.mapType(map.MAP_TYPE_SATELLITE);
+    }
+
     /**
      * The specific things that must be setup only when in add new item mode
      * Called only from onCreate
@@ -177,10 +231,12 @@ public class ViewItem extends AppCompatActivity{
         g.setVisibility(View.GONE);
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
 
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if( image != null) {
+                if (image != null) {
                     viewImage();
                 } else {
                     selectImage();
@@ -259,6 +315,8 @@ public class ViewItem extends AppCompatActivity{
         g.setVisibility(View.GONE);
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
 
         item = ItemController.getCurrentItem();
 
@@ -301,8 +359,11 @@ public class ViewItem extends AppCompatActivity{
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        user.acceptBid(bid, item);
-                        Toast.makeText(getApplicationContext(), "Bid accepted", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ViewItem.this, ViewMap.class);
+                        intent.putExtra("bidString", bid.toString());
+                        ItemController.setCurrentItem(item);
+                        UserController.setCurrentUser(user);
+                        startActivity(intent);
                         finish();
                     }
                 });
@@ -454,6 +515,8 @@ public class ViewItem extends AppCompatActivity{
         d.setVisibility(View.GONE);
         View e = findViewById(R.id.ViewItem_pictureDeleteButton);
         e.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
 
         //Make fields uneditable
         GameName.setEnabled(false);
@@ -486,6 +549,8 @@ public class ViewItem extends AppCompatActivity{
             EnterBid.setVisibility(View.GONE);
             //View e = findViewById(R.id.ViewItem_Bid);
             BidButton.setVisibility(View.GONE);
+            // Map is visibile only if borrowed is true
+            i.setVisibility(View.VISIBLE);
         }
 
         //TODO probably a better way to do this

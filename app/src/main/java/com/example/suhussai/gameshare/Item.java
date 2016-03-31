@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
@@ -73,7 +75,7 @@ public class Item {
     /**
      * The location of item when borrowed is true. [long, lat]
      */
-    private String location = new String();
+    private LatLng location;
 
     /**
      * The decoded thumbnail image for the game, not saved via elastic controller (transient).
@@ -371,17 +373,17 @@ public class Item {
 
     /**
      * Gets the geoLocation coordinates
-     * @return location string in [long, lat] format
+     * @return location LatLng in (lat, long) format
      */
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
     /**
-     * Sets the geoLocation given the string in [long, lat] format
+     * Sets the geoLocation given the LatLng in (lat, long) format
      * @param location
      */
-    public void setLocation(String location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
