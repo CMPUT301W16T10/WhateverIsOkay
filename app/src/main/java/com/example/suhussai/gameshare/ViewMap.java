@@ -133,7 +133,13 @@ public class ViewMap extends FragmentActivity implements OnMapReadyCallback {
             map.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
 
             // Reference: http://stackoverflow.com/questions/7167604/how-accurately-should-i-store-latitude-and-longitude
-            marker = map.addMarker(new MarkerOptions().position(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude())).title("You are here!")
+            marker = map.addMarker(new MarkerOptions().position(latLng).title("You are here!")
+                    .snippet(String.format("lat: %.6f", latLng.latitude) + String.format(", lng: %.6f", latLng.longitude)));
+        }
+
+        else {
+            latLng = new LatLng(0, 0);
+            marker = map.addMarker(new MarkerOptions().position(latLng).title("GPS is disabled")
                     .snippet(String.format("lat: %.6f", latLng.latitude) + String.format(", lng: %.6f", latLng.longitude)));
         }
 
