@@ -233,6 +233,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         h.setVisibility(View.GONE);
         View i = findViewById(R.id.ViewItem_Map);
         i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
 
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -317,6 +318,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         h.setVisibility(View.GONE);
         View i = findViewById(R.id.ViewItem_Map);
         i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
 
         item = ItemController.getCurrentItem();
 
@@ -517,6 +519,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         e.setVisibility(View.GONE);
         View i = findViewById(R.id.ViewItem_Map);
         i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
 
         //Make fields uneditable
         GameName.setEnabled(false);
@@ -551,6 +554,9 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
             BidButton.setVisibility(View.GONE);
             // Map is visibile only if borrowed is true
             i.setVisibility(View.VISIBLE);
+            if( user.getUsername().equals(item.getOwner())){
+                findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.VISIBLE);
+            }
         }
 
         //TODO probably a better way to do this
@@ -624,6 +630,19 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
+
+        Button ItemReturned = (Button) findViewById(R.id.ViewItem_ItemReturned);
+
+        ItemReturned.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View V) {
+                item.setAvailable();
+                ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                updateItem.execute(item);
+                finish();
+                Toast.makeText(getApplicationContext(),"Item has been returned and is now avaialble",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void selectImage() {

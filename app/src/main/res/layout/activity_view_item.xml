@@ -197,6 +197,14 @@
         android:layout_alignBottom="@+id/ViewItem_Cancel"
         android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Returned"
+        android:id="@+id/ViewItem_ItemReturned"
+        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
+
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
