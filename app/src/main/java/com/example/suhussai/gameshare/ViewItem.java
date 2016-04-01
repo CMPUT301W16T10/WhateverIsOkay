@@ -700,7 +700,16 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             // TODO do we need to limit size of the camera image the way we do with gallery? it seems to successfully limit the byte size
             Bundle extras = data .getExtras();
-            image = (Bitmap) extras.get("data");
+            // The image from the camera, of unknown size.
+            // We will scale it down to 90% original height and width until total size < 65536
+            Bitmap tempImage = (Bitmap) extras.get("data");
+            int width = tempImage.getWidth();
+            int height = tempImage.getHeight();
+            while(width*height >= 65536) {
+                height *= 0.9;
+                width *= 0.9;
+            }
+            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
             pictureButton.setImageBitmap(image);
         }
         else if(requestCode == REQUEST_LOAD_IMG && resultCode == RESULT_OK) {
@@ -721,11 +730,15 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
             cursor.close();
 
             // The image from the gallery, of unknown size.
-            // We will scale it to 256x256 bytes for total size 65536
+            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = BitmapFactory.decodeFile(imgDecodableString);
-
-            // TODO is this step necessary?
-            image = Bitmap.createScaledBitmap(tempImage,256,256,true);
+            int width = tempImage.getWidth();
+            int height = tempImage.getHeight();
+            while(width*height >= 65536) {
+                height *= 0.9;
+                width *= 0.9;
+            }
+            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
 
             pictureButton.setImageBitmap(image);
         }
