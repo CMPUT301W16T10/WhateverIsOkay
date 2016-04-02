@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -188,7 +189,8 @@ public class ViewItemsList extends AppCompatActivity {
 
         // Fills in the places needed to be filled for the User Profile
         try {
-            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, getItems.get());
+            final ArrayList<Item> Items = getItems.get();
+            adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, Items);
 
             // setting up the list view to have an item click listener
             LV = (ListView) findViewById(R.id.myItemsListView);
@@ -202,7 +204,7 @@ public class ViewItemsList extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
                     Gson gson = new Gson();
-                    Item item = user.getItem(position);
+                    Item item = Items.get(position);
                     ItemController.setCurrentItem(item);
                     // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
                     String mode = Integer.toString(ViewItem.MODE_VIEW);

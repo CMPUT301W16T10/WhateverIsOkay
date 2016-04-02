@@ -11,7 +11,7 @@
     <string name="login_register">Login/Register</string>
     <string name="addNewItem">Add New Item</string>
     <string name="myItems">My Items</string>
-    <string name="filter">Filter</string>
+    <string name="filter">Filters:</string>
     <string name="platform">Platform: </string>
     <string name="minAge">| Age: </string>
     <string name="minPlayers">| Players (Min): </string>

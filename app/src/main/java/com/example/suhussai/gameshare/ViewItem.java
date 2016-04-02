@@ -1,6 +1,8 @@
 package com.example.suhussai.gameshare;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,9 +12,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -21,7 +23,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
@@ -31,7 +42,7 @@ import java.util.concurrent.ExecutionException;
  * 1. adding a new item, 2. editing an existing item, 3. viewing someone else's item
  * @see Item
  */
-public class ViewItem extends AppCompatActivity{
+public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
 
     // modes are public so others can use them
     /**
@@ -87,11 +98,20 @@ public class ViewItem extends AppCompatActivity{
      */
     private Bitmap image = null;
     /**
+     * The map that the borrower should meet the lender.
+     */
+    private GoogleMap map;
+    /**
      * Used to facilitate the return from intent
      */
     static final int REQUEST_IMAGE_CAPTURE = 99;
     static final int REQUEST_LOAD_IMG = 98;
 
+    private Spinner platformSpinner;
+    private Spinner ageSpinner;
+    private Spinner minPlayersSpinner;
+    private Spinner maxPlayersSpinner;
+    private Spinner timeReqSpinner;
 
     /**
      * The method to create the view
@@ -104,6 +124,11 @@ public class ViewItem extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
+
+        // reference: https://developers.google.com/maps/documentation/android-api/map#add_map_code
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.ViewItem_Map);
+        mapFragment.getMapAsync(this);
 
         // turn that mode string back into an integer. there's maybe a way to use an extra that is an integer but i didn't look too closely.
         // TODO: change to passing integer like below
@@ -124,6 +149,38 @@ public class ViewItem extends AppCompatActivity{
         TimeReq = (EditText) findViewById(R.id.ViewItem_TimeReqEdit);
         Platform = (EditText) findViewById(R.id.ViewItem_PlatformEdit);
         pictureButton = (ImageButton) findViewById(R.id.ViewItem_pictureButton);
+
+        // From http://developer.android.com/guide/topics/ui/controls/spinner.html
+        // Platform Spinner
+        platformSpinner = (Spinner) findViewById(R.id.ViewItem_platformSpinner);
+        ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
+                R.array.platform_array, android.R.layout.simple_spinner_item);
+        platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        platformSpinner.setAdapter(platformAdapter);
+        // Age Spinner
+        ageSpinner = (Spinner) findViewById(R.id.ViewItem_minAgeSpinner);
+        ArrayAdapter<CharSequence> AgeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.age_array, android.R.layout.simple_spinner_item);
+        AgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ageSpinner.setAdapter(AgeAdapter);
+        // Min Players Spinner
+        minPlayersSpinner = (Spinner) findViewById(R.id.ViewItem_minPlayersSpinner);
+        ArrayAdapter<CharSequence> minPlayersAdapter = ArrayAdapter.createFromResource(this,
+                R.array.players_array, android.R.layout.simple_spinner_item);
+        minPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        minPlayersSpinner.setAdapter(minPlayersAdapter);
+        // Max Players Spinner
+        maxPlayersSpinner = (Spinner) findViewById(R.id.ViewItem_maxPlayersSpinner);
+        ArrayAdapter<CharSequence> maxPlayersAdapter = ArrayAdapter.createFromResource(this,
+                R.array.players_array, android.R.layout.simple_spinner_item);
+        maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        maxPlayersSpinner.setAdapter(maxPlayersAdapter);
+        // Time Required Spinner
+        timeReqSpinner = (Spinner) findViewById(R.id.ViewItem_minTimeSpinner);
+        ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
+                R.array.timeReq_array, android.R.layout.simple_spinner_item);
+        timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeReqSpinner.setAdapter(timeReqAdapter);
 
         // Grab the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
@@ -153,6 +210,40 @@ public class ViewItem extends AppCompatActivity{
         }
     }
 
+    @Override
+    /**
+     * Sets the position on the map to Location set by lender.
+     */
+    //TODO: Screen rotation crashes this thing. :(
+    // Reference: https://developers.google.com/maps/documentation/android-api/map
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        try {
+            LatLng latLng = item.getLocation();
+            //map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            if (item.getLocation() == null) {
+                latLng = new LatLng(0, 0);
+                map.addMarker(new MarkerOptions().position(latLng).title("DON'T GO HERE"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+            else {
+                map.addMarker(new MarkerOptions().position(latLng).title("Location to Meet")
+                        .snippet(String.format("lat: %.6f",latLng.latitude)+ String.format(", lng: %.6f",latLng.longitude)));
+                // reference: http://stackoverflow.com/questions/29868121/how-do-i-zoom-in-automatically-to-the-current-location-in-google-map-api-for-and
+                float zoomLevel = 15; //This goes up to 21
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+
+        // Reference: https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMapOptions
+        //GoogleMapOptions options = new GoogleMapOptions();
+        //options.mapType(map.MAP_TYPE_SATELLITE);
+    }
+
     /**
      * The specific things that must be setup only when in add new item mode
      * Called only from onCreate
@@ -178,10 +269,21 @@ public class ViewItem extends AppCompatActivity{
         g.setVisibility(View.GONE);
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
+        View m = findViewById(R.id.ViewItem_PlayersEdit);
+        m.setVisibility(View.GONE);
+        View j = findViewById(R.id.ViewItem_AgeEdit);
+        j.setVisibility(View.GONE);
+        View k = findViewById(R.id.ViewItem_TimeReqEdit);
+        k.setVisibility(View.GONE);
+        View l = findViewById(R.id.ViewItem_PlatformEdit);
+        l.setVisibility(View.GONE);
 
         pictureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if( image != null) {
+                if (image != null) {
                     viewImage();
                 } else {
                     selectImage();
@@ -212,10 +314,10 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 String name = GameName.getText().toString();
-                String players = Players.getText().toString();
-                String age = Age.getText().toString();
-                String timeReq = TimeReq.getText().toString();
-                String platform = Platform.getText().toString();
+                String[] players = new String[] {minPlayersSpinner.getSelectedItem().toString(), maxPlayersSpinner.getSelectedItem().toString()};
+                String age = ageSpinner.getSelectedItem().toString();
+                String timeReq = timeReqSpinner.getSelectedItem().toString();
+                String platform = platformSpinner.getSelectedItem().toString();
 
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
 
@@ -260,6 +362,17 @@ public class ViewItem extends AppCompatActivity{
         g.setVisibility(View.GONE);
         View h = findViewById(R.id.ViewItem_bidValue);
         h.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
+        View m = findViewById(R.id.ViewItem_PlayersEdit);
+        m.setVisibility(View.GONE);
+        View j = findViewById(R.id.ViewItem_AgeEdit);
+        j.setVisibility(View.GONE);
+        View k = findViewById(R.id.ViewItem_TimeReqEdit);
+        k.setVisibility(View.GONE);
+        View l = findViewById(R.id.ViewItem_PlatformEdit);
+        l.setVisibility(View.GONE);
 
         item = ItemController.getCurrentItem();
 
@@ -270,7 +383,7 @@ public class ViewItem extends AppCompatActivity{
 
         // gets the item info to display on the EditText fields
         GameName.setText(item.getName());
-        Players.setText(item.getPlayers());
+        minPlayersSpinner.getResources().getStringArray(R.array.players_array);
         Age.setText(item.getAge());
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
@@ -302,8 +415,11 @@ public class ViewItem extends AppCompatActivity{
                      */
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        user.acceptBid(bid, item);
-                        Toast.makeText(getApplicationContext(), "Bid accepted", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ViewItem.this, ViewMap.class);
+                        intent.putExtra("bidString", bid.toString());
+                        ItemController.setCurrentItem(item);
+                        UserController.setCurrentUser(user);
+                        startActivity(intent);
                         finish();
                     }
                 });
@@ -363,10 +479,11 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 item.setName(GameName.getText().toString());
-                item.setPlayers(Players.getText().toString());
-                item.setAge(Age.getText().toString());
-                item.setTimeReq(TimeReq.getText().toString());
-                item.setPlatform(Platform.getText().toString());
+                item.setMinPlayers(minPlayersSpinner.getSelectedItem().toString());
+                item.setMaxPlayers(maxPlayersSpinner.getSelectedItem().toString());
+                item.setAge(ageSpinner.getSelectedItem().toString());
+                item.setTimeReq(timeReqSpinner.getSelectedItem().toString());
+                item.setPlatform(platformSpinner.getSelectedItem().toString());
 
                 // if image is null, the item's image base 64 is cleared out on save.
                 item.addImage(image);
@@ -405,7 +522,7 @@ public class ViewItem extends AppCompatActivity{
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to delete this item?");
-                adBuilder.setPositiveButton( R.string.dialogYes, new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
                     @Override
                     /**
                      * User confirms, item will be deleted
@@ -434,9 +551,6 @@ public class ViewItem extends AppCompatActivity{
 
         //Set any bids as viewed
         item.setBidsViewed();
-        //TODO this isn't updating the item
-        ItemController.UpdateItem updateItem1 = new ItemController.UpdateItem();
-        updateItem1.execute(item);
     }
 
     /**
@@ -458,6 +572,21 @@ public class ViewItem extends AppCompatActivity{
         d.setVisibility(View.GONE);
         View e = findViewById(R.id.ViewItem_pictureDeleteButton);
         e.setVisibility(View.GONE);
+        View i = findViewById(R.id.ViewItem_Map);
+        i.setVisibility(View.GONE);
+        findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.GONE);
+        View m = findViewById(R.id.ViewItem_platformSpinner);
+        m.setVisibility(View.GONE);
+        View j = findViewById(R.id.ViewItem_maxPlayersSpinner);
+        j.setVisibility(View.GONE);
+        View k = findViewById(R.id.ViewItem_minPlayersSpinner);
+        k.setVisibility(View.GONE);
+        View l = findViewById(R.id.ViewItem_minAgeSpinner);
+        l.setVisibility(View.GONE);
+        View n = findViewById(R.id.ViewItem_minTimeSpinner);
+        n.setVisibility(View.GONE);
+        View o = findViewById(R.id.to);
+        o.setVisibility(View.GONE);
 
         //Make fields uneditable
         GameName.setEnabled(false);
@@ -471,7 +600,8 @@ public class ViewItem extends AppCompatActivity{
 
         // gets the item info to display on the EditText fields
         GameName.setText(item.getName());
-        Players.setText(item.getPlayers());
+        String playersText = item.getMinPlayers() + " to " + item.getMaxPlayers();
+        Players.setText(playersText);
         Age.setText(item.getAge());
         TimeReq.setText(item.getTimeReq());
         Platform.setText(item.getPlatform());
@@ -490,6 +620,11 @@ public class ViewItem extends AppCompatActivity{
             EnterBid.setVisibility(View.GONE);
             //View e = findViewById(R.id.ViewItem_Bid);
             BidButton.setVisibility(View.GONE);
+            // Map is visibile only if borrowed is true
+            i.setVisibility(View.VISIBLE);
+            if( user.getUsername().equals(item.getOwner())){
+                findViewById(R.id.ViewItem_ItemReturned).setVisibility(View.VISIBLE);
+            }
         }
 
         //TODO probably a better way to do this
@@ -563,6 +698,19 @@ public class ViewItem extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        Button ItemReturned = (Button) findViewById(R.id.ViewItem_ItemReturned);
+
+        ItemReturned.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View V) {
+                item.setAvailable();
+                ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                updateItem.execute(item);
+                finish();
+                Toast.makeText(getApplicationContext(),"Item has been returned and is now avaialble",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void selectImage() {
@@ -620,7 +768,16 @@ public class ViewItem extends AppCompatActivity{
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
             // TODO do we need to limit size of the camera image the way we do with gallery? it seems to successfully limit the byte size
             Bundle extras = data .getExtras();
-            image = (Bitmap) extras.get("data");
+            // The image from the camera, of unknown size.
+            // We will scale it down to 90% original height and width until total size < 65536
+            Bitmap tempImage = (Bitmap) extras.get("data");
+            int width = tempImage.getWidth();
+            int height = tempImage.getHeight();
+            while(width*height >= 65536) {
+                height *= 0.9;
+                width *= 0.9;
+            }
+            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
             pictureButton.setImageBitmap(image);
         }
         else if(requestCode == REQUEST_LOAD_IMG && resultCode == RESULT_OK) {
@@ -641,11 +798,15 @@ public class ViewItem extends AppCompatActivity{
             cursor.close();
 
             // The image from the gallery, of unknown size.
-            // We will scale it to 256x256 bytes for total size 65536
+            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = BitmapFactory.decodeFile(imgDecodableString);
-
-            // TODO is this step necessary?
-            image = Bitmap.createScaledBitmap(tempImage,256,256,true);
+            int width = tempImage.getWidth();
+            int height = tempImage.getHeight();
+            while(width*height >= 65536) {
+                height *= 0.9;
+                width *= 0.9;
+            }
+            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
 
             pictureButton.setImageBitmap(image);
         }

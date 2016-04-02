@@ -218,8 +218,7 @@ public class ViewUserProfile extends AppCompatActivity {
         });
 
         //Check if there are any new bids on the user's items
-        getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
-
+        //TODO for some reason getItems returns an empty list here, this won't work until that is fixed
         ArrayList<Item> items = user.getItems();
         int count = 0;
         for (Item i: items){
@@ -278,32 +277,11 @@ public class ViewUserProfile extends AppCompatActivity {
              */
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewUserProfile.this, /*ViewChat.class*/ Object.class);
+                Intent intent = new Intent(ViewUserProfile.this, ViewChat.class);
                 intent.putExtra("friend", usernameString);
                 startActivity(intent);
             }
         });
-    }
-
-    private void getUserStuff(String mode) {
-        // update the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(user.getUsername());
-
-        // Grab the user's items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(mode, user.getUsername());
-
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            user = getUser.get();
-            user.setItems(getItems.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-
     }
 
 }

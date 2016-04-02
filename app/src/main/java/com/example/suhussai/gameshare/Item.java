@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
@@ -27,7 +29,7 @@ public class Item {
     /**
      * The number of players
      */
-    private String players = ""; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
+    private String[] players = new String[] {"1","1"}; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
     /**
      * Age range
      */
@@ -73,7 +75,7 @@ public class Item {
     /**
      * The location of item when borrowed is true. [long, lat]
      */
-    private String location = new String();
+    private LatLng location;
 
     /**
      * The decoded thumbnail image for the game, not saved via elastic controller (transient).
@@ -97,7 +99,7 @@ public class Item {
      * @param timeReq the time requirement
      * @param platform the platform
      */
-    public Item(String name, String owner, String players, String age, String timeReq, String platform) {
+    public Item(String name, String owner, String[] players, String age, String timeReq, String platform) {
         this.name = name;
         this.owner = owner;
         this.players = players;
@@ -338,11 +340,19 @@ public class Item {
     }
 
     /**
-     * Sets the number of players
-     * @param players the number of players
+     * Sets the minimum number of players
+     * @param players the minimum number of players
      */
-    public void setPlayers(String players) {
-        this.players = players;
+    public void setMinPlayers(String players) {
+        this.players[0] = players;
+    }
+
+    /**
+     * Sets the maximum number of players
+     * @param players the maximum number of players
+     */
+    public void setMaxPlayers(String players) {
+        this.players[1] = players;
     }
 
     /**
@@ -371,27 +381,34 @@ public class Item {
 
     /**
      * Gets the geoLocation coordinates
-     * @return location string in [long, lat] format
+     * @return location LatLng in (lat, long) format
      */
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
     /**
-     * Sets the geoLocation given the string in [long, lat] format
+     * Sets the geoLocation given the LatLng in (lat, long) format
      * @param location
      */
-    public void setLocation(String location) {
+    public void setLocation(LatLng location) {
         this.location = location;
     }
 
+    /**
+     * Gets the minimum number of players
+     * @return the minimum number of players
+     */
+    public String getMinPlayers() {
+        return players[0];
+    }
 
     /**
-     * Gets the number of players
-     * @return the number of players
+     * Gets the maximum number of players
+     * @return the maximum number of players
      */
-    public String getPlayers() {
-        return players;
+    public String getMaxPlayers() {
+        return players[1];
     }
 
     /**

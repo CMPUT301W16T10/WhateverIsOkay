@@ -125,7 +125,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Existing Bids"
         android:id="@+id/ViewItem_ExistingBids_Text"
-        android:layout_below="@+id/ViewItem_PlatformEdit"
+        android:layout_below="@+id/ViewItem_PlatformText"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -134,7 +134,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Bid Amount ($/hour)"
         android:id="@+id/ViewItem_PlaceBid_Text"
-        android:layout_below="@+id/ViewItem_PlatformEdit"
+        android:layout_below="@+id/ViewItem_PlatformText"
         android:layout_alignParentStart="true" />
 
     <ListView
@@ -151,7 +151,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Amount"
         android:id="@+id/ViewItem_Bids_Amount_Text"
-        android:layout_below="@+id/ViewItem_PlatformEdit"
+        android:layout_below="@+id/ViewItem_PlatformText"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -187,7 +187,7 @@
         android:text="Delete"
         android:id="@+id/ViewItem_Delete"
         android:layout_alignBottom="@+id/ViewItem_Cancel"
-        android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
+        android:layout_alignParentEnd="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -195,7 +195,15 @@
         android:text="Make Bid"
         android:id="@+id/ViewItem_Bid"
         android:layout_alignBottom="@+id/ViewItem_Cancel"
-        android:layout_alignEnd="@+id/ViewItem_PlatformEdit" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Returned"
+        android:id="@+id/ViewItem_ItemReturned"
+        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="0dp"
@@ -207,5 +215,63 @@
         android:numeric="decimal"
         android:layout_alignParentEnd="true"
         android:singleLine="true" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/ViewItem_Map"
+        android:layout_below="@+id/ViewItem_PlatformText"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_minAgeSpinner"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:layout_alignBottom="@+id/ViewItem_AgeText"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_minTimeSpinner"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:layout_alignBottom="@id/ViewItem_TimeReqText"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_minPlayersSpinner"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:layout_alignBottom="@id/ViewItem_PlayersText"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_maxPlayersSpinner"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/to"
+        android:layout_alignBottom="@id/ViewItem_PlayersText"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" to "
+        android:id="@+id/to"
+        android:layout_toEndOf="@+id/ViewItem_minPlayersSpinner"
+        android:layout_alignBottom="@id/ViewItem_PlayersText"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ViewItem_platformSpinner"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/ViewItem_TimeReqText"
+        android:layout_alignBottom="@+id/ViewItem_PlatformText"/>
 
 </RelativeLayout>
