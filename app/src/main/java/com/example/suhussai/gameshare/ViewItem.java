@@ -551,6 +551,8 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
 
         //Set any bids as viewed
         item.setBidsViewed();
+        ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+        updateItem.execute(item);
     }
 
     /**

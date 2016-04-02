@@ -59,6 +59,11 @@ public class ViewUserProfile extends AppCompatActivity {
     private EditText phone;
 
     /**
+     * Holds the mode currently used
+     */
+    private int currentMode;
+
+    /**
      * On create method for setting up view
      * @param savedInstanceState the bundle
      */
@@ -67,7 +72,7 @@ public class ViewUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         final int mode = getIntent().getExtras().getInt("mode");
-
+        currentMode = mode;
         user = UserController.getCurrentUser();
 
         username = (TextView) findViewById(R.id.UsernameText);
@@ -117,6 +122,33 @@ public class ViewUserProfile extends AppCompatActivity {
         super.onStart();
     }
 
+    /**
+     * On resume method
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (currentMode==MODE_EDIT){
+            //Refresh notifications
+            getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
+            ArrayList<Item> items = user.getItems();
+            int count = 0;
+            for (Item i: items){
+                if (i.hasNewBid()){
+                    count++;
+                }
+            }
+
+            TextView newBids = (TextView) findViewById(R.id.newBids);
+            if (count>0){
+                newBids.bringToFront();
+                newBids.setText(Integer.toString(count));
+            }
+            else{
+                newBids.setVisibility(View.GONE);
+            }
+        }
+    }
     /**
      * Setup elements only used in edit mode (only called from onCreate)
      */
@@ -218,7 +250,7 @@ public class ViewUserProfile extends AppCompatActivity {
         });
 
         //Check if there are any new bids on the user's items
-        //TODO for some reason getItems returns an empty list here, this won't work until that is fixed
+        getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
         ArrayList<Item> items = user.getItems();
         int count = 0;
         for (Item i: items){
@@ -235,7 +267,7 @@ public class ViewUserProfile extends AppCompatActivity {
         else{
             newBids.setVisibility(View.GONE);
         }
-    }
+   }
 
     /**
      * Setup elements only used in view mode (only called from onCreate)
@@ -282,6 +314,31 @@ public class ViewUserProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Gets information about the current user
+     * @param mode the mode
+     */
+    private void getUserStuff(String mode) {
+        // update the user from the controller.
+        UserController.GetUser getUser = new UserController.GetUser();
+        getUser.execute(user.getUsername());
+
+        // Grab the user's items from the controller.
+        ItemController.GetItems getItems = new ItemController.GetItems();
+        getItems.execute(mode, user.getUsername());
+
+        // Fills in the places needed to be filled for the User Profile
+        try {
+            user = getUser.get();
+            user.setItems(getItems.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
