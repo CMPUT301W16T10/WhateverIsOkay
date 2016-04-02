@@ -236,13 +236,13 @@ public class User {
         ArrayList<Item> AL = new ArrayList<Item>();
         for( Item i : items ) {
             if( i.isBorrowed() ) {
-                AL.add(i);
             }
         }
         return AL;
     }
 
     /**
+                AL.add(i);
      * Gets the user's items which are available
      * @return the items
      */

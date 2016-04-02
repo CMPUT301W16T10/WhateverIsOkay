@@ -179,7 +179,6 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
             // fourth mode maybe?
         }
 
-
     }
 
     @Override
@@ -286,7 +285,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
 
                 // if image is null, the item's image base 64 is cleared out on save
-                item.addImage(image);
+                item.addImage(new Photo(image));
 
                 if (isOnline() == false) {
                     item.setId("NO_INTERNET"+user.getGameCount());
@@ -465,7 +464,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
                 item.setPlatform(Platform.getText().toString());
 
                 // if image is null, the item's image base 64 is cleared out on save.
-                item.addImage(image);
+                item.addImage(new Photo(image));
 
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
@@ -501,7 +500,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
             public void onClick(View v) {
                 AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
                 adBuilder.setMessage("Are you sure you want to delete this item?");
-                adBuilder.setPositiveButton( R.string.dialogYes, new DialogInterface.OnClickListener() {
+                adBuilder.setPositiveButton(R.string.dialogYes, new DialogInterface.OnClickListener() {
                     @Override
                     /**
                      * User confirms, item will be deleted
@@ -733,25 +732,17 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            // TODO do we need to limit size of the camera image the way we do with gallery? it seems to successfully limit the byte size
             Bundle extras = data .getExtras();
-            // The image from the camera, of unknown size.
-            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = (Bitmap) extras.get("data");
-            int width = tempImage.getWidth();
-            int height = tempImage.getHeight();
-            while(width*height >= 65536) {
-                height *= 0.9;
-                width *= 0.9;
-            }
-            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
+
+            Photo itemPhoto = new Photo(tempImage);
+            image = itemPhoto.getImage();
+
             pictureButton.setImageBitmap(image);
         }
         else if(requestCode == REQUEST_LOAD_IMG && resultCode == RESULT_OK) {
             //http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
-
             // Must grab the intent's data as a URI to extract the image from the gallery
-            // TODO the images are sort of slow now that we're not using the emulated camera, maybe need to adjust something.
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
             // Get the cursor
@@ -764,16 +755,10 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
             String imgDecodableString = cursor.getString(columnIndex);
             cursor.close();
 
-            // The image from the gallery, of unknown size.
-            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = BitmapFactory.decodeFile(imgDecodableString);
-            int width = tempImage.getWidth();
-            int height = tempImage.getHeight();
-            while(width*height >= 65536) {
-                height *= 0.9;
-                width *= 0.9;
-            }
-            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
+
+            Photo itemPhoto = new Photo(tempImage);
+            image = itemPhoto.getImage();
 
             pictureButton.setImageBitmap(image);
         }

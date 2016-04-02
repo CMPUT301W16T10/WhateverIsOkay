@@ -78,14 +78,10 @@ public class Item {
     private LatLng location;
 
     /**
-     * The decoded thumbnail image for the game, not saved via elastic controller (transient).
+     * The image for the item
      */
-    private transient Bitmap image = null;
+    private Photo image = new Photo(null);
 
-    /**
-     * The thumbnail base 64 image string to be decoded to produce the real image to display.
-     */
-    private String imageBase64 = "";
     private Boolean updatedWhenOffline = false;
 
 
@@ -422,26 +418,11 @@ public class Item {
     }
 
     /**
-     * Takes in a new bitmap image and replaces both the image and base64 string image with the new value.
-     * @param newImage the new bitmap to replace this item's picture
+     * Takes in a new Photo image and replaces existing image with the new value.
+     * @param newImage the new Photo to replace this item's picture
      */
-    public void addImage(Bitmap newImage){
-        if (newImage != null) {
-            image = newImage;
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            newImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
-            byte[] b = byteArrayOutputStream.toByteArray();
-            imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
-        }
-        // clear out the image if an empty image is "added"
-        // in this way, a "save" will delete an image if it was deleted from the view
-        // deleting an image will therefore be handled by the view directly.
-        else {
-            image = null;
-            imageBase64 = "";
-        }
+    public void addImage(Photo newImage){
+        image = newImage;
     }
 
     /**
@@ -449,20 +430,20 @@ public class Item {
      * @return the decoded bitmap
      */
     public Bitmap getImage(){
-        if (image == null && imageBase64 != "") {
-            byte[] decodeString = Base64.decode(imageBase64, Base64.DEFAULT);
-            image = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
-        }
-        return image;
+        return image.getImage();
     }
 
-  public boolean hasImage() {
-      if( imageBase64.equals("") ) {
-          return false;
-      }
-      else {
-          return true;
-      }
+    /**
+     * Returns a boolean value indicating whether the current photo object contains any real image
+     * @return boolean
+     */
+    public boolean hasImage() {
+        if( image.getImageBase64().equals("") ) {
+            return false;
+        }
+        else {
+            return true;
+        }
   }
 
     // added so the list view looks decent. TODO fix this
