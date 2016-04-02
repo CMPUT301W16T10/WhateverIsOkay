@@ -1,5 +1,6 @@
 package com.example.suhussai.gameshare;
 
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -55,6 +56,9 @@ public class UserController {
      */
     public static void setCurrentUser(User currentUser) {
         UserController.currentUser = currentUser;
+        if (currentUser == null) {
+            Log.e("TOD","Set currentUser to null!");
+        }
     }
 
     /**

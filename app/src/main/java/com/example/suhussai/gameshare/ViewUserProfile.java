@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
  * 2 modes: Edit own profile and view other's profile
  * @see User
  */
-public class ViewUserProfile extends AppCompatActivity {
+public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
 
     // modes are public so others can use them
     /**
@@ -134,14 +134,23 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                user.setName(name.getText().toString());
-                user.setEmail(email.getText().toString());
-                user.setPhone(phone.getText().toString());
+                if (isOnline()) {
+                    user.setName(name.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.setPhone(phone.getText().toString());
 
-                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-                updateUserProfile.execute(user);
+                    UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                    updateUserProfile.execute(user);
 
-                Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            "Connection not found. Feature not available.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

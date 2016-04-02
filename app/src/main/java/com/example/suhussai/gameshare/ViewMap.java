@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by sangsoo on 26/03/16.
  */
-public class ViewMap extends FragmentActivity implements OnMapReadyCallback {
+public class ViewMap extends LocalStorageAwareFragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
     private Location lastLocation;
@@ -104,6 +104,10 @@ public class ViewMap extends FragmentActivity implements OnMapReadyCallback {
                     }
                 }
                 user.acceptBid(bid, item);
+                user.getItems().remove(item);
+                item.setUpdatedWhenOffline(true);
+                user.getItems().add(item);
+                updateUser(user);
                 Toast.makeText(getApplicationContext(), "Bid accepted", Toast.LENGTH_SHORT).show();
                 finish();
 
@@ -154,5 +158,7 @@ public class ViewMap extends FragmentActivity implements OnMapReadyCallback {
             }
         });
     }
+
+
 }
 

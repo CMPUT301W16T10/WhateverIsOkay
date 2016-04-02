@@ -86,6 +86,7 @@ public class Item {
      * The thumbnail base 64 image string to be decoded to produce the real image to display.
      */
     private String imageBase64 = "";
+    private Boolean updatedWhenOffline = false;
 
 
     // Overridden instantiation depending on the data provided in the construction.
@@ -482,5 +483,41 @@ public class Item {
             returnString = this.getName() + " (" + this.getStatus() + ") owned by " + this.getOwner();
         }
         return returnString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (players != null ? !players.equals(item.players) : item.players != null) return false;
+        if (age != null ? !age.equals(item.age) : item.age != null) return false;
+        if (timeReq != null ? !timeReq.equals(item.timeReq) : item.timeReq != null) return false;
+        if (platform != null ? !platform.equals(item.platform) : item.platform != null)
+            return false;
+        return !(owner != null ? !owner.equals(item.owner) : item.owner != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (players != null ? players.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (timeReq != null ? timeReq.hashCode() : 0);
+        result = 31 * result + (platform != null ? platform.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        return result;
+    }
+
+    public Boolean getUpdatedWhenOffline() {
+        return updatedWhenOffline;
+    }
+
+    public void setUpdatedWhenOffline(Boolean updatedWhenOffline) {
+        this.updatedWhenOffline = updatedWhenOffline;
     }
 }
