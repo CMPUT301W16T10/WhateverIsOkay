@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -42,7 +43,7 @@ import java.util.concurrent.ExecutionException;
  * 1. adding a new item, 2. editing an existing item, 3. viewing someone else's item
  * @see Item
  */
-public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
+public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMapReadyCallback {
 
     // modes are public so others can use them
     /**
@@ -185,17 +186,25 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeReqSpinner.setAdapter(timeReqAdapter);
 
-        // Grab the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(UserController.getCurrentUser().getUsername());
+        if (isOnline()) {
+            // Grab the user from the controller.
+            UserController.GetUser getUser = new UserController.GetUser();
+            getUser.execute(UserController.getCurrentUser().getUsername());
 
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            user = getUser.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            // Fills in the places needed to be filled for the User Profile
+            try {
+                user = getUser.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            user = UserController.getCurrentUser();
+            Toast.makeText(getApplicationContext(),
+                    "Connection not found. Feature not available.",
+                    Toast.LENGTH_SHORT).show();
         }
 
         // TODO the magic of "modes"
@@ -324,11 +333,13 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
 
                 Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
 
-                // if image is null, the item's image base 64 is cleared out on save
-                item.addImage(image);
-
+                if (isOnline() == false) {
+                    item.setId("NO_INTERNET"+user.getGameCount());
+                }
+                Log.e("TOD", "count before " + user.getItems().size());
                 user.addItem(item); // the information stored in elastic search online is updated inside user class via this method
-
+                updateUser(user);
+                Log.e("TOD", "count after " + user.getItems().size());
                 // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
                 Toast.makeText(getApplicationContext(), "Item has been successfully added.", Toast.LENGTH_SHORT).show();
                 returnToViewItems();
@@ -376,6 +387,24 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         k.setVisibility(View.GONE);
         View l = findViewById(R.id.ViewItem_PlatformEdit);
         l.setVisibility(View.GONE);
+
+        if (isOnline() == false) {
+            View p = findViewById(R.id.ViewItem_pictureDeleteButton);
+            p.setVisibility(View.GONE);
+            View i1 = findViewById(R.id.ViewItem_Save);
+            i1.setVisibility(View.GONE);
+            View i2 = findViewById(R.id.ViewItem_Delete);
+            i2.setVisibility(View.GONE);
+            View i3 = findViewById(R.id.ViewItem_Cancel);
+            i3.setVisibility(View.GONE);
+
+            //Make fields uneditable
+            GameName.setEnabled(false);
+            Players.setEnabled(false);
+            Age.setEnabled(false);
+            TimeReq.setEnabled(false);
+            Platform.setEnabled(false);
+        }
 
         item = ItemController.getCurrentItem();
 
@@ -440,6 +469,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user.declineBid(bid, item);
+                        updateUser(user);
                         Toast.makeText(getApplicationContext(), "Bid declined", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -496,7 +526,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
                 item.setPlatform(platformSpinner.getSelectedItem().toString());
 
                 // if image is null, the item's image base 64 is cleared out on save.
-                item.addImage(image);
+                item.addImage(new Photo(image));
 
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
@@ -541,6 +571,7 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
                         //TODO modify this so the user is known at this stage. Using a test user in interim.
                         //User user = new User("testuser", "testpass");
                         user.deleteItem(item);
+                        updateUser(user);
                         // TODO ensure user's item is not currently borrowed
                         returnToViewItems();
                     }
@@ -778,25 +809,17 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK){
-            // TODO do we need to limit size of the camera image the way we do with gallery? it seems to successfully limit the byte size
             Bundle extras = data .getExtras();
-            // The image from the camera, of unknown size.
-            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = (Bitmap) extras.get("data");
-            int width = tempImage.getWidth();
-            int height = tempImage.getHeight();
-            while(width*height >= 65536) {
-                height *= 0.9;
-                width *= 0.9;
-            }
-            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
+
+            Photo itemPhoto = new Photo(tempImage);
+            image = itemPhoto.getImage();
+
             pictureButton.setImageBitmap(image);
         }
         else if(requestCode == REQUEST_LOAD_IMG && resultCode == RESULT_OK) {
             //http://programmerguru.com/android-tutorial/how-to-pick-image-from-gallery/
-
             // Must grab the intent's data as a URI to extract the image from the gallery
-            // TODO the images are sort of slow now that we're not using the emulated camera, maybe need to adjust something.
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
             // Get the cursor
@@ -809,16 +832,10 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
             String imgDecodableString = cursor.getString(columnIndex);
             cursor.close();
 
-            // The image from the gallery, of unknown size.
-            // We will scale it down to 90% original height and width until total size < 65536
             Bitmap tempImage = BitmapFactory.decodeFile(imgDecodableString);
-            int width = tempImage.getWidth();
-            int height = tempImage.getHeight();
-            while(width*height >= 65536) {
-                height *= 0.9;
-                width *= 0.9;
-            }
-            image = Bitmap.createScaledBitmap(tempImage,width,height,true);
+
+            Photo itemPhoto = new Photo(tempImage);
+            image = itemPhoto.getImage();
 
             pictureButton.setImageBitmap(image);
         }

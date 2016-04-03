@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -27,7 +28,7 @@ import java.util.concurrent.ExecutionException;
   TODO  for each mode, as the only difference is the mode ViewItem is called with. This
   TODO  destination mode can be stored in a variable, and the method only defined once.
  */
-public class ViewItemsList extends AppCompatActivity {
+public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
     /**
      * Mode for general search
      */
@@ -92,6 +93,24 @@ public class ViewItemsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_items);
+
+        // call finish when offline and viewing something besides
+        // one's own items
+        if (isOnline() == false) {
+            if (getIntent().getExtras().getInt("mode") == MODE_VIEW_MY_ITEMS) {
+                setupViewMyItemsMode();
+            }
+            else {
+                Toast.makeText(getApplicationContext(),
+                        "Connection not found. Feature not available.",
+                        Toast.LENGTH_SHORT).show();
+                // http://stackoverflow.com/questions/10718789/how-to-press-back-button-in-android-programatically
+                // User: josephus
+                // Mon Mar 28
+                finish();
+
+            }
+        }
 
         //TODO: Implement search view to do something.
 
@@ -471,22 +490,33 @@ public class ViewItemsList extends AppCompatActivity {
      * @param mode the mode
      */
     private void getUserStuff(String mode) {
-        // update the user from the controller.
-        UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(user.getUsername());
 
-        // Grab the user's items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(mode, user.getUsername());
+        if (isOnline()) {
+            // update the user from the controller.
+            UserController.GetUser getUser = new UserController.GetUser();
+            getUser.execute(user.getUsername());
 
-        // Fills in the places needed to be filled for the User Profile
-        try {
-            user = getUser.get();
-            user.setItems(getItems.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            // Grab the user's items from the controller.
+            ItemController.GetItems getItems = new ItemController.GetItems();
+            getItems.execute(mode, user.getUsername());
+
+            // Fills in the places needed to be filled for the User Profile
+            try {
+                user = getUser.get();
+                user.setItems(getItems.get());
+                if (mode == ItemController.GetItems.MODE_GET_MY_ITEMS) {
+                    updateUser(user);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if (mode == ItemController.GetItems.MODE_GET_MY_ITEMS) {
+            user = UserController.getCurrentUser();
+            user = getUser(user.getUsername(), user.getPassword());
         }
 
     }

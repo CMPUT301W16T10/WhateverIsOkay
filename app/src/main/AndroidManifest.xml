@@ -22,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBu_W61J1LhNFmu0uvCjc_zoNyREZvZhIs" />
+            android:value="AIzaSyCxVGFXAeTyseL2tF6VxfE5FKDHf9twNLQ" />
         <activity android:name=".ViewLogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
  * 2 modes: Edit own profile and view other's profile
  * @see User
  */
-public class ViewUserProfile extends AppCompatActivity {
+public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
 
     // modes are public so others can use them
     /**
@@ -166,14 +166,22 @@ public class ViewUserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                user.setName(name.getText().toString());
-                user.setEmail(email.getText().toString());
-                user.setPhone(phone.getText().toString());
+                if (isOnline()) {
+                    user.setName(name.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.setPhone(phone.getText().toString());
 
-                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-                updateUserProfile.execute(user);
+                    UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                    updateUserProfile.execute(user);
 
-                Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),
+                            "Connection not found. Feature not available.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -321,17 +329,20 @@ public class ViewUserProfile extends AppCompatActivity {
      * @param mode the mode
      */
     private void getUserStuff(String mode) {
+        String username = user.getUsername();
+
         // update the user from the controller.
         UserController.GetUser getUser = new UserController.GetUser();
-        getUser.execute(user.getUsername());
+        getUser.execute(username);
 
         // Grab the user's items from the controller.
         ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(mode, user.getUsername());
+        getItems.execute(mode, username);
 
         // Fills in the places needed to be filled for the User Profile
         try {
-            user = getUser.get();
+            if(getUser.get() != null) {
+            user = getUser.get();}
             user.setItems(getItems.get());
         } catch (InterruptedException e) {
             e.printStackTrace();

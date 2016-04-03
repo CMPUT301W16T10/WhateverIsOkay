@@ -67,7 +67,7 @@ public class Item {
     /**
      * Username of the User borrowing the item
      */
-    private String borrower;//TODO unset when item returned
+    private String borrower;
     /**
      * List of all bids on the item (empty when borrowed)
      */
@@ -78,14 +78,11 @@ public class Item {
     private LatLng location;
 
     /**
-     * The decoded thumbnail image for the game, not saved via elastic controller (transient).
+     * The image for the item
      */
-    private transient Bitmap image = null;
+    private Photo image = new Photo(null);
 
-    /**
-     * The thumbnail base 64 image string to be decoded to produce the real image to display.
-     */
-    private String imageBase64 = "";
+    private Boolean updatedWhenOffline = false;
 
 
     // Overridden instantiation depending on the data provided in the construction.
@@ -436,26 +433,11 @@ public class Item {
     }
 
     /**
-     * Takes in a new bitmap image and replaces both the image and base64 string image with the new value.
-     * @param newImage the new bitmap to replace this item's picture
+     * Takes in a new Photo image and replaces existing image with the new value.
+     * @param newImage the new Photo to replace this item's picture
      */
-    public void addImage(Bitmap newImage){
-        if (newImage != null) {
-            image = newImage;
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            newImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
-            byte[] b = byteArrayOutputStream.toByteArray();
-            imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
-        }
-        // clear out the image if an empty image is "added"
-        // in this way, a "save" will delete an image if it was deleted from the view
-        // deleting an image will therefore be handled by the view directly.
-        else {
-            image = null;
-            imageBase64 = "";
-        }
+    public void addImage(Photo newImage){
+        image = newImage;
     }
 
     /**
@@ -463,21 +445,22 @@ public class Item {
      * @return the decoded bitmap
      */
     public Bitmap getImage(){
-        if (image == null && imageBase64 != "") {
-            byte[] decodeString = Base64.decode(imageBase64, Base64.DEFAULT);
-            image = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
-        }
-        return image;
+        return image.getImage();
     }
 
-  public boolean hasImage() {
-      if( imageBase64.equals("") ) {
-          return false;
-      }
-      else {
-          return true;
-      }
-  }
+
+    /**
+     * Returns a boolean value indicating whether the current photo object contains any real image
+     * @return boolean
+     */
+    public boolean hasImage() {
+        if( image.getImageBase64().equals("") ) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
     // added so the list view looks decent. TODO fix this
 
@@ -497,5 +480,41 @@ public class Item {
             returnString = this.getName() + " (" + this.getStatus() + ") owned by " + this.getOwner();
         }
         return returnString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (players != null ? !players.equals(item.players) : item.players != null) return false;
+        if (age != null ? !age.equals(item.age) : item.age != null) return false;
+        if (timeReq != null ? !timeReq.equals(item.timeReq) : item.timeReq != null) return false;
+        if (platform != null ? !platform.equals(item.platform) : item.platform != null)
+            return false;
+        return !(owner != null ? !owner.equals(item.owner) : item.owner != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (players != null ? players.hashCode() : 0);
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (timeReq != null ? timeReq.hashCode() : 0);
+        result = 31 * result + (platform != null ? platform.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        return result;
+    }
+
+    public Boolean getUpdatedWhenOffline() {
+        return updatedWhenOffline;
+    }
+
+    public void setUpdatedWhenOffline(Boolean updatedWhenOffline) {
+        this.updatedWhenOffline = updatedWhenOffline;
     }
 }

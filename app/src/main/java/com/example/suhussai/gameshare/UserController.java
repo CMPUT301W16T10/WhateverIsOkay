@@ -55,6 +55,9 @@ public class UserController {
      */
     public static void setCurrentUser(User currentUser) {
         UserController.currentUser = currentUser;
+        if (currentUser == null) {
+            Log.e("TOD","Set currentUser to null!");
+        }
     }
 
     /**

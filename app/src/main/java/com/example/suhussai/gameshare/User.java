@@ -46,6 +46,8 @@ public class User {
      */
     private int gameCount = 0;
 
+    private Boolean updatedWhenOffline = false;
+
     /**
      * Constructor
      */
@@ -267,36 +269,43 @@ public class User {
      */
     public void addItem(Item item){
 
+
         // first increment the gameCount so the new item has the newly incremented game value.
         incrementGameCount();
 
-        // Refresh the item list owned by this user in case of any recent changes
-        // Grab the items from the controller.
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(getItems.MODE_GET_MY_ITEMS, username);
+        if (item.getId().contains("NO_INTERNET")) {
+            //  don't change id
+            items.add(item);
+        }
+        else {
 
-        UserController.setCurrentUser(this);
+            // Refresh the item list owned by this user in case of any recent changes
+            // Grab the items from the controller.
+            ItemController.GetItems getItems = new ItemController.GetItems();
+            getItems.execute(getItems.MODE_GET_MY_ITEMS, username);
 
-        try {
-            items = getItems.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            UserController.setCurrentUser(this);
+
+            try {
+                items = getItems.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            // set to item's ID before sending to controller
+            item.setId(getUsername() + (char) 31 + getGameCount());
+            items.add(item);
+            // Post the new item information
+            // Set the item via the controller.
+            ItemController.AddItem addItem = new ItemController.AddItem();
+            addItem.execute(item);
+
+            // Adds the Item to the user
+            UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+            updateUserProfile.execute(this);
         }
 
-        // set to item's ID before sending to controller
-        item.setId(getUsername() + (char) 31 + getGameCount());
-        items.add(item);
-
-        // Post the new item information
-        // Set the item via the controller.
-        ItemController.AddItem addItem = new ItemController.AddItem();
-        addItem.execute(item);
-
-        // Adds the Item to the user
-        UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-        updateUserProfile.execute(this);
     }
 
     /**
@@ -358,5 +367,33 @@ public class User {
      */
     public void acceptBid(Bid bid, Item item) {
         item.acceptBid(bid);
+    }
+
+    public Boolean getUpdatedWhenOffline() {
+        return updatedWhenOffline;
+    }
+
+    public void setUpdatedWhenOffline(Boolean updatedWhenOffline) {
+        this.updatedWhenOffline = updatedWhenOffline;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (username != null ? !username.equals(user.username) : user.username != null)
+            return false;
+        return !(password != null ? !password.equals(user.password) : user.password != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        return result;
     }
 }
