@@ -257,6 +257,7 @@ public class ViewItemsList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+                //TODO: gson is never used
                 Gson gson = new Gson();
                 Item item = user.getItem(position);
                 ItemController.setCurrentItem(item);
@@ -277,9 +278,7 @@ public class ViewItemsList extends AppCompatActivity {
             public boolean onQueryTextSubmit(String queryText) {
                 updateItemListUsingKeywords(queryText);
                 return true;
-
             }
-
 
             public boolean onQueryTextChange(String newText) {
                 updateItemListUsingKeywords(newText);
@@ -306,9 +305,7 @@ public class ViewItemsList extends AppCompatActivity {
         try {
             user = getUser.get();
             user.setItems(getItems.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
 

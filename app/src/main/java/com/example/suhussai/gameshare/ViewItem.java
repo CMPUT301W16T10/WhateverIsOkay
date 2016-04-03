@@ -107,11 +107,14 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
     static final int REQUEST_IMAGE_CAPTURE = 99;
     static final int REQUEST_LOAD_IMG = 98;
 
-    private Spinner platformSpinner;
-    private Spinner ageSpinner;
-    private Spinner minPlayersSpinner;
-    private Spinner maxPlayersSpinner;
-    private Spinner timeReqSpinner;
+    /**
+     * The Spinners for the different variables of a game.
+     */
+    private Spinner platformSpinner, ageSpinner, minPlayersSpinner, maxPlayersSpinner, timeReqSpinner;
+    /**
+     * The ArrayAdapter for the Spinners.
+     */
+    private ArrayAdapter<CharSequence> platformAdapter, ageAdapter, minPlayersAdapter, maxPlayersAdapter, timeReqAdapter;
 
     /**
      * The method to create the view
@@ -153,31 +156,31 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         // From http://developer.android.com/guide/topics/ui/controls/spinner.html
         // Platform Spinner
         platformSpinner = (Spinner) findViewById(R.id.ViewItem_platformSpinner);
-        ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
+        platformAdapter = ArrayAdapter.createFromResource(this,
                 R.array.platform_array, android.R.layout.simple_spinner_item);
         platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         platformSpinner.setAdapter(platformAdapter);
         // Age Spinner
         ageSpinner = (Spinner) findViewById(R.id.ViewItem_minAgeSpinner);
-        ArrayAdapter<CharSequence> AgeAdapter = ArrayAdapter.createFromResource(this,
+        ageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.age_array, android.R.layout.simple_spinner_item);
-        AgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ageSpinner.setAdapter(AgeAdapter);
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ageSpinner.setAdapter(ageAdapter);
         // Min Players Spinner
         minPlayersSpinner = (Spinner) findViewById(R.id.ViewItem_minPlayersSpinner);
-        ArrayAdapter<CharSequence> minPlayersAdapter = ArrayAdapter.createFromResource(this,
+        minPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
         minPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minPlayersSpinner.setAdapter(minPlayersAdapter);
         // Max Players Spinner
         maxPlayersSpinner = (Spinner) findViewById(R.id.ViewItem_maxPlayersSpinner);
-        ArrayAdapter<CharSequence> maxPlayersAdapter = ArrayAdapter.createFromResource(this,
+        maxPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
         maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maxPlayersSpinner.setAdapter(maxPlayersAdapter);
         // Time Required Spinner
         timeReqSpinner = (Spinner) findViewById(R.id.ViewItem_minTimeSpinner);
-        ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
+        timeReqAdapter = ArrayAdapter.createFromResource(this,
                 R.array.timeReq_array, android.R.layout.simple_spinner_item);
         timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeReqSpinner.setAdapter(timeReqAdapter);
@@ -381,12 +384,19 @@ public class ViewItem extends FragmentActivity implements OnMapReadyCallback {
         //so the this keyword is overwritten
         final Context holder = this;
 
-        // gets the item info to display on the EditText fields
+        int minPlayerSpinnerPosition = minPlayersAdapter.getPosition(item.getMinPlayers());
+        int maxPlayerSpinnerPosition = maxPlayersAdapter.getPosition(item.getMaxPlayers());
+        int ageSpinnerPosition = ageAdapter.getPosition(item.getAge());
+        int platformSpinnerPosition = platformAdapter.getPosition(item.getPlatform());
+        int timeReqSpinnerPosition = timeReqAdapter.getPosition(item.getTimeReq());
+
+        // gets the item info to display on the EditText/Spinner fields
         GameName.setText(item.getName());
-        minPlayersSpinner.getResources().getStringArray(R.array.players_array);
-        Age.setText(item.getAge());
-        TimeReq.setText(item.getTimeReq());
-        Platform.setText(item.getPlatform());
+        minPlayersSpinner.setSelection(minPlayerSpinnerPosition);
+        maxPlayersSpinner.setSelection(maxPlayerSpinnerPosition);
+        ageSpinner.setSelection(ageSpinnerPosition);
+        timeReqSpinner.setSelection(timeReqSpinnerPosition);
+        platformSpinner.setSelection(platformSpinnerPosition);
         if( item.hasImage() ) {
             image = item.getImage();
             pictureButton.setImageBitmap(image);
