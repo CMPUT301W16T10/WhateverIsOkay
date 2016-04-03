@@ -205,7 +205,10 @@ public class ItemController {
                         "  \"size\": 10000,\n" +
                         "  \"query\": {\n" +
                         "    \"bool\": {\n" +
-                        "      \"must\": [\n";
+                        "      \"must\": [\n" +
+                        "       {\"match\": {\"borrowed\" : false }},\n";
+
+                String owner = UserController.getCurrentUser().getUsername();
 
                 String[] keywords = params[1].toLowerCase().split(" ");
                 for (String keyword : keywords) {
@@ -231,10 +234,13 @@ public class ItemController {
 
                 }
                 search_items = search_items +
-                        "      ]\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "}";
+                        "      ]\n" +   // must end
+                        "    }\n" + // bool end
+                        "  },\n" +   // query end
+                        "  \"filter\":{ \n" +
+                        "  \t\"not\": { \"term\": {\"owner\" :  \""+owner+"\"} }\n" +
+                        "\t}\n" +
+                        "}"; // end string
            }
 
             else if (mode.equals(MODE_GET_MY_ITEMS_WITH_BIDS)) {

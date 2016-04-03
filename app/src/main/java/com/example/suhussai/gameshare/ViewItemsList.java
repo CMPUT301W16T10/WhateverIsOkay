@@ -261,6 +261,37 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
         View v = findViewById(R.id.myItemsAddItem);
         v.setVisibility(View.GONE);
 
+        populateSearchDefault();
+
+        searchView = (SearchView) findViewById(R.id.myItemsSearchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            public boolean onQueryTextSubmit(String queryText) {
+                if (queryText.isEmpty()){
+                    populateSearchDefault();
+                }
+                else {
+                    updateItemListUsingKeywords(queryText);
+                }
+                return true;
+            }
+
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    populateSearchDefault();
+                }
+                else {
+                    updateItemListUsingKeywords(newText);
+                }
+                return true;
+            }
+        });
+
+    }
+
+    private void populateSearchDefault(){
+
         getUserStuff(ItemController.GetItems.MODE_POPULATE_SEARCH);
 
         adapter = new ArrayAdapter<Item>(this, R.layout.my_items_list_view, user.getItems());
@@ -289,22 +320,6 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                 //finish();
             }
         });
-
-        searchView = (SearchView) findViewById(R.id.myItemsSearchView);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            public boolean onQueryTextSubmit(String queryText) {
-                updateItemListUsingKeywords(queryText);
-                return true;
-            }
-
-            public boolean onQueryTextChange(String newText) {
-                updateItemListUsingKeywords(newText);
-                return true;
-            }
-        });
-
     }
 
     /**
