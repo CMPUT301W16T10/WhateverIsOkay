@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -22,13 +23,9 @@ public class Photo {
 
     public Photo(Bitmap image) {
         if (image != null) {
+
             resizeImage(image);
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            this.image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-
-            byte[] b = byteArrayOutputStream.toByteArray();
-            imageBase64 = Base64.encodeToString(b, Base64.DEFAULT);
         }
         // clear out the image if an empty image is "added"
         // in this way, a "save" will delete an image if it was deleted from the view
@@ -62,23 +59,19 @@ public class Photo {
     private void resizeImage( Bitmap image ) {
         // http://developer.android.com/reference/android/graphics/Bitmap.html#getByteCount%28%29
 
-        int byteCount = image.getAllocationByteCount();
         int max_size = 65536;
         int width = image.getWidth();
         int height = image.getHeight();
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        opts.inSampleSize = 2;
 
-        // since newWidth * newHeight = newByteCount <= max_size
-        // originalWdith * originalHeight = byteCount
-        // byteCount = max_size * Factor
-        // newByteCount = byteCount / Factor
-        // newWidth * newHeight = (originalWidth * originalHeight) / Factor
-        // newWidth * newHeight = originalWidth / sqrt(Factor) * originalHeight / sqrt(Factor) to maintain the scale
-        if(byteCount >= max_size) {
-            double factor = byteCount/max_size;
-            double factor_root = Math.sqrt(factor);
-            width = (int) Math.floor(image.getWidth() / factor_root);
-            height = (int) Math.floor(image.getHeight() / factor_root);
+        while( image.getAllocationByteCount() >= max_size) {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] b = byteArrayOutputStream.toByteArray();
+            image = BitmapFactory.decodeByteArray(b, 0, b.length, opts);
         }
-        this.image = Bitmap.createScaledBitmap(image,width,height,true);
+
+        this.image = image;
     }
 }
