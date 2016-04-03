@@ -377,7 +377,10 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
         // US 05.05.01
         // As an owner, I want to view the bids on one of my things.
-
+        
+        //Ensure notification is present
+        onView(withId(R.id.newBids))
+                .check(matches(isDisplayed()));
         // Click View My Items button on ViewUserProfile to see if ViewItemsList has refreshed
         onView(withId(R.id.View_My_Items))
                 .perform(click());
