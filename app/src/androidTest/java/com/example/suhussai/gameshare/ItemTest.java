@@ -216,34 +216,6 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         // This Use Case deals solely with UI interface, not implemented in Unit Tests
     }
 
-    // UC 41
-    public void testSearchKeyword(){
-        // US 04.01.01
-        // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
-        // US 04.02.01
-        // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
-
-        String keyword = "Monoply";
-
-        ItemController.GetItems getItems = new ItemController.GetItems();
-        getItems.execute(ItemController.GetItems.MODE_SEARCH_KEYWORD, keyword);
-        boolean containsItemWithKeyWord = false;
-        try {
-            for (Item item : getItems.get()){
-                assertNotSame(item.getStatus(), "Borrowed"); // make sure item not borrowed
-                if (item.getName().contains(keyword)) {
-                    containsItemWithKeyWord = true;
-                }
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        assertTrue(containsItemWithKeyWord);
-
-    }
-
     // UC 42
     public void testSearchAllThings() {
         // This Use Case deals solely with UI interface, not implemented in Unit Tests
@@ -406,43 +378,18 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         User user = new User( username , "");
         Item item = new Item( name,user.getUsername() );
-        item.setBorrowed(); //item is now borrowed
 
         user.addItem(item); //user owns borrowed item
         assertEquals("Item not defaulted to available status.",
                 item.getStatus(), "available");
-
-        assertTrue(user.getOwnedBorrowedItems().contains(item));
-
-        assertFalse( user.getOwnedAvailableItems().contains( item ) );
+        item.setBorrowed(); //item is now borrowed
 
         assertEquals( item.getStatus(),"borrowed" ); //redundant check
 
         user.markItemReturned( item );
 
-        assertTrue( user.getOwnedAvailableItems().contains( item ) );
-
-        assertFalse(user.getOwnedBorrowedItems().contains(item));
-
         assertEquals("Item not reset to available status.",
                 item.getStatus(), "available");
-    }
-
-    // UC 81
-    public void testConnectivityPush() {
-        //should adjust to use setUp();
-        User user = new User("user1", "");
-        Item item = new Item("Risk",user.getUsername());
-        // disableConnection();//some method that simulates user being offline
-        user.addItem(item);
-        // enableConnection();//undoes the disableConnection method
-        ArrayList<Item> items = new ArrayList<Item>();
-        ArrayList<Item> userItems = new ArrayList<Item>();
-        userItems = user.getItems();
-        int size = userItems.size() - 1; //the last item in the list
-        Item theItem = user.getItem(size);
-        items.add(theItem);
-        assertTrue(items.contains(item));
     }
 
     // UC 91
@@ -481,24 +428,5 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         Bitmap smallImage = imagePhoto.getImage();
         double newBytes = smallImage.getAllocationByteCount();
         assertTrue("size is greater than than 65536 bytes.", newBytes < max_size);
-    }
-
-    // UC 101
-    // Need to implement GeoJson - Part to be implemented for Project Part 5
-    // & implement google maps: http://www.tutorialspoint.com/android/android_google_maps.htm
-    public void testMarkGeoLocation(){
-        String coordinates = "[-113.52715, 53.52676]"; // long , lat
-        // Use GoogleMap to pinpoint the coordinates (CSC)
-        String coordinatesReturned = "returned coordinates from GoogleMap after location set";
-        assertEquals(coordinates, coordinatesReturned);
-    }
-    // UC 102
-    // Needs same implementation as UC 101
-    public void testViewGeoLocation(){
-        // More of an UITesting to see if this displays on the Borrowed Item in ItemView once implemented.
-        Item item = new Item("game", "name");
-        item.setBorrowed();
-        assertTrue(item.isBorrowed());
-        assertTrue("Geolocation is not set by the lender yet.", item.getLocation() != null);
     }
 }
