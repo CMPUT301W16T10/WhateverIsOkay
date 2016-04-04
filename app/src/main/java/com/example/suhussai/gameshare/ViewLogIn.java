@@ -104,11 +104,15 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                                 for (Item item : itemArrayList1) {
                                     if (item.getUpdatedWhenOffline()) {
                                         Log.i("TOD", "found item needing to be updated (bidded). " + item.getName());
+                                        // update item record in user.getItems()
                                         user.getItems().remove(item);
                                         item.setUpdatedWhenOffline(false);
                                         user.getItems().add(item);
+
+                                        // update local storage
                                         updateUser(user);
 
+                                        // update remote storage
                                         ItemController.UpdateItem updateItem= new ItemController.UpdateItem();
                                         updateItem.execute(item);
                                     }
@@ -117,6 +121,7 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                                         // set to item's ID before sending to controller
                                         item.setId(user.getUsername() + (char) 31 + user.getGameCount());
 
+                                        // update remote storage
                                         Log.i("TOD", "found item needing to be pushed to cloud. " + item.getName());
                                         ItemController.AddItem addItem = new ItemController.AddItem();
                                         addItem.execute(item);
