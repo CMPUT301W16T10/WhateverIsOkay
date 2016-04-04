@@ -269,6 +269,9 @@ public class User {
      */
     public void addItem(Item item){
 
+        if (items.contains(item)) {
+            return;
+        }
 
         // first increment the gameCount so the new item has the newly incremented game value.
         incrementGameCount();
@@ -313,9 +316,11 @@ public class User {
      * @param item the item
      */
     public void deleteItem(Item item){
-        ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
-        deleteItem.execute(item);
-        items.remove(item);
+        if (items.contains(item)) {
+            ItemController.DeleteItem deleteItem = new ItemController.DeleteItem();
+            deleteItem.execute(item);
+            items.remove(item);
+        }
     }
 
     /**
