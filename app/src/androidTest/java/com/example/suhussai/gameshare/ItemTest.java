@@ -62,10 +62,10 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         super.tearDown();
 
         user = UserController.getCurrentUser();
-        if (user.getItems().contains(item1)) {
+        while (user.getItems().contains(item1)) {
             user.deleteItem(item1);
         }
-        if (user.getItems().contains(item2)) {
+        while (user.getItems().contains(item2)) {
             user.deleteItem(item2);
         }
 
@@ -78,9 +78,27 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     public void testAddItem() {
         Item item = new Item("new item", "BigOwner");
 
+        int initialGameCount = user.getGameCount();
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount);
         assertFalse(user.getItems().contains(item));
         user.addItem(item);
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount + 1);
         assertTrue(user.getItems().contains(item));
+
+        // try adding again.
+        user.addItem(item);
+        // count should remain the same.
+        // i.e request should be ignored.
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount + 1);
+        assertTrue(user.getItems().contains(item));
+
+
+        assertEquals("Item toString incorrect.",
+                user.getItem(user.getItems().indexOf(item)).toString(),
+                "new item (available) owned by BigOwner");
     }
 
     // UC 12
@@ -95,25 +113,51 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 14
     public void testEditItem() {
-        assertEquals(user.getItem(2).getName(), name2);
-        user.getItem(1).setName("new_name");
+        Item item = new Item("new item", "BigOwner");
+
+        int initialGameCount = user.getGameCount();
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount);
+        assertFalse(user.getItems().contains(item));
+        user.addItem(item);
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount + 1);
+        assertTrue(user.getItems().contains(item));
+
+        int itemIndex = user.getItems().indexOf(item);
+        user.getItem(itemIndex).setName("new_name");
 
         // acts as a sleep function
         // because the edit takes time
-        while (user.getItem(1).getName() != "new_name") {}
+        while (user.getItem(itemIndex).getName() != "new_name") {}
 
-        assertEquals(user.getItem(1).getName(), "new_name");
+        assertEquals(user.getItem(itemIndex).getName(), "new_name");
+
+        user.deleteItem(item);
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount + 1);
+        assertFalse(user.getItems().contains(item));
     }
 
     // UC 15
     public void testDeleteItem() {
-        assertTrue(user.getItems().contains(item1));
-        user.deleteItem(item1);
+        Item item = new Item("new item", "BigOwner");
+
+        int initialGameCount = user.getGameCount();
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount);
+        assertFalse(user.getItems().contains(item));
+        user.addItem(item);
+        assertEquals("Game count incorrect.",
+                user.getGameCount(), initialGameCount + 1);
+        assertTrue(user.getItems().contains(item));
+
+        user.deleteItem(item);
 
         // acts as a sleep function
         // because the edit takes time
-        while (user.getItems().contains(item1) == true) {}
-        assertFalse(user.getItems().contains(item1));
+        while (user.getItems().contains(item) == true) {}
+        assertFalse(user.getItems().contains(item));
 
     }
 
@@ -123,7 +167,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         assertTrue((item2.getStatus() == "available"));
         assertTrue((item1.getStatus() == "available"));
 
-
+        // getStatus is further tested in many other tests as well
+        // Thus this is quite small in order to reduce redundancies
+        // in tests.
     }
 
 
@@ -213,6 +259,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
                 item.getStatus(), "available");
 
         Bid bid = new Bid(bidder.getUsername(),1.0);
+        assertEquals("toString of bid is incorrect",
+                bid.toString(), "name bid 1.0");
+
         item.addBid(bid);
         assertEquals("Item status not changed to bidded status.",
                 item.getStatus(), "bidded");
