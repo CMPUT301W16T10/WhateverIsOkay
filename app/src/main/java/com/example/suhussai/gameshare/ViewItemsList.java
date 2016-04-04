@@ -70,6 +70,8 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
      */
     public static int mode_viewItemsList;
 
+    private Spinner platformSpinner;
+
     /**
      * Gets the current mode
      * @return the mdoe
@@ -134,7 +136,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
         // From http://developer.android.com/guide/topics/ui/controls/spinner.html
         // Platform Spinner
-        Spinner platformSpinner = (Spinner) findViewById(R.id.platformSpinner);
+        platformSpinner = (Spinner) findViewById(R.id.platformSpinner);
         ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
                 R.array.platform_array, android.R.layout.simple_spinner_item);
         platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -157,6 +159,8 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                 R.array.players_array, android.R.layout.simple_spinner_item);
         maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maxPlayersSpinner.setAdapter(maxPlayersAdapter);
+        // set the default filter for max players to the highest number of players in the array
+        maxPlayersSpinner.setSelection(maxPlayersSpinner.getAdapter().getCount()-1);
         // Time Required Spinner
         Spinner timeReqSpinner = (Spinner) findViewById(R.id.minTimeSpinner);
         ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
@@ -263,31 +267,45 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
         populateSearchDefault();
 
+        // whenever the platform is modified, requery with the current filter active and any search keywords
+        platformSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                searchView = (SearchView) findViewById(R.id.myItemsSearchView);
+                String text = searchView.getQuery().toString();
+                executeAppropriateSearch(text);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //do nothing, keep current search filters in place
+            }
+        });
+
         searchView = (SearchView) findViewById(R.id.myItemsSearchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             public boolean onQueryTextSubmit(String queryText) {
-                if (queryText.isEmpty()){
-                    populateSearchDefault();
-                }
-                else {
-                    updateItemListUsingKeywords(queryText);
-                }
+                executeAppropriateSearch(queryText);
                 return true;
             }
 
             public boolean onQueryTextChange(String newText) {
-                if (newText.isEmpty()) {
-                    populateSearchDefault();
-                }
-                else {
-                    updateItemListUsingKeywords(newText);
-                }
+                executeAppropriateSearch(newText);
                 return true;
             }
         });
 
+    }
+
+    private void executeAppropriateSearch(String text){
+        if (text.isEmpty()) {
+            populateSearchDefault();
+        }
+        else {
+            updateItemListUsingKeywords(text);
+        }
     }
 
     private void populateSearchDefault(){

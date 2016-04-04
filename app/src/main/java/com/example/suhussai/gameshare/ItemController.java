@@ -381,4 +381,14 @@ public class ItemController {
             return null;
         }
     }
+
+    private String applyFilter(String current) {
+        //TODO must figure out how to tell what value each filter is set to!
+        // platform
+        current += "{match";//...
+        // min players
+        current += "{match";//...
+
+        return current;
+    }
 }
