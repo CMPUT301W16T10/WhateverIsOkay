@@ -15,4 +15,7 @@
     <color name="colorSortaRed">#FF3333</color>
     <color name="colorGrey">#545454</color>
     <color name="colorSlateGrey3">#9FB6CD</color>
+
+    <color name="colorNavyBlue">#004040</color>
+    <color name="colorLightRed">#FF0040</color>
 </resources>

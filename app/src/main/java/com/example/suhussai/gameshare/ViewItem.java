@@ -705,6 +705,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
                             User bidder = UserController.getCurrentUser();
                             Bid bid = new Bid(bidder.getUsername(), bidAmount);
                             item.addBid(bid);
+                            Toast.makeText(ViewItem.this, "Bid Placed.", Toast.LENGTH_SHORT).show();
 
                             //TODO Causes the same error as the update item call from the edit mode
                             ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
