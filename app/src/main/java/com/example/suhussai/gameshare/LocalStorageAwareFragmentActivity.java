@@ -34,7 +34,9 @@ import java.util.ArrayList;
  */
 public class LocalStorageAwareFragmentActivity extends FragmentActivity {
 
-
+    /**
+     * The name of the local save file.
+     */
     private static String FILENAME = "usersOnThisDevice.txt";
 
     /*
@@ -52,6 +54,10 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
 
     // from lonelyTwitter
     // http://www.tutorialspoint.com/java/java_generics.htm
+    /**
+     * Loads the users from the save file
+     * @return list of users
+     */
     public ArrayList<User> loadUsersFromFile(){
         ArrayList<User> list;
         try {
@@ -75,6 +81,9 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
     }
     // from lonelyTwitter
     // http://www.tutorialspoint.com/java/java_generics.htm
+    /**
+     * Saves the users tothe save file
+     */
     public void saveToFile(ArrayList<User> list){
         Log.e("TOD", "saving to file these elements: " + list);
         try {
@@ -94,6 +103,10 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * Adds a user to the local save file.
+     * @param user the user
+     */
     public void addUser(User user){
         ArrayList<User> users = loadUsersFromFile();
         if (userExists(user.getUsername(), user.getPassword()) == false) {
@@ -104,7 +117,10 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
             Log.e("TOD", "Warning: tried to add user that already existed.");
         }
     }
-
+    /**
+     * Deletes a user in the local save file.
+     * @param user the user
+     */
     public void deleteUser(User user){
         ArrayList<User> users = loadUsersFromFile();
         if (userExists(user.getUsername(), user.getPassword())) {
@@ -115,7 +131,10 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
             Log.e("TOD", "Warning: tried to delete user that didn't exist.");
         }
     }
-
+    /**
+     * Updates a user in the local save file.
+     * @param user the user
+     */
     public void updateUser(User user){
         // can do the following because
         // user comparison is done based solely on
@@ -131,7 +150,13 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
         addUser(user);
     }
 
-
+    /**
+     * Checks if a user already exists in the save file.
+     * @param username the user
+     * @param password the user's password
+     * @return true if already exists
+     * @return false if the user does not already exist
+     */
     public Boolean userExists(String username, String password){
         ArrayList<User> users = loadUsersFromFile();
         User user = new User(username, password);
@@ -142,7 +167,12 @@ public class LocalStorageAwareFragmentActivity extends FragmentActivity {
             return false;
         }
     }
-
+    /**
+     * Gets the user from the save file.
+     * @param username the user
+     * @param password the password
+     * @return user if the user exists.
+     */
     public User getUser(String username, String password){
         ArrayList<User> users = loadUsersFromFile();
         User user = new User(username, password);

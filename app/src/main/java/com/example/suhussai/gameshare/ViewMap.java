@@ -32,13 +32,37 @@ import java.util.ArrayList;
  */
 public class ViewMap extends LocalStorageAwareFragmentActivity implements OnMapReadyCallback {
 
+    /**
+     * The Google map
+     */
     private GoogleMap map;
+    /**
+     * The last location on the map
+     */
     private Location lastLocation;
+    /**
+     * The latitude and longitude of the location
+     */
     private LatLng latLng;
+    /**
+     * The display marker for the location
+     */
     private Marker marker;
+    /**
+     * The current user
+     */
     private User user;
+    /**
+     * The Item
+     */
     private Item item;
+    /**
+     * The String of the bid
+     */
     private String bidString;
+    /**
+     * The Bid
+     */
     private Bid bid;
 
     @Override

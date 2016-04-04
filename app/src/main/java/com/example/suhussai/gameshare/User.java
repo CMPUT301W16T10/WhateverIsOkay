@@ -55,11 +55,11 @@ public class User {
 
     /**
      * Constructor
-     * @param userName the username
+     * @param username the username
      * @param password the password
      */
-    public User(String userName, String password){
-        this.username = userName;
+    public User(String username, String password){
+        this.username = username;
         this.password = password;
     }
 
@@ -334,29 +334,6 @@ public class User {
     }
 
     /**
-     * @deprecated
-     */
-    public void bidOn(Item item){
-        //
-    }
-
-    /**
-     * @deprecated
-     */
-    public ArrayList<Item> getLentItems() {
-        ArrayList<Item> beingBorrowed = new ArrayList<Item>();
-
-        return beingBorrowed;
-    }
-
-    /**
-     * @deprecated
-     */
-    public void addBorrowedItem (Item item){
-        this.borrowedItems.add(item);
-    }
-
-    /**
      * Decline bid on an owned item
      * @param bid the bid
      * @param item the item
@@ -374,14 +351,26 @@ public class User {
         item.acceptBid(bid);
     }
 
+    /**
+     * gets updatedWhenOffline
+     * @return updatedWhenOffline
+     */
     public Boolean getUpdatedWhenOffline() {
         return updatedWhenOffline;
     }
 
+    /**
+     * sets updatedWhenOffline
+     */
     public void setUpdatedWhenOffline(Boolean updatedWhenOffline) {
         this.updatedWhenOffline = updatedWhenOffline;
     }
 
+    /**
+     * Compares an Item with the current Item
+     * @param o the Object
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -394,7 +383,10 @@ public class User {
         return !(password != null ? !password.equals(user.password) : user.password != null);
 
     }
-
+    /**
+     * Generates a unique id for the user.
+     * @return result
+     */
     @Override
     public int hashCode() {
         int result = username != null ? username.hashCode() : 0;

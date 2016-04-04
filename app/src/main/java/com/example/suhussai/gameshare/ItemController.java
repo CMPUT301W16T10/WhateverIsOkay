@@ -404,6 +404,11 @@ public class ItemController {
         }
     }
 
+    /**
+     * Applies a filter to the search.
+     * @param current the current filter
+     * @return current
+     */
     private String applyFilter(String current) {
         //TODO must figure out how to tell what value each filter is set to!
         // platform

@@ -21,6 +21,10 @@ public class Photo {
      */
     private String imageBase64 = "";
 
+    /**
+     * The photo
+     * @param image the image
+     */
     public Photo(Bitmap image) {
         if (image != null) {
 
@@ -56,6 +60,10 @@ public class Photo {
         return imageBase64;
     }
 
+    /**
+     * Resizes an image.
+     * @param image the image
+     */
     private void resizeImage( Bitmap image ) {
         // http://developer.android.com/reference/android/graphics/Bitmap.html#getByteCount%28%29
 
