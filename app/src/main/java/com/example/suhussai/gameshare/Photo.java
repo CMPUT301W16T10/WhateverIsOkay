@@ -25,7 +25,10 @@ public class Photo {
         if (image != null) {
 
             resizeImage(image);
-
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            this.image.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+            byte[] b = byteArrayOutputStream.toByteArray();
+            imageBase64 = Base64.encodeToString(b,Base64.DEFAULT);
         }
         // clear out the image if an empty image is "added"
         // in this way, a "save" will delete an image if it was deleted from the view

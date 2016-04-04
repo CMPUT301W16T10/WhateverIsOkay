@@ -335,6 +335,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
                 String platform = platformSpinner.getSelectedItem().toString();
 
                 Item item = new Item(name, user.getUsername(), minPlayers, maxPlayers, age, timeReq, platform);
+                item.addImage(new Photo(image));
 
                 if (isOnline() == false) {
                     item.setId("NO_INTERNET"+user.getGameCount());
@@ -533,6 +534,7 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
 
                 ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
                 updateItem.execute(item);
+                updateUser(user);
 
                 // Accessed http://developer.android.com/guide/topics/ui/notifiers/toasts.html on 2016-02-28 for help with pop up messages
                 Toast.makeText(getApplicationContext(), "Item has been updated", Toast.LENGTH_SHORT).show();
