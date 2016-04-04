@@ -6,87 +6,100 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorSlateGrey3">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ViewItem_pictureLayout">
 
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/ViewItem_pictureButton"
             android:background="@android:drawable/ic_menu_camera" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete Image"
-            android:id="@+id/ViewItem_pictureDeleteButton" />
+            android:text=" Delete Image "
+            android:id="@+id/ViewItem_pictureDeleteButton"
+            android:layout_toEndOf="@+id/ViewItem_pictureButton"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorAccent" />
 
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="5dp"
         android:text="Name"
         android:id="@+id/ViewItem_NameText"
-        android:layout_alignBottom="@+id/ViewItem_NameEdit"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/ViewItem_pictureButton"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="5dp"
         android:text="Players"
         android:id="@+id/ViewItem_PlayersText"
         android:layout_below="@+id/ViewItem_NameText"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Age"
+        android:layout_marginTop="5dp"
+        android:text="Min. Age"
         android:id="@+id/ViewItem_AgeText"
         android:layout_below="@+id/ViewItem_PlayersText"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Time Required"
+        android:layout_marginTop="5dp"
+        android:text="Min. Playtime"
         android:id="@+id/ViewItem_TimeReqText"
         android:layout_below="@+id/ViewItem_AgeText"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginTop="5dp"
         android:text="Platform"
         android:id="@+id/ViewItem_PlatformText"
         android:layout_below="@+id/ViewItem_TimeReqText"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_NameEdit"
         android:layout_alignParentEnd="true"
+        android:textSize="15sp"
         android:singleLine="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_below="@+id/ViewItem_pictureLayout"/>
+        android:layout_alignTop="@+id/ViewItem_NameText"/>
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_PlayersEdit"
+        android:layout_alignTop="@+id/ViewItem_PlayersText"
         android:layout_alignBottom="@+id/ViewItem_PlayersText"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
@@ -162,16 +175,20 @@
         android:id="@+id/ViewItem_Save"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/ViewItem_PlatformText"
-        android:layout_marginBottom="26dp" />
+        android:layout_marginBottom="26dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Owner"
+        android:text=" View Owner "
         android:id="@+id/ViewItem_ViewOwner"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/ViewItem_PlatformText"
-        android:layout_marginBottom="26dp" />
+        android:layout_marginBottom="26dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <Button
         android:layout_width="wrap_content"
@@ -180,7 +197,9 @@
         android:id="@+id/ViewItem_Cancel"
         android:layout_alignBottom="@+id/ViewItem_Save"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="40dp" />
+        android:layout_marginEnd="40dp"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <Button
         android:layout_width="wrap_content"
@@ -188,23 +207,29 @@
         android:text="Delete"
         android:id="@+id/ViewItem_Delete"
         android:layout_alignBottom="@+id/ViewItem_Cancel"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Make Bid"
+        android:text=" Make Bid "
         android:id="@+id/ViewItem_Bid"
         android:layout_alignBottom="@+id/ViewItem_ViewOwner"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item Returned"
+        android:text=" Item Returned "
         android:id="@+id/ViewItem_ItemReturned"
         android:layout_alignBottom="@+id/ViewItem_ViewOwner"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <EditText
         android:layout_width="0dp"
@@ -215,7 +240,8 @@
         android:layout_alignEnd="@+id/ViewItem_bidsListView"
         android:numeric="decimal"
         android:layout_alignParentEnd="true"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:background="@color/colorWhite" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:name="com.google.android.gms.maps.MapFragment"
@@ -224,7 +250,8 @@
         android:layout_alignParentStart="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="90dp"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -232,7 +259,8 @@
         android:id="@+id/ViewItem_minAgeSpinner"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_alignBottom="@+id/ViewItem_AgeText"/>
+        android:layout_alignBottom="@+id/ViewItem_AgeText"
+        android:layout_alignTop="@+id/ViewItem_AgeText"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -240,7 +268,8 @@
         android:id="@+id/ViewItem_minTimeSpinner"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_alignBottom="@id/ViewItem_TimeReqText"/>
+        android:layout_alignBottom="@id/ViewItem_TimeReqText"
+        android:layout_alignTop="@id/ViewItem_TimeReqText"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -248,7 +277,8 @@
         android:id="@+id/ViewItem_minPlayersSpinner"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_alignBottom="@id/ViewItem_PlayersText"/>
+        android:layout_alignBottom="@id/ViewItem_PlayersText"
+        android:layout_alignTop="@id/ViewItem_PlayersText"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -256,7 +286,8 @@
         android:id="@+id/ViewItem_maxPlayersSpinner"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/to"
-        android:layout_alignBottom="@id/ViewItem_PlayersText"/>
+        android:layout_alignBottom="@id/ViewItem_PlayersText"
+        android:layout_alignTop="@id/ViewItem_PlayersText"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -264,7 +295,7 @@
         android:text=" to "
         android:id="@+id/to"
         android:layout_toEndOf="@+id/ViewItem_minPlayersSpinner"
-        android:layout_alignBottom="@id/ViewItem_PlayersText"
+        android:layout_alignTop="@id/ViewItem_PlayersText"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <Spinner
@@ -273,6 +304,7 @@
         android:id="@+id/ViewItem_platformSpinner"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_alignBottom="@+id/ViewItem_PlatformText"/>
+        android:layout_alignBottom="@+id/ViewItem_PlatformText"
+        android:layout_alignTop="@+id/ViewItem_PlatformText"/>
 
 </RelativeLayout>

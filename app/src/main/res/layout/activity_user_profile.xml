@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/colorGrey"/>
+        android:textColor="@color/colorWhite"/>
 
     <TextView
         android:id="@+id/Username"
@@ -29,7 +29,7 @@
         android:layout_below="@+id/AppName"
         android:layout_alignParentStart="true"
         android:layout_marginTop="50dp"
-        android:textColor="@color/colorGrey"/>
+        android:textColor="@color/colorNavyBlue"/>
 
     <TextView
         android:id="@+id/Name"
@@ -40,7 +40,7 @@
         android:textSize="@dimen/userProfile_Text"
         android:layout_below="@+id/Username"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/colorGrey"/>
+        android:textColor="@color/colorNavyBlue"/>
 
     <TextView
         android:id="@+id/Email"
@@ -51,7 +51,7 @@
         android:textSize="@dimen/userProfile_Text"
         android:layout_below="@+id/Name"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/colorGrey"/>
+        android:textColor="@color/colorNavyBlue"/>
 
     <TextView
         android:id="@+id/Phone"
@@ -62,7 +62,7 @@
         android:textSize="@dimen/userProfile_Text"
         android:layout_below="@+id/Email"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/colorGrey"/>
+        android:textColor="@color/colorNavyBlue"/>
 
     <TextView
         android:id="@+id/UsernameText"
@@ -70,7 +70,8 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/userProfile_Text"
         android:layout_alignTop="@+id/Username"
-        android:layout_toEndOf="@+id/Username" />
+        android:layout_toEndOf="@+id/Username"
+        android:textColor="@color/colorNavyBlue" />
 
     <EditText
         android:id="@+id/NameText"
@@ -88,7 +89,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/userProfile_Text"
         android:layout_alignTop="@+id/Email"
-        android:layout_toEndOf="@+id/Email"
+        android:layout_toEndOf="@+id/Name"
         android:background="@color/colorWhite"
         android:singleLine="true"/>
 
@@ -98,7 +99,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/userProfile_Text"
         android:layout_alignTop="@+id/Phone"
-        android:layout_toEndOf="@+id/Phone"
+        android:layout_toEndOf="@+id/Name"
         android:background="@color/colorWhite"
         android:phoneNumber="true"
         android:singleLine="true"/>
@@ -109,7 +110,8 @@
         android:layout_height="wrap_content"
         android:text="Update"
         android:layout_alignRight="@id/UserProfile"
-        />
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorDarkOrange" />
 
 
 

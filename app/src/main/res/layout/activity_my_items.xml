@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ViewItemsList">
+    tools:context=".ViewItemsList"
+    android:background="@color/colorSlateGrey3">
 
     <ListView
         android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
         android:text="@string/myItems"
         android:id="@+id/myItemsTextView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorWhite" />
 
     <SearchView
         android:layout_width="match_parent"
@@ -35,10 +37,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/addNewItem"
+        android:text=" Add New Item "
         android:id="@+id/myItemsAddItem"
         android:layout_below="@+id/myItemsListView"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorLightRed" />
 
     <LinearLayout
         android:orientation="horizontal"
