@@ -194,7 +194,7 @@
         android:layout_height="wrap_content"
         android:text="Make Bid"
         android:id="@+id/ViewItem_Bid"
-        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignBottom="@+id/ViewItem_ViewOwner"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -202,7 +202,7 @@
         android:layout_height="wrap_content"
         android:text="Item Returned"
         android:id="@+id/ViewItem_ItemReturned"
-        android:layout_alignBottom="@+id/ViewItem_Cancel"
+        android:layout_alignBottom="@+id/ViewItem_ViewOwner"
         android:layout_alignParentEnd="true" />
 
     <EditText

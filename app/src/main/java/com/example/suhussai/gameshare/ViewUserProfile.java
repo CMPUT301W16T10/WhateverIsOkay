@@ -123,39 +123,9 @@ public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
     }
 
     /**
-     * On resume method
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (currentMode==MODE_EDIT){
-            //Refresh notifications
-            getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
-            ArrayList<Item> items = user.getItems();
-            int count = 0;
-            for (Item i: items){
-                if (i.hasNewBid()){
-                    count++;
-                }
-            }
-
-            TextView newBids = (TextView) findViewById(R.id.newBids);
-            if (count>0){
-                newBids.bringToFront();
-                newBids.setText(Integer.toString(count));
-            }
-            else{
-                newBids.setVisibility(View.GONE);
-            }
-        }
-    }
-    /**
      * Setup elements only used in edit mode (only called from onCreate)
      */
     private void setupEditMode(){
-
-        View v = findViewById(R.id.Message_Button);
-        v.setVisibility(View.GONE);
 
         //TODO: Make passwords editable as well.
         Button updateButton = (Button) findViewById(R.id.Update_Profile);
@@ -175,7 +145,6 @@ public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
                     updateUserProfile.execute(user);
 
                     Toast.makeText(ViewUserProfile.this, "Updated", Toast.LENGTH_SHORT).show();
-
                 }
                 else {
                     Toast.makeText(getApplicationContext(),
@@ -184,97 +153,6 @@ public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
                 }
             }
         });
-
-        //TODO: Insert putExtras to make it go to the right View settings.
-
-        // Search for Item
-        Button searchForItemsButton = (Button) findViewById(R.id.Search_for_Items);
-        searchForItemsButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * On click method for search for items button, goes to ViewItemList in search mode
-             */
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("mode", ViewItemsList.MODE_SEARCH_FOR_ITEMS);
-                startActivity(intent);
-            }
-        });
-
-        // View the Items the User has put up to be borrowed
-        Button viewMyItemsButton = (Button) findViewById(R.id.View_My_Items);
-        viewMyItemsButton.setOnClickListener(new View.OnClickListener(){
-            /**
-             * On click method for search for items button, goes to ViewItemList in my items mode
-             */
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_ITEMS);
-                startActivity(intent);
-            }
-        });
-
-        // View the Items the User has currently placed bids on.
-        Button viewMyBidsPlacedButton = (Button) findViewById(R.id.View_My_Bids_Placed);
-        viewMyBidsPlacedButton.setOnClickListener(new View.OnClickListener(){
-            /**
-             * On click method for search for items button, goes to ViewItemList in bids placed mode
-             */
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("mode", ViewItemsList.MODE_VIEW_MY_BIDS_PLACED);
-                startActivity(intent);
-            }
-        });
-
-        // View the Items that the User has currently borrowed from a different User.
-        Button currentlyBorrowedItemsButton = (Button) findViewById(R.id.Currently_Borrowed_Items);
-        currentlyBorrowedItemsButton.setOnClickListener(new View.OnClickListener(){
-            /**
-             * On click method for search for items button, goes to ViewItemList in borrowed items mode
-             */
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("mode", ViewItemsList.MODE_CURRENTLY_BORROWED_ITEMS);
-                startActivity(intent);
-            }
-        });
-
-        // View the Items that the User has currently lent to a different User.
-        Button currentlyLentItemsButton = (Button) findViewById(R.id.Currently_Lent_Items);
-        currentlyLentItemsButton.setOnClickListener(new View.OnClickListener(){
-            /**
-             * On click method for search for items button, goes to ViewItemList in borrowed items mode
-             */
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(ViewUserProfile.this, ViewItemsList.class);
-                intent.putExtra("mode", ViewItemsList.MODE_CURRENTLY_LENT_ITEMS);
-                startActivity(intent);
-            }
-        });
-
-        //Check if there are any new bids on the user's items
-        getUserStuff(ItemController.GetItems.MODE_GET_MY_ITEMS);
-        ArrayList<Item> items = user.getItems();
-        int count = 0;
-        for (Item i: items){
-            if (i.hasNewBid()){
-                count++;
-            }
-        }
-
-        TextView newBids = (TextView) findViewById(R.id.newBids);
-        if (count>0){
-            newBids.bringToFront();
-            newBids.setText(Integer.toString(count));
-        }
-        else{
-            newBids.setVisibility(View.GONE);
-        }
    }
 
     /**
@@ -282,26 +160,7 @@ public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
      */
     private void setupViewMode(){
 
-
-        View v = findViewById(R.id.Search_for_Items);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.newBids);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.View_My_Items);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.View_My_Bids_Placed);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.Currently_Borrowed_Items);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.Update_Profile);
-        v.setVisibility(View.GONE);
-
-        v = findViewById(R.id.Currently_Lent_Items);
+        View v = findViewById(R.id.Update_Profile);
         v.setVisibility(View.GONE);
 
         username.setEnabled(false);
@@ -309,19 +168,6 @@ public class ViewUserProfile extends LocalStorageAwareAppCompatActivity {
         email.setEnabled(false);
         phone.setEnabled(false);
 
-        // Message the User
-        Button messageButton = (Button) findViewById(R.id.Message_Button);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            /**
-             * On click method for search for items button, goes to ViewItemList in search mode
-             */
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewUserProfile.this, ViewChat.class);
-                intent.putExtra("friend", usernameString);
-                startActivity(intent);
-            }
-        });
     }
 
     /**

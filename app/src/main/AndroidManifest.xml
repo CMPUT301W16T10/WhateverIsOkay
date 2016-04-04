@@ -30,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewMenu" />
         <activity android:name=".ViewUserProfile" />
         <activity android:name=".ViewItem" />
         <activity android:name=".ViewItemsList" />

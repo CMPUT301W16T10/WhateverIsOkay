@@ -140,8 +140,7 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                             updateUser(user);
 
                             setResult(RESULT_OK);
-                            Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
-                            intent.putExtra("mode",ViewUserProfile.MODE_EDIT);
+                            Intent intent = new Intent(ViewLogIn.this, ViewMenu.class);
                             UserController.setCurrentUser(user);
                             startActivity(intent);
                             //finish();
@@ -163,8 +162,7 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                         else if (userExists(username, password)) {
                             user = getUser(username, password);
                             setResult(RESULT_OK);
-                            Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
-                            intent.putExtra("mode",ViewUserProfile.MODE_EDIT);
+                            Intent intent = new Intent(ViewLogIn.this, ViewMenu.class);
                             UserController.setCurrentUser(user);
                             startActivity(intent);
                             //finish();
@@ -230,8 +228,7 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                         updateUser(user);
 
                         setResult(RESULT_OK);
-                        Intent intent = new Intent(ViewLogIn.this, ViewUserProfile.class);
-                        intent.putExtra("mode", ViewUserProfile.MODE_EDIT);
+                        Intent intent = new Intent(ViewLogIn.this, ViewMenu.class);
                         UserController.setCurrentUser(user);
                         startActivity(intent);
                         //finish();

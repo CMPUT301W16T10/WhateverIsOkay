@@ -630,6 +630,8 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
         n.setVisibility(View.GONE);
         View o = findViewById(R.id.to);
         o.setVisibility(View.GONE);
+        View p = findViewById(R.id.ViewItem_Save);
+        p.setVisibility(View.GONE);
 
         //Make fields uneditable
         GameName.setEnabled(false);
@@ -719,12 +721,18 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
                     viewImage();
                 } else {
                     // Nothing. In edit mode, if there's no image then do nothing.
-                    Toast.makeText(getApplicationContext(),"This item does not have an image.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "This item does not have an image.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         Button ViewOwnerButton = (Button) findViewById(R.id.ViewItem_ViewOwner);
+
+        // Sets the View Borrower button
+        final int viewItemsList_mode = getIntent().getExtras().getInt("mode_viewItemsList");
+        if (ViewItemsList.MODE_CURRENTLY_LENT_ITEMS == viewItemsList_mode){
+            ViewOwnerButton.setText("View Borrower");
+        }
 
         ViewOwnerButton.setOnClickListener(new View.OnClickListener() {
             /**
@@ -734,6 +742,9 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
              */
             public void onClick(View v) {
                 String username = item.getOwner();
+                if (ViewItemsList.MODE_CURRENTLY_LENT_ITEMS == viewItemsList_mode){
+                    username = item.getBorrower();
+                }
                 Intent intent = new Intent(holder, ViewUserProfile.class);
                 intent.putExtra("mode", ViewUserProfile.MODE_VIEW);
                 intent.putExtra("username", username);
