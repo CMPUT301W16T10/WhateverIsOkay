@@ -7,7 +7,8 @@ import android.support.v7.widget.SearchView;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.EditText;
-
+import static org.hamcrest.Matchers.*;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -169,14 +170,26 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // Edit the text fields on ViewItem
         onView(withId(R.id.ViewItem_NameEdit))
                 .perform(replaceText(name2), closeSoftKeyboard());
-        onView(withId(R.id.ViewItem_PlayersEdit))
-                .perform(typeText(players1), closeSoftKeyboard());
-        onView(withId(R.id.ViewItem_AgeEdit))
-                .perform(typeText(age1), closeSoftKeyboard());
-        onView(withId(R.id.ViewItem_TimeReqEdit))
-                .perform(typeText(timeReq1), closeSoftKeyboard());
-        onView(withId(R.id.ViewItem_PlatformEdit))
-                .perform(typeText(platform1), closeSoftKeyboard());
+        onView(withId(R.id.ViewItem_minPlayersSpinner))
+                .perform(click());
+        onData(allOf(is(String.class), is("1")))
+                .perform(click());
+        onView(withId(R.id.ViewItem_maxPlayersSpinner))
+                .perform(click());
+        onData(allOf(is(String.class), is("3")))
+                .perform(click());
+        onView(withId(R.id.ViewItem_minAgeSpinner))
+                .perform(click());
+        onData(allOf(is(String.class), is("0")))
+                .perform(click());
+        onView(withId(R.id.ViewItem_minTimeSpinner))
+                .perform(click());
+        onData(allOf(is(String.class), is("3")))
+                .perform(click());
+        onView(withId(R.id.ViewItem_platformSpinner))
+                .perform(click());
+        onData(allOf(is(String.class), is("PC")))
+                .perform(click());
         // Click Save on ViewItem
         onView(withId(R.id.ViewItem_Save))
                 .perform(click());
