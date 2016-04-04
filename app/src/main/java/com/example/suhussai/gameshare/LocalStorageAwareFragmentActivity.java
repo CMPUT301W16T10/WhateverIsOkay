@@ -21,7 +21,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
- * Created by bobby on 02/04/16.
+ * Created by suhussai on 02/04/16.
+ *
+ * Has functionalities needed to ensure persistence of data
+ * even in offline mode. Provides features to work with
+ * offline data storage.
+ *
+ * Essentially a carbon copy of LocalStorageAwareCompatActivity.
+ * The reason the two aren't combined into one class to reduce repetition is
+ * because java only allows single class inheritance and we were working with two
+ * different kinds of activities: FragmentActivity and AppCompatActivity.
  */
 public class LocalStorageAwareFragmentActivity extends FragmentActivity {
 

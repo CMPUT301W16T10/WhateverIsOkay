@@ -24,7 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
- * Created by bobby on 12/03/16.
+ * Created by suhussai on 12/03/16.
  */
 public class AppUITesting extends ActivityInstrumentationTestCase2 {
     public AppUITesting() {
