@@ -167,9 +167,11 @@ public class ViewMenu extends LocalStorageAwareAppCompatActivity {
                 }
             }
 
+
             TextView newBids = (TextView) findViewById(R.id.newBids);
             if (count>0){
                 newBids.bringToFront();
+                newBids.setElevation(100);
                 newBids.setText(Integer.toString(count));
             }
             else{

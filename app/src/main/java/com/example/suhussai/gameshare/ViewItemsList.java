@@ -862,7 +862,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
     private void contractFilter() {
         LinearLayout LO = (LinearLayout) findViewById(R.id.filterLinearLayout);
-        LO.getLayoutParams().height = 60;
+        LO.getLayoutParams().height = 80;
     }
 }
 

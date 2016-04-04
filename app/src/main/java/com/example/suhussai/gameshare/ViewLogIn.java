@@ -82,61 +82,66 @@ public class ViewLogIn extends LocalStorageAwareAppCompatActivity {
                         else if (user.getUsername().equals(username) &&
                                 user.getPassword().equals(password) ){
 
-                            // check if user has been updated when offline
-                            if (getUser(username,password).getUpdatedWhenOffline()) {
-                                user = getUser(username,password);
-                                Log.i("TOD", "found items to push up.");
-                                user.setUpdatedWhenOffline(false);
-                                updateUser(user);
-                                // push user and user stuff to cloud
-                                ArrayList<Item> itemArrayList1 = new ArrayList<>();
-                                for (Item item : user.getItems()) {
-                                    if (item.getId().contains("NO_INTERNET") || item.getUpdatedWhenOffline()) {
-                                        Log.i("TOD", "item ids. " + item.getId());
-                                        itemArrayList1.add(item);
+                            User userFromStorage= getUser(username, password);
+                            if (userFromStorage != null) {
+
+                                boolean updatedWhenOffline = userFromStorage.getUpdatedWhenOffline();
+
+                                // check if user has been updated when offline
+                                if (updatedWhenOffline) {
+                                    user = getUser(username, password);
+                                    Log.i("TOD", "found items to push up.");
+                                    user.setUpdatedWhenOffline(false);
+                                    updateUser(user);
+                                    // push user and user stuff to cloud
+                                    ArrayList<Item> itemArrayList1 = new ArrayList<>();
+                                    for (Item item : user.getItems()) {
+                                        if (item.getId().contains("NO_INTERNET") || item.getUpdatedWhenOffline()) {
+                                            Log.i("TOD", "item ids. " + item.getId());
+                                            itemArrayList1.add(item);
+                                        }
                                     }
-                                }
 
-                                UserController.GetUser getUser1 = new UserController.GetUser();
-                                getUser1.execute(user.getUsername());
-                                user = getUser1.get();
+                                    UserController.GetUser getUser1 = new UserController.GetUser();
+                                    getUser1.execute(user.getUsername());
+                                    user = getUser1.get();
 
-                                for (Item item : itemArrayList1) {
-                                    if (item.getUpdatedWhenOffline()) {
-                                        Log.i("TOD", "found item needing to be updated (bidded). " + item.getName());
-                                        // update item record in user.getItems()
-                                        user.getItems().remove(item);
-                                        item.setUpdatedWhenOffline(false);
+                                    for (Item item : itemArrayList1) {
+                                        if (item.getUpdatedWhenOffline()) {
+                                            Log.i("TOD", "found item needing to be updated (bidded). " + item.getName());
+                                            // update item record in user.getItems()
+                                            user.getItems().remove(item);
+                                            item.setUpdatedWhenOffline(false);
+                                            user.getItems().add(item);
+
+                                            // update local storage
+                                            updateUser(user);
+
+                                            // update remote storage
+                                            ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                                            updateItem.execute(item);
+                                        } else {
+                                            user.incrementGameCount();
+                                            // set to item's ID before sending to controller
+                                            item.setId(user.getUsername() + (char) 31 + user.getGameCount());
+
+                                            // update remote storage
+                                            Log.i("TOD", "found item needing to be pushed to cloud. " + item.getName());
+                                            ItemController.AddItem addItem = new ItemController.AddItem();
+                                            addItem.execute(item);
+                                        }
+
                                         user.getItems().add(item);
-
-                                        // update local storage
-                                        updateUser(user);
-
-                                        // update remote storage
-                                        ItemController.UpdateItem updateItem= new ItemController.UpdateItem();
-                                        updateItem.execute(item);
                                     }
-                                    else {
-                                        user.incrementGameCount();
-                                        // set to item's ID before sending to controller
-                                        item.setId(user.getUsername() + (char) 31 + user.getGameCount());
-
-                                        // update remote storage
-                                        Log.i("TOD", "found item needing to be pushed to cloud. " + item.getName());
-                                        ItemController.AddItem addItem = new ItemController.AddItem();
-                                        addItem.execute(item);
-                                    }
-
-                                    user.getItems().add(item);
-                                }
-                                // update user profile
-                                UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-                                updateUserProfile.execute(user);
+                                    // update user profile
+                                    UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
+                                    updateUserProfile.execute(user);
                                 /*
                                 http://stackoverflow.com/questions/9863742/how-to-pass-an-arraylist-to-a-varargs-method-parameter
                                 User: aioobe
                                 Date: Thu Mar 24
                                 */
+                                }
                             }
 
                             //UserController.GetUser getUser2 = new UserController.GetUser();
