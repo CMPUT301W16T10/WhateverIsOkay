@@ -155,7 +155,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     }
 
     public void testUI14(){
-        //TODO Expects old design of ViewItem, need to interact with spinners through espresso
         testUIStart();
         // US 01.04.01
         // As an owner, I want to edit a thing in my things.
@@ -323,11 +322,44 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     }
 
     public void testUI41(){
-        //TODO Similar to 41, but need to be able to specify keywords for search in UI test
+        testUIStart();
+        username = "testui";
+        password = "1";
+
+        username2 = "testui2";
+        password2 = "2";
+
+        name1 = "Monopoly";
+
+        // US 04.02.01
+        // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
+
+        //Logout
+        //pressBack();
+        pressBack();
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        //Goto ViewItemsList in Search Mode
+        onView(withId(R.id.Search_for_Items))
+                .perform(click());
+        //Click on search icon
+        onView(withId(R.id.myItemsSearchView))
+                .perform(click());
+        //enter search terms
+        onView(withId(R.id.myItemsSearchView))
+                .perform(typeText(name1));
+        //Select the item.
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
     }
 
     public void testUI42(){
-        testUI11();
+        testUIStart();
         username = "testui";
         password = "1";
 
@@ -338,7 +370,7 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
 
         //Logout
-        pressBack();
+        //pressBack();
         pressBack();
         // Login with 2nd username: testui2 // password: 2
         onView(withId(R.id.UsernameText))
@@ -722,7 +754,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
 
 
-        // TODO: add status message in item view activity and enable test below
         // onView(withId(R.id.ViewItem_StatusText))
         //        .check(matches(isDisplayed()));
 
