@@ -389,6 +389,9 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
         });
     }
 
+    /**
+     * Turns the filter on
+     */
     private void filterOn(){
 
         expandFilter();
@@ -429,6 +432,9 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
     }
 
+    /**
+     * Turns off the filter
+     */
     private void filterOff(){
 
         contractFilter();
@@ -454,6 +460,9 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
         executeAppropriateSearch(currentKeyword);
     }
 
+    /**
+     * Sets up the filter
+     */
     private void setupFilter(){
         // whenever the platform is modified, requery with the current filter active and any search keywords
         platformFilter = (CheckBox) findViewById(R.id.platformFilter);
@@ -854,12 +863,18 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
     }
 
+    /**
+     * Expands the filter
+     */
     private void expandFilter() {
         LinearLayout LO = (LinearLayout) findViewById(R.id.filterLinearLayout);
         LO.getLayoutParams().height = 350;
         //350 is a good size of all the current options (still leave scroll view, though)
     }
 
+    /**
+     * Contracts the filter
+     */
     private void contractFilter() {
         LinearLayout LO = (LinearLayout) findViewById(R.id.filterLinearLayout);
         LO.getLayoutParams().height = 80;

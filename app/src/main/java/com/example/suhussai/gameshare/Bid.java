@@ -19,12 +19,6 @@ public class Bid {
     private double amount;
 
     /**
-     * The item the bid is placed on
-     * @deprecated
-     */
-    private Item item;
-
-    /**
      * Gets the username of the User who placed the bid
      * @return username of bidder
      */
@@ -38,24 +32,6 @@ public class Bid {
      */
     public double getAmount() {
         return amount;
-    }
-
-    /**
-     * Sets the bidder
-     * @deprecated
-     * @param bidder the bidder's username
-     */
-    public void setBidder(String bidder) {
-        this.bidder = bidder;
-    }
-
-    /**
-     * Set's the bid's amount
-     * @deprecated
-     * @param amount the bid's amount
-     */
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     /**

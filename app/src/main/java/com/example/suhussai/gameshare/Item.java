@@ -117,12 +117,6 @@ public class Item {
     }
 
     /**
-     * Constructor
-     * @deprecated
-     */
-    public Item(){}
-
-    /**
      * Sets the rate of item to be borrowed.
      */
     public void setRate(double rate) {
@@ -142,15 +136,6 @@ public class Item {
      */
     public void setBidsViewed() {
         newBid=false;
-    }
-
-    /**
-     * Set's the borrower's username (now done in accept bid method
-     * @deprecated
-     * @param borrower borrower's username
-     */
-    public void setBorrower(String borrower) {
-        this.borrower = borrower;
     }
 
     /**
@@ -387,7 +372,7 @@ public class Item {
 
     /**
      * Sets the geoLocation given the LatLng in (lat, long) format
-     * @param location
+     * @param location the location
      */
     public void setLocation(LatLng location) {
         this.location = location;
@@ -483,6 +468,11 @@ public class Item {
         return returnString;
     }
 
+    /**
+     * Compares an Item with the current Item
+     * @param o the Object
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -501,6 +491,10 @@ public class Item {
 
     }
 
+    /**
+     * Generates a unique id for the item.
+     * @return result
+     */
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
@@ -513,10 +507,18 @@ public class Item {
         return result;
     }
 
+    /**
+     * Gets updatedWhenOffline
+     * @return updatedWhenOffline
+     */
     public Boolean getUpdatedWhenOffline() {
         return updatedWhenOffline;
     }
 
+    /**
+     * Sets the updatedWhenOffline
+     * @param updatedWhenOffline
+     */
     public void setUpdatedWhenOffline(Boolean updatedWhenOffline) {
         this.updatedWhenOffline = updatedWhenOffline;
     }
