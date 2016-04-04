@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Created by bobby on 11/02/16.
+ * Created by suhussai on 11/02/16.
  */
 public class ItemTest extends ActivityInstrumentationTestCase2 {
     public ItemTest() {
@@ -95,16 +95,24 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
     // UC 14
     public void testEditItem() {
-        assertEquals(user.getItem(1).getName(), name2);
+        assertEquals(user.getItem(2).getName(), name2);
         user.getItem(1).setName("new_name");
+
+        // acts as a sleep function
+        // because the edit takes time
+        while (user.getItem(1).getName() != "new_name") {}
+
         assertEquals(user.getItem(1).getName(), "new_name");
     }
 
     // UC 15
     public void testDeleteItem() {
-        user.addItem(item1);
         assertTrue(user.getItems().contains(item1));
         user.deleteItem(item1);
+
+        // acts as a sleep function
+        // because the edit takes time
+        while (user.getItems().contains(item1) == true) {}
         assertFalse(user.getItems().contains(item1));
 
     }
@@ -114,6 +122,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         // test for user story 02.01.01, must be true in all application states for all items
         assertTrue((item2.getStatus() == "available"));
         assertTrue((item1.getStatus() == "available"));
+
+
     }
 
 
@@ -196,16 +206,16 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
     // UC 51
     public void testBid(){
         // test for use case 05.01.01
-        /*user.bidOn(item1);
-        assertTrue(item1.isBidded());
-        user.bidOn(item2);
-        assertTrue(item2.isBidded());*/
         User bidder = new User("name","pass");
         Item item = new Item("game","name");
         assertFalse(item.isBidded());
+        assertEquals("Item not defaulted to available status.",
+                item.getStatus(), "available");
+
         Bid bid = new Bid(bidder.getUsername(),1.0);
         item.addBid(bid);
-        item.setBidded();
+        assertEquals("Item status not changed to bidded status.",
+                item.getStatus(), "bidded");
         assertTrue(item.isBidded());
         assertTrue(item.getBids().contains(bid));
     }
@@ -289,6 +299,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         Bid bid = new Bid( username2, amount );
         Bid bid2 = new Bid( username3, amount2 );
         user.addItem(item);
+        assertEquals("Item not defaulted to available status.",
+                item.getStatus(), "available");
         item.addBid(bid);
         item.addBid(bid2);
         assertEquals(item.getStatus(), "bidded" );
@@ -311,13 +323,19 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         Item item = new Item( name ,username);
         User borrower = new User( username2 , "");
         user.addItem(item);
+        assertEquals("Item not defaulted to available status.",
+                item.getStatus(), "available");
+
         Bid bid = new Bid( borrower.getUsername(), amount);
         item.addBid(bid);
+        assertEquals("Item status not updated to bidded.",
+                item.getStatus(), "bidded");
 
         assertTrue(item.getBids().contains(bid));
         user.declineBid(bid, item);
         assertFalse(item.getBids().contains(bid));
-        assertEquals(item.getStatus(), "available");
+        assertEquals("Item not reset to available status.",
+                item.getStatus(), "available");
     }
 
     // UC 61
@@ -341,7 +359,9 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
         Item item = new Item( name,user.getUsername() );
         item.setBorrowed(); //item is now borrowed
 
-        user.addItem(item ); //user owns borrowed item
+        user.addItem(item); //user owns borrowed item
+        assertEquals("Item not defaulted to available status.",
+                item.getStatus(), "available");
 
         assertTrue(user.getOwnedBorrowedItems().contains(item));
 
@@ -355,7 +375,8 @@ public class ItemTest extends ActivityInstrumentationTestCase2 {
 
         assertFalse(user.getOwnedBorrowedItems().contains(item));
 
-        assertEquals(item.getStatus(), "available"); //redundant check
+        assertEquals("Item not reset to available status.",
+                item.getStatus(), "available");
     }
 
     // UC 81

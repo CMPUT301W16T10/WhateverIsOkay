@@ -24,7 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
- * Created by bobby on 12/03/16.
+ * Created by suhussai on 12/03/16.
  */
 public class AppUITesting extends ActivityInstrumentationTestCase2 {
     public AppUITesting() {
@@ -155,7 +155,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     }
 
     public void testUI14(){
-        //TODO Expects old design of ViewItem, need to interact with spinners through espresso
         testUIStart();
         // US 01.04.01
         // As an owner, I want to edit a thing in my things.
@@ -323,11 +322,44 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
     }
 
     public void testUI41(){
-        //TODO Similar to 41, but need to be able to specify keywords for search in UI test
+        testUIStart();
+        username = "testui";
+        password = "1";
+
+        username2 = "testui2";
+        password2 = "2";
+
+        name1 = "Monopoly";
+
+        // US 04.01.01
+        // As a borrower, I want to specify a set of keywords, and search for all things not currently borrowed whose description contains all the keywords.
+
+        //Logout
+        //pressBack();
+        pressBack();
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        //Goto ViewItemsList in Search Mode
+        onView(withId(R.id.Search_for_Items))
+                .perform(click());
+        //Click on search icon
+        onView(withId(R.id.myItemsSearchView))
+                .perform(click());
+        //enter search terms
+        onView(withId(R.id.myItemsSearchView))
+                .perform(typeText(name1));
+        //Select the item.
+        onView(withId(R.id.myItemsListView))
+                .perform(click());
     }
 
     public void testUI42(){
-        testUI11();
+        testUIStart();
         username = "testui";
         password = "1";
 
@@ -338,7 +370,7 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
         // As a borrower, I want search results to show each thing not currently borrowed with its description, owner username, and status.
 
         //Logout
-        pressBack();
+        //pressBack();
         pressBack();
         // Login with 2nd username: testui2 // password: 2
         onView(withId(R.id.UsernameText))
@@ -407,7 +439,42 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
     public void testUI61(){
         testUIStart();
-        //TODO Currently doesn't work, presumably the list needs an item in it to be considered displayed
+        username = "testui";
+        password = "1";
+
+        username2 = "testui2";
+        password2 = "2";
+
+        User user1 = UserController.getCurrentUser();
+
+        //logout
+        pressBack();
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        User user2 = UserController.getCurrentUser();
+
+        //Create item and set as borrowed
+        Item item = new Item("TestGame",user1.getUsername());
+        user1.addItem(item);
+        Bid bid = new Bid(user2.getUsername(),1.0);
+        item.addBid(bid);
+        user1.acceptBid(bid, item);
+
+        //logout (have to logout and back in for item to show up in borrowed list)
+        pressBack();
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+
         // US 06.01.01
         // As a borrower, I want to view a list of things I am borrowing, each thing with its description and owner username.
 
@@ -416,11 +483,49 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .perform(click());
         onView(withId(R.id.myItemsListView))
                 .check(matches(isDisplayed()));
+
+        //clean up: remove test item
+        user1.deleteItem(item);
     }
 
     public void testUI62(){
         testUIStart();
-        //TODO Currently doesn't work, presumably the list needs an item in it to be considered displayed
+        username = "testui";
+        password = "1";
+
+        username2 = "testui2";
+        password2 = "2";
+
+        User user1 = UserController.getCurrentUser();
+
+        //logout
+        pressBack();
+        // Login with 2nd username: testui2 // password: 2
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username2), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password2), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+        User user2 = UserController.getCurrentUser();
+
+        //Create item and set as borrowed
+        Item item = new Item("TestGame",user1.getUsername());
+        user1.addItem(item);
+        Bid bid = new Bid(user2.getUsername(),1.0);
+        item.addBid(bid);
+        user1.acceptBid(bid, item);
+
+        //logout
+        pressBack();
+        // Login with 1st username: testui // password: 1
+        onView(withId(R.id.UsernameText))
+                .perform(replaceText(username), closeSoftKeyboard());
+        onView(withId(R.id.PasswordText))
+                .perform(replaceText(password), closeSoftKeyboard());
+        onView(withId(R.id.Login))
+                .perform(click());
+
         // US 06.02.01
         // As an owner, I want to view a list of my things being borrowed, each thing with its description and borrower username.
 
@@ -428,6 +533,9 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
                 .perform(click());
         onView(withId(R.id.myItemsListView))
                 .check(matches(isDisplayed()));
+
+        //clean up: remove test item
+        user1.deleteItem(item);
     }
 
     public void testUIComponents() {
@@ -722,7 +830,6 @@ public class AppUITesting extends ActivityInstrumentationTestCase2 {
 
 
 
-        // TODO: add status message in item view activity and enable test below
         // onView(withId(R.id.ViewItem_StatusText))
         //        .check(matches(isDisplayed()));
 
