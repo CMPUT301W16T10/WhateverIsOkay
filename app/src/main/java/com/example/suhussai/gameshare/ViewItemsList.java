@@ -1,5 +1,6 @@
 package com.example.suhussai.gameshare;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -388,6 +391,8 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
 
     private void filterOn(){
 
+        expandFilter();
+
         currentKeyword = searchView.getQuery().toString();
         filter.setChecked(true);
 
@@ -425,6 +430,9 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
     }
 
     private void filterOff(){
+
+        contractFilter();
+
         currentKeyword = searchView.getQuery().toString();
         filter.setChecked(false);
         setPlatform("null");
@@ -511,6 +519,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                     updateItemListUsingKeywords(currentKeyword);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //do nothing, keep current search filters in place
@@ -546,6 +555,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                     updateItemListUsingKeywords(currentKeyword);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //do nothing, keep current search filters in place
@@ -581,6 +591,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                     updateItemListUsingKeywords(currentKeyword);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //do nothing, keep current search filters in place
@@ -616,6 +627,7 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                     updateItemListUsingKeywords(currentKeyword);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //do nothing, keep current search filters in place
@@ -746,7 +758,8 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
              * On click method for clicking on items, goes to view item mode
              */
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ViewItemsList.this, ViewItem.class);
                 Item item = user.getItem(position);
                 ItemController.setCurrentItem(item);
                 // added a mode by asking for the ViewItem class's named integer, so it's easy to understand
@@ -756,8 +769,8 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
                 intent.putExtra("mode_viewItemsList", return_mode);
                 startActivity(intent);
                 finish();
-                }
-            });
+            }
+        });
     }
 
     /**
@@ -840,5 +853,17 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
         }
 
     }
+
+    private void expandFilter() {
+        LinearLayout LO = (LinearLayout) findViewById(R.id.filterLinearLayout);
+        LO.getLayoutParams().height = 350;
+        //350 is a good size of all the current options (still leave scroll view, though)
+    }
+
+    private void contractFilter() {
+        LinearLayout LO = (LinearLayout) findViewById(R.id.filterLinearLayout);
+        LO.getLayoutParams().height = 60;
+    }
 }
+
 

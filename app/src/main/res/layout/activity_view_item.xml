@@ -89,7 +89,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_NameEdit"
         android:layout_alignParentEnd="true"
-        android:textSize="15sp"
         android:singleLine="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
         android:layout_alignBottom="@+id/ViewItem_NameText"/>
