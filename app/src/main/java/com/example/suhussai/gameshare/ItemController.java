@@ -211,17 +211,6 @@ public class ItemController {
                         "      \"must\": [\n" +
                         "       {\"match\": {\"borrowed\" : false } },";
 
-                // filter: platform
-                // is not null AND not "" then filter:
-                System.out.println("params 0              " + params[0]);
-                System.out.println("params 1              " + params[1]);
-                System.out.println("params 2              " + params[2]);
-                System.out.println("params 3              " + params[3]);
-                System.out.println("params 4              " + params[4]);
-                System.out.println("params 5              " + params[5]);
-                System.out.println("params 6              " + params[6]);
-
-
 
                 // Platform Filter
                 if (params[2] != null && !params[2].equals("null")){
