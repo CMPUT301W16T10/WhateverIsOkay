@@ -7,6 +7,8 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -192,6 +194,7 @@ public class ItemController {
                                 "}";
             }
 
+            // 0: mode, 1: keywords, 2: platform, 3: min age, 4: min player, 5: max player, 6: time req
             else if (mode.equals(MODE_SEARCH_KEYWORD)) {
                 // http://stackoverflow.com/questions/23681478/multiple-wildcards-in-one-query-in-elasticsearch
                 // 9 March 2016, user Alcanzar
@@ -206,7 +209,27 @@ public class ItemController {
                         "  \"query\": {\n" +
                         "    \"bool\": {\n" +
                         "      \"must\": [\n" +
-                        "       {\"match\": {\"borrowed\" : false }},\n";
+                        "       {\"match\": {\"borrowed\" : false } },";
+
+                // filter: platform
+                // is not null AND not "" then filter:
+                System.out.println("params 0              " + params[0]);
+                System.out.println("params 1              " + params[1]);
+                System.out.println("params 2              " + params[2]);
+                System.out.println("params 3              " + params[3]);
+                System.out.println("params 4              " + params[4]);
+                System.out.println("params 5              " + params[5]);
+                System.out.println("params 6              " + params[6]);
+
+
+
+                // Platform Filter
+                if (params[2] != null && !params[2].equals("null")){
+                    System.out.println("              " + params[2]);
+                    search_items += "{\"match\": {\"platform\" :\"" + params[2] + "\"} }";
+                    // add a comma if keyword is NOT null
+                    if (params[1] != null) { search_items += ","; }
+                }
 
                 String owner = UserController.getCurrentUser().getUsername();
 
@@ -233,15 +256,25 @@ public class ItemController {
                     }
 
                 }
+
+                // Remaining filters
+                search_items += ",{ \"range\" : { \"age\" : { \"gte\" : " + params[3] + " }}}";
+                search_items += ",{ \"range\" : { \"minPlayers\" : { \"gte\" : " + params[4] + " }}}";
+                search_items += ",{ \"range\" : { \"maxPlayers\" : { \"lte\" : " + params[5] + " }}}";
+                search_items += ",{ \"range\" : { \"timeReq\" : { \"gte\" : " + params[6] + " }}}";
+
+
                 search_items = search_items +
                         "      ]\n" +   // must end
                         "    }\n" + // bool end
                         "  },\n" +   // query end
                         "  \"filter\":{ \n" +
                         "  \t\"not\": { \"term\": {\"owner\" :  \""+owner+"\"} }\n" +
-                        "\t}\n" +
+                        "\t}\n" + // end filter
                         "}"; // end string
+
            }
+
 
             else if (mode.equals(MODE_GET_MY_ITEMS_WITH_BIDS)) {
                 search_items =  "{\n" +

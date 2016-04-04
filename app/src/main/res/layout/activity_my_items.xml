@@ -49,87 +49,111 @@
         android:layout_alignParentStart="true">
 
 
-        <TextView
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/filter"
-            android:id="@+id/filterTextView"
+            android:id="@+id/filterSwitch"
             android:layout_marginRight="8dp"
             android:textStyle="bold" />
 
-        <HorizontalScrollView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="60dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall">
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/platform" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/platformFilter"
+                    android:text="@string/platform"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/platformSpinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_toEndOf="@+id/platformFilter"
+                    android:layout_alignTop="@+id/platformFilter"
+                    android:layout_alignBottom="@+id/platformFilter"/>
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/minAge" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/minAgeFilter"
+                    android:text="@string/minAge"
+                    android:layout_below="@+id/platformFilter"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/minAgeSpinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_toEndOf="@+id/minTimeFilter"
+                    android:layout_alignTop="@+id/minAgeFilter"
+                    android:layout_alignBottom="@+id/minAgeFilter"/>
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/minPlayers"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/minPlayersFilter"
+                    android:text="@string/minPlayers"
+                    android:layout_below="@+id/minAgeFilter"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/minPlayersSpinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_toEndOf="@+id/minTimeFilter"
+                    android:layout_alignTop="@+id/minPlayersFilter"
+                    android:layout_alignBottom="@+id/minPlayersFilter"/>
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/maxPlayers" />
+                    android:id="@+id/maxPlayersFilter"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/maxPlayers"
+                    android:layout_below="@+id/minPlayersFilter"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/maxPlayersSpinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_toEndOf="@+id/minTimeFilter"
+                    android:layout_alignTop="@+id/maxPlayersFilter"
+                    android:layout_alignBottom="@+id/maxPlayersFilter"/>
 
-                <TextView
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="@string/minTimeReq"/>
+                    android:id="@+id/minTimeFilter"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/minTimeReq"
+                    android:layout_below="@+id/maxPlayersFilter"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/minTimeSpinner"
-                    android:textAppearance="?android:attr/textAppearanceSmall"/>
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_toEndOf="@+id/minTimeFilter"
+                    android:layout_alignTop="@+id/minTimeFilter"
+                    android:layout_alignBottom="@+id/minTimeFilter" />
 
-            </LinearLayout>
-        </HorizontalScrollView>
+            </RelativeLayout>
+        </ScrollView>
     </LinearLayout>
 
 </RelativeLayout>

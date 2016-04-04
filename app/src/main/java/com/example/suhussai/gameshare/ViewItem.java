@@ -35,6 +35,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.ExecutionException;
 
@@ -648,8 +650,8 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
         GameName.setText(item.getName());
         String playersText = item.getMinPlayers() + " to " + item.getMaxPlayers();
         Players.setText(playersText);
-        Age.setText(item.getAge());
-        TimeReq.setText(item.getTimeReq());
+        Age.setText(Integer.toString(item.getAge()));
+        TimeReq.setText(Integer.toString(item.getTimeReq()));
         Platform.setText(item.getPlatform());
         if( item.hasImage() ) {
             pictureButton.setImageBitmap(image);
@@ -683,36 +685,45 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
              * Method called when user clicks on bid button, will ask for confirmation
              */
             public void onClick(View v) {
-                AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
-                adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
-                adBuilder.setPositiveButton(R.string.dialogYesBid, new DialogInterface.OnClickListener() {
-                    /**
-                     * User confirms, bid is placed
-                     */
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        double bidAmount = Double.parseDouble(EnterBid.getText().toString());
-                        User bidder = UserController.getCurrentUser();
-                        Bid bid = new Bid(bidder.getUsername(), bidAmount);
-                        item.addBid(bid);
+                String bidval = EnterBid.getText().toString();
+                // if bid is not numeric
+                if (!StringUtils.isNumeric(EnterBid.getText().toString())) {
+                    Toast.makeText(ViewItem.this, "Please enter a numeric bid value.", Toast.LENGTH_SHORT).show();
+                }
 
-                        //TODO Causes the same error as the update item call from the edit mode
-                        ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
-                        updateItem.execute(item);
-                        finish();
-                    }
-                });
+                // if bid is numeric
+                else {
+                    AlertDialog.Builder adBuilder = new AlertDialog.Builder(holder);
+                    adBuilder.setMessage("Are you sure you want to place a bid of " + EnterBid.getText().toString() + " on this item?");
+                    adBuilder.setPositiveButton(R.string.dialogYesBid, new DialogInterface.OnClickListener() {
+                        /**
+                         * User confirms, bid is placed
+                         */
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            double bidAmount = Double.parseDouble(EnterBid.getText().toString());
+                            User bidder = UserController.getCurrentUser();
+                            Bid bid = new Bid(bidder.getUsername(), bidAmount);
+                            item.addBid(bid);
 
-                adBuilder.setNegativeButton(R.string.dialogNoBid, new DialogInterface.OnClickListener() {
-                    /**
-                     * User cancels, back to view item
-                     */
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                AlertDialog ad = adBuilder.create();
-                ad.show();
+                            //TODO Causes the same error as the update item call from the edit mode
+                            ItemController.UpdateItem updateItem = new ItemController.UpdateItem();
+                            updateItem.execute(item);
+                            finish();
+                        }
+                    });
+
+                    adBuilder.setNegativeButton(R.string.dialogNoBid, new DialogInterface.OnClickListener() {
+                        /**
+                         * User cancels, back to view item
+                         */
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    AlertDialog ad = adBuilder.create();
+                    ad.show();
+                }
             }
         });
 

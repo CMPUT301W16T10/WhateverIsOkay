@@ -7,5 +7,6 @@
     <dimen name="userProfile_ButtonTopMargin">10dp</dimen>
     <dimen name="userProfile_Text">20sp</dimen>
     <dimen name="userProfile_TextTopMargin">10dp</dimen>
+    <dimen name="viewItemsList_FilterText">15sp</dimen>
 
 </resources>
