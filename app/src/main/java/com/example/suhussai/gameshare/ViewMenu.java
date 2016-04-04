@@ -20,12 +20,10 @@ import java.util.concurrent.ExecutionException;
  */
 public class ViewMenu extends LocalStorageAwareAppCompatActivity {
 
-
-    private User user;
     /**
-     * Display of the username
+     * The current user
      */
-    private TextView username;
+    private User user;
     /**
      * On create method for setting up view
      * @param savedInstanceState the bundle
@@ -37,7 +35,7 @@ public class ViewMenu extends LocalStorageAwareAppCompatActivity {
 
         user = UserController.getCurrentUser();
 
-        username = (TextView) findViewById(R.id.Menu);
+        TextView username = (TextView) findViewById(R.id.Menu);
         username.setText("Hi, " + user.getUsername() + "!");
 
 
@@ -199,9 +197,7 @@ public class ViewMenu extends LocalStorageAwareAppCompatActivity {
             if(getUser.get() != null) {
                 user = getUser.get();}
             user.setItems(getItems.get());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException |ExecutionException e) {
             e.printStackTrace();
         }
 
