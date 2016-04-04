@@ -70,7 +70,15 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
      */
     public static int mode_viewItemsList;
 
-    private Spinner platformSpinner;
+    /**
+     * The Spinners for the different variables of a game.
+     */
+    private Spinner platformSpinner, ageSpinner, minPlayersSpinner, maxPlayersSpinner, timeReqSpinner;
+    /**
+     * The ArrayAdapter for the Spinners.
+     */
+    private ArrayAdapter<CharSequence> platformAdapter, ageAdapter, minPlayersAdapter, maxPlayersAdapter, timeReqAdapter;
+
 
     /**
      * Gets the current mode
@@ -137,33 +145,33 @@ public class ViewItemsList extends LocalStorageAwareAppCompatActivity {
         // From http://developer.android.com/guide/topics/ui/controls/spinner.html
         // Platform Spinner
         platformSpinner = (Spinner) findViewById(R.id.platformSpinner);
-        ArrayAdapter<CharSequence> platformAdapter = ArrayAdapter.createFromResource(this,
+        platformAdapter = ArrayAdapter.createFromResource(this,
                 R.array.platform_array, android.R.layout.simple_spinner_item);
         platformAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         platformSpinner.setAdapter(platformAdapter);
         // Age Spinner
-        Spinner ageSpinner = (Spinner) findViewById(R.id.minAgeSpinner);
-        ArrayAdapter<CharSequence> AgeAdapter = ArrayAdapter.createFromResource(this,
+        ageSpinner = (Spinner) findViewById(R.id.minAgeSpinner);
+        ageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.age_array, android.R.layout.simple_spinner_item);
-        AgeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ageSpinner.setAdapter(AgeAdapter);
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ageSpinner.setAdapter(ageAdapter);
         // Min Players Spinner
-        Spinner minPlayersSpinner = (Spinner) findViewById(R.id.minPlayersSpinner);
-        ArrayAdapter<CharSequence> minPlayersAdapter = ArrayAdapter.createFromResource(this,
+        minPlayersSpinner = (Spinner) findViewById(R.id.minPlayersSpinner);
+        minPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
         minPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         minPlayersSpinner.setAdapter(minPlayersAdapter);
         // Max Players Spinner
-        Spinner maxPlayersSpinner = (Spinner) findViewById(R.id.maxPlayersSpinner);
-        ArrayAdapter<CharSequence> maxPlayersAdapter = ArrayAdapter.createFromResource(this,
+        maxPlayersSpinner = (Spinner) findViewById(R.id.maxPlayersSpinner);
+        maxPlayersAdapter = ArrayAdapter.createFromResource(this,
                 R.array.players_array, android.R.layout.simple_spinner_item);
         maxPlayersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         maxPlayersSpinner.setAdapter(maxPlayersAdapter);
         // set the default filter for max players to the highest number of players in the array
         maxPlayersSpinner.setSelection(maxPlayersSpinner.getAdapter().getCount()-1);
         // Time Required Spinner
-        Spinner timeReqSpinner = (Spinner) findViewById(R.id.minTimeSpinner);
-        ArrayAdapter<CharSequence> timeReqAdapter = ArrayAdapter.createFromResource(this,
+        timeReqSpinner = (Spinner) findViewById(R.id.minTimeSpinner);
+        timeReqAdapter = ArrayAdapter.createFromResource(this,
                 R.array.timeReq_array, android.R.layout.simple_spinner_item);
         timeReqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         timeReqSpinner.setAdapter(timeReqAdapter);

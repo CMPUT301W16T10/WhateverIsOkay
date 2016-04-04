@@ -34,7 +34,6 @@
         <activity android:name=".ViewUserProfile" />
         <activity android:name=".ViewItem" />
         <activity android:name=".ViewItemsList" />
-        <!--activity android:name=".ViewChat" -->
         <activity android:name=".ViewImage"/>
         <activity android:name=".ViewMap">
         </activity>
