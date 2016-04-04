@@ -659,6 +659,8 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
 
         final EditText EnterBid = (EditText) findViewById(R.id.ViewItem_bidValue);
 
+        EnterBid.requestFocus();
+
         Button BidButton = (Button) findViewById(R.id.ViewItem_Bid);
 
         if (item.isBorrowed()){

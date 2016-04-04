@@ -89,17 +89,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_NameEdit"
         android:layout_alignParentEnd="true"
-        android:textSize="15sp"
         android:singleLine="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
-        android:layout_alignTop="@+id/ViewItem_NameText"/>
+        android:layout_alignBottom="@+id/ViewItem_NameText"/>
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ViewItem_PlayersEdit"
-        android:layout_alignTop="@+id/ViewItem_PlayersText"
         android:layout_alignBottom="@+id/ViewItem_PlayersText"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/ViewItem_TimeReqText"
