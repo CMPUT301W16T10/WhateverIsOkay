@@ -326,12 +326,13 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 String name = GameName.getText().toString();
-                String[] players = new String[] {minPlayersSpinner.getSelectedItem().toString(), maxPlayersSpinner.getSelectedItem().toString()};
-                String age = ageSpinner.getSelectedItem().toString();
-                String timeReq = timeReqSpinner.getSelectedItem().toString();
+                int minPlayers = Integer.parseInt(minPlayersSpinner.getSelectedItem().toString());
+                int maxPlayers = Integer.parseInt(maxPlayersSpinner.getSelectedItem().toString());
+                int age = Integer.parseInt(ageSpinner.getSelectedItem().toString());
+                int timeReq = Integer.parseInt(timeReqSpinner.getSelectedItem().toString());
                 String platform = platformSpinner.getSelectedItem().toString();
 
-                Item item = new Item(name, user.getUsername(), players, age, timeReq, platform);
+                Item item = new Item(name, user.getUsername(), minPlayers, maxPlayers, age, timeReq, platform);
 
                 if (isOnline() == false) {
                     item.setId("NO_INTERNET"+user.getGameCount());
@@ -413,11 +414,11 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
         //so the this keyword is overwritten
         final Context holder = this;
 
-        int minPlayerSpinnerPosition = minPlayersAdapter.getPosition(item.getMinPlayers());
-        int maxPlayerSpinnerPosition = maxPlayersAdapter.getPosition(item.getMaxPlayers());
-        int ageSpinnerPosition = ageAdapter.getPosition(item.getAge());
+        int minPlayerSpinnerPosition = minPlayersAdapter.getPosition(Integer.toString(item.getMinPlayers()));
+        int maxPlayerSpinnerPosition = maxPlayersAdapter.getPosition(Integer.toString(item.getMaxPlayers()));
+        int ageSpinnerPosition = ageAdapter.getPosition(Integer.toString(item.getAge()));
         int platformSpinnerPosition = platformAdapter.getPosition(item.getPlatform());
-        int timeReqSpinnerPosition = timeReqAdapter.getPosition(item.getTimeReq());
+        int timeReqSpinnerPosition = timeReqAdapter.getPosition(Integer.toString(item.getTimeReq()));
 
         // gets the item info to display on the EditText/Spinner fields
         GameName.setText(item.getName());
@@ -519,10 +520,10 @@ public class ViewItem extends LocalStorageAwareFragmentActivity implements OnMap
             public void onClick(View v) {
                 setResult(RESULT_OK);
                 item.setName(GameName.getText().toString());
-                item.setMinPlayers(minPlayersSpinner.getSelectedItem().toString());
-                item.setMaxPlayers(maxPlayersSpinner.getSelectedItem().toString());
-                item.setAge(ageSpinner.getSelectedItem().toString());
-                item.setTimeReq(timeReqSpinner.getSelectedItem().toString());
+                item.setMinPlayers(Integer.parseInt(minPlayersSpinner.getSelectedItem().toString()));
+                item.setMaxPlayers(Integer.parseInt(maxPlayersSpinner.getSelectedItem().toString()));
+                item.setAge(Integer.parseInt(ageSpinner.getSelectedItem().toString()));
+                item.setTimeReq(Integer.parseInt(timeReqSpinner.getSelectedItem().toString()));
                 item.setPlatform(platformSpinner.getSelectedItem().toString());
 
                 // if image is null, the item's image base 64 is cleared out on save.

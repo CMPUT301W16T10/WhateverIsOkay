@@ -1,14 +1,9 @@
 package com.example.suhussai.gameshare;
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -27,17 +22,21 @@ public class Item {
      */
     private String name;
     /**
-     * The number of players
+     * The minimum number of players
      */
-    private String[] players = new String[] {"1","1"}; //TODO Modify UML and/or related documents with the addition of 4 new String fields (or another datatype if necessary)
+    private int minPlayers;
+    /**
+     * The maximum number of players
+     */
+    private int maxPlayers;
     /**
      * Age range
      */
-    private String age = "";
+    private int age;
     /**
      * The time required to play
      */
-    private String timeReq = "";
+    private int timeReq;
     /**
      * The platform
      */
@@ -91,15 +90,17 @@ public class Item {
      * Constructor
      * @param name the item's name
      * @param owner the owner's username
-     * @param players the number of players
-     * @param age the age range
-     * @param timeReq the time requirement
+     * @param minPlayers the minimum number of players
+     * @param maxPlayers the maximum number of players
+     * @param age the minimum recommended age
+     * @param timeReq the minimum time requirement
      * @param platform the platform
      */
-    public Item(String name, String owner, String[] players, String age, String timeReq, String platform) {
+    public Item(String name, String owner, int minPlayers, int maxPlayers, int age, int timeReq, String platform) {
         this.name = name;
         this.owner = owner;
-        this.players = players;
+        this.minPlayers = minPlayers;
+        this.maxPlayers = maxPlayers;
         this.age = age;
         this.timeReq = timeReq;
         this.platform = platform;
@@ -340,23 +341,23 @@ public class Item {
      * Sets the minimum number of players
      * @param players the minimum number of players
      */
-    public void setMinPlayers(String players) {
-        this.players[0] = players;
+    public void setMinPlayers(int players) {
+        this.minPlayers = players;
     }
 
     /**
      * Sets the maximum number of players
      * @param players the maximum number of players
      */
-    public void setMaxPlayers(String players) {
-        this.players[1] = players;
+    public void setMaxPlayers(int players) {
+        this.maxPlayers = players;
     }
 
     /**
      * Sets the age range
      * @param age the age range
      */
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -364,7 +365,7 @@ public class Item {
      * Sets the time requirement
      * @param timeReq the time requirement
      */
-    public void setTimeReq(String timeReq) {
+    public void setTimeReq(int timeReq) {
         this.timeReq = timeReq;
     }
 
@@ -396,23 +397,23 @@ public class Item {
      * Gets the minimum number of players
      * @return the minimum number of players
      */
-    public String getMinPlayers() {
-        return players[0];
+    public int getMinPlayers() {
+        return minPlayers;
     }
 
     /**
      * Gets the maximum number of players
      * @return the maximum number of players
      */
-    public String getMaxPlayers() {
-        return players[1];
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
 
     /**
      * Gets the age range
      * @return the age range
      */
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
@@ -420,7 +421,7 @@ public class Item {
      * Gets the time requirement
      * @return the time requirement
      */
-    public String getTimeReq() {
+    public int getTimeReq() {
         return timeReq;
     }
 
@@ -490,9 +491,10 @@ public class Item {
         Item item = (Item) o;
 
         if (name != null ? !name.equals(item.name) : item.name != null) return false;
-        if (players != null ? !players.equals(item.players) : item.players != null) return false;
-        if (age != null ? !age.equals(item.age) : item.age != null) return false;
-        if (timeReq != null ? !timeReq.equals(item.timeReq) : item.timeReq != null) return false;
+        if( minPlayers != item.minPlayers) return false;
+        if( maxPlayers != item.maxPlayers) return false;
+        if (age != item.age) return false;
+        if (timeReq != item.timeReq) return false;
         if (platform != null ? !platform.equals(item.platform) : item.platform != null)
             return false;
         return !(owner != null ? !owner.equals(item.owner) : item.owner != null);
@@ -502,9 +504,10 @@ public class Item {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (players != null ? players.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (timeReq != null ? timeReq.hashCode() : 0);
+        result = 31 * result + Integer.toString(minPlayers).hashCode();
+        result = 31 * result + Integer.toString(maxPlayers).hashCode();
+        result = 31 * result + Integer.toString(age).hashCode();
+        result = 31 * result + Integer.toString(timeReq).hashCode();
         result = 31 * result + (platform != null ? platform.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         return result;
