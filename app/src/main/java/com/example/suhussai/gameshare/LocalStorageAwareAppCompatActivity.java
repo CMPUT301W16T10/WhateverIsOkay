@@ -151,10 +151,6 @@ public class LocalStorageAwareAppCompatActivity extends AppCompatActivity {
         if (isOnline() == false) {
             user.setUpdatedWhenOffline(true);
         }
-        else {
-            UserController.UpdateUserProfile updateUserProfile = new UserController.UpdateUserProfile();
-            updateUserProfile.execute(user);
-        }
         deleteUser(user);
         addUser(user);
     }
